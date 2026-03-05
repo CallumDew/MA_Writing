@@ -1,0 +1,73 @@
+% Auf ungerader Seite starten
+\cleardoublepage
+
+\chapter{Methodology}
+\label{Chapter:Methodology}
+
+%\section{Overview of Thesis Workflow}
+
+\section{Dataset and Data Preparation}
+
+% \subsection{Dataset description (source, units, conditions)}
+% CMAPSS details
+
+
+
+\subsection{Features set / sensors used}
+Initial available inputs -> original input variables(3 operational settings, 21 sensor measurements)
+
+Removal of Non-Informative Sensors (Sensor used, shape (13x70))
+
+Correlation-Based Feature Reduction (removed sensors:'s1', 's5', 's6', 's10', 's14', 's16', 's18', 's19')
+
+Feature Normalisation (Sensor channels scaled independently, scaling method, scaling parameters computed on training set only, Applied unchanged to validation and test sets)
+
+%\subsection{Windowing \& input format}
+
+\subsection{Target definition (RUL label)}
+Raw RUL Computation -> for each engine trajectory($T_failure$ = final cycle of that unit, t = current cycle)
+
+Linear Piecewise RUL Transformation -> fundamentals why; here how (linear piecewise transformation using a maximum RUL threshold $RUL_max$, Early-life cycles are assigned a constant maximum RUL. Only degredation region retains linear decrease, reduces dominance of healty regime samples)
+
+Target Normalization (Formula, Normalization applied after piecewise transformation, same scaling used for all datasets)
+
+
+\section{Model Setup}
+The neural network models used in this work are not the primary contribution of the thesis but serve as controlled predictive systems for analyzing and comparing feature importance behavior under different feature-space configurations.
+\subsection{Baseline model}
+Describe DANN architecture used -> (model type, backbone, input shape, all model variants share the same architecture, only input feature configuration differs)
+
+Network structure -> diagramm (convolutional layers, kernel sizes, Activation ReLu, layers, output)
+
+\subsection{Single model setup}
+Explain setup and purpose
+
+\subsection{Pairwise model setup}
+explain why / motivation
+
+\subsection{All models system}
+Full model using all sensors -> explain why
+
+\section{Training Procedure}
+loss function
+
+hyperparameters
+
+optimisation
+
+keep short -> activation function and trained on MSE , two liner
+
+\subsection{Single model setup}
+Explain setup and purpose
+
+\subsection{Pairwise model setup}
+explain why / motivation
+
+\subsection{All models system}
+Full model using all sensors -> explain why
+
+\section{Implementation of Feature Importance Methods}
+
+\section{Unified Feature Importance Representation}
+
+L1 normalisation

@@ -1,0 +1,13 @@
+% Auf ungerader Seite starten
+\cleardoublepage
+
+\chapter{Introduction}
+\label{Chapter:Introduction}
+
+The aviation industry is one of the most safety-critical and technologically sophisticated fields in the world. Ensuring the reliability and availability of aircraft is essential not only for passenger safety but also for the economic efficiency of airlines and engine manufacturers. As engines operate under extreme mechanical and thermal conditions, their degradation processes must be continuously monitored and understood. In recent years, predictive maintenance has become a central concept in aviation, aiming to anticipate component failures before they occur and to enable maintenance actions precisely when needed.
+
+A key element of predictive maintenance is the estimation of the Remaining Useful Life (RUL) of engine components. RUL predictions allow operators to plan maintenance more effectively, reduce unscheduled downtime, and avoid unnecessary part replacements. However, obtaining accurate RUL predictions is challenging. The underlying degradation mechanisms are highly nonlinear and influenced by a large number of operational parameters. Traditional modelling techniques often struggle to capture this complexity.
+
+With the rise of large sensor datasets and computational power, machine learning and deep learning methods have become increasingly important in RUL estimation. Neural networks, in particular, are capable of modelling complex relationships in engine data and have demonstrated strong predictive performance. However, these models introduce a new challenge: despite their accuracy, they often behave as black boxes, offering little insight into how individual features contribute to the prediction. In a safety-critical environment such as aviation, this lack of transparency poses a significant limitation. Understanding why a model arrives at a certain prediction is essential for trust, certification, and operational decision-making.
+
+This challenge has led to the emergence of Explainable Artificial Intelligence (XAI). XAI methods aim to make complex AI systems more interpretable by providing insights into which input feature influence a model's output and to what extent. One of the most widely used approaches within XAI is the analysis of feature importance. Feature importance methods allow engineers and researchers to understand which parameters are most relevant for RUL estimation and how different models may focus on different aspects of the data.

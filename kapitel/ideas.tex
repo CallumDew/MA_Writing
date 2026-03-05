@@ -1,0 +1,395 @@
+\section{SHAP (SHapley Additive exPlanations)}
+
+\subsection{Introduction}
+
+\textbf{SHAP (SHapley Additive exPlanations)} was introduced by \citet{Lundberg2017SHAP} as a unified framework to explain individual predictions of any machine learning model.  
+It is based on the concept of \textit{Shapley values} from cooperative game theory (\citeauthor{Shapley1953Value}, 1953), which distribute the total “payout” of a game fairly among the players according to their contributions.
+
+In this analogy, the \textit{players} correspond to the input features, and the \textit{payout} corresponds to the model prediction for a given instance.  
+The goal of SHAP is to quantify how much each feature contributed to pushing the model’s prediction away from a baseline (the average model output over the dataset).
+
+Although SHAP directly builds on the Shapley framework, it represents a major step forward in usability and adoption:
+\begin{itemize}
+    \item It provides a connection between \textbf{LIME} and Shapley values via an \textbf{additive feature attribution model}.
+    \item It introduces efficient algorithms for specific model classes (e.g., \textbf{TreeSHAP}).
+    \item It extends applicability to complex domains such as text and image models (via superpixels or token groups).
+    \item It unifies local and global interpretability under a single theoretical foundation.
+\end{itemize}
+
+Earlier work by \citet{Strumbelj2011Explaining, Strumbelj2014Explaining} proposed the use of Shapley values for model interpretation, but SHAP popularized the approach by combining a solid theoretical basis with efficient estimation techniques and practical visualization tools.
+
+\subsection{Additive Explanation View}
+
+SHAP represents the explanation as an \textit{additive feature attribution model}:
+
+\begin{equation}
+g(z) = \phi_0 + \sum_{i=1}^{M} \phi_i z_i,
+\qquad z \in \{0,1\}^M
+\end{equation}
+
+Here, $z_i$ indicates whether the feature $i$ is ``present'' ($z_i=1$) or ``absent'' ($z_i=0$) in the coalition.  
+The coefficients $\phi_i$ are the \textit{Shapley values}, which represent the contribution of each feature to the prediction.  
+This additive structure connects SHAP directly to LIME but ensures that the attributions satisfy the fairness axioms of cooperative game theory.
+
+\subsection{Theoretical Properties}
+
+Shapley values are uniquely defined as the solution satisfying the following properties:
+
+\paragraph{Local Accuracy (Efficiency).}
+The sum of feature attributions equals the difference between the prediction and the baseline:
+
+\begin{equation}
+\phi_0 = \mathbb{E}[f(X)], 
+\qquad
+f(x) = \phi_0 + \sum_{i=1}^{M} \phi_i
+\end{equation}
+
+\paragraph{Missingness.}
+Absent features receive zero attribution:
+
+\begin{equation}
+z_i = 0 \Rightarrow \phi_i = 0
+\end{equation}
+
+\paragraph{Consistency.}
+If a model changes so that a feature’s marginal contribution increases (holding others fixed), its Shapley value cannot decrease:
+
+\begin{equation}
+\forall S \subseteq N \setminus \{i\}:\;
+f'(x_{S \cup \{i\}}) - f'(x_S) \ge f(x_{S \cup \{i\}}) - f(x_S)
+\Rightarrow
+\phi_i(f',x) \ge \phi_i(f,x)
+\end{equation}
+
+\subsection{Shapley Value Definition}
+
+For a model $f$ and instance $x$, the Shapley value for feature $i$ is defined as:
+
+\begin{equation}
+\phi_i(f, x) = 
+\sum_{S \subseteq N \setminus \{i\}}
+\frac{|S|!\,(M-|S|-1)!}{M!}
+\big[v_x(S \cup \{i\}) - v_x(S)\big]
+\end{equation}
+
+where $v_x(S)$ is the \textit{value function} of coalition $S$, representing the expected model output when only the features in $S$ are known.
+
+\subsubsection*{Value Functions}
+
+\textbf{Interventional (marginal) form:}
+\begin{equation}
+v_x(S) = \mathbb{E}_{X_{\bar S}}\!\big[\, f(x_S, X_{\bar S}) \,\big]
+\end{equation}
+
+\textbf{Conditional form:}
+\begin{equation}
+v_x^{\text{cond}}(S) = \mathbb{E}_{X_{\bar S}\mid X_S = x_S}\!\big[\, f(x_S, X_{\bar S}) \,\big]
+\end{equation}
+
+The interventional form treats features as independent, while the conditional form accounts for feature dependencies but changes the underlying value function of the game.
+
+\subsection{KernelSHAP}
+
+KernelSHAP is the model-agnostic estimator introduced in the original SHAP paper.  
+It approximates Shapley values via a weighted linear regression model over randomly sampled coalitions.
+
+Each coalition is represented as a binary vector $z$ that indicates which features are present.  
+A mapping function $h_x(z)$ reconstructs a valid input sample:
+
+\begin{equation}
+h_x(z)_i = 
+\begin{cases}
+x_i, & z_i = 1 \\
+\tilde{x}_i, & z_i = 0 \quad (\tilde{x} \text{ sampled from background data})
+\end{cases}
+\end{equation}
+
+The SHAP kernel assigns weights to each coalition:
+\begin{equation}
+\pi(z) = \frac{M - 1}{\binom{M}{|z|} \, |z| \, (M - |z|)}
+\end{equation}
+
+The Shapley values are obtained by solving the weighted least-squares problem:
+\begin{equation}
+\mathcal{L}(\phi) =
+\sum_{m=1}^{K} \pi(z^{(m)})
+\Big[
+f\!\big(h_x(z^{(m)})\big)
+- \big( \phi_0 + \sum_{i=1}^{M} \phi_i z^{(m)}_i \big)
+\Big]^2
+\end{equation}
+
+Although KernelSHAP is theoretically appealing and connects SHAP to LIME, it is computationally expensive and assumes feature independence, which can yield unreliable explanations in the presence of correlated features.
+
+\subsection{TreeSHAP}
+
+TreeSHAP (\citeauthor{Lundberg2019TreeSHAP}, 2019) is a fast, exact algorithm for computing SHAP values for tree-based models such as decision trees, random forests, and gradient-boosted trees.  
+It reduces the computational complexity from exponential to:
+
+\begin{equation}
+\mathcal{O}(T \cdot L \cdot D)
+\end{equation}
+
+where $T$ is the number of trees, $L$ the number of leaves, and $D$ the maximum tree depth.
+
+Two formulations exist:
+\begin{itemize}
+    \item \textbf{Interventional TreeSHAP:} Computes classic Shapley values.
+    \item \textbf{Path-dependent TreeSHAP:} Relies on conditional expectations along tree paths (used in earlier implementations).
+\end{itemize}
+
+TreeSHAP leverages the tree structure to efficiently compute the marginal contributions of features that affect the prediction, avoiding redundant coalition evaluations.
+
+\subsection{Permutation-Based Estimation}
+
+An alternative sampling-based estimator uses random permutations of features rather than random coalitions.  
+For each permutation $\pi$, the marginal contribution of feature $i$ is evaluated as:
+
+\begin{equation}
+f(x_{S_\pi(i) \cup \{i\}}) - f(x_{S_\pi(i)})
+\end{equation}
+
+The exact Shapley value can be expressed as an average over all $M!$ permutations:
+
+\begin{equation}
+\phi_i = \frac{1}{M!} \sum_{\pi \in \Pi}
+\Big( f(x_{S_\pi(i) \cup \{i\}}) - f(x_{S_\pi(i)}) \Big)
+\end{equation}
+
+In practice, SHAP uses Monte Carlo sampling with forward and backward (antithetic) passes:
+
+\begin{equation}
+\hat{\phi}_i = \frac{1}{2K} \sum_{k=1}^{K} 
+\Big[
+f( x_{S_{\pi_k}(i) \cup \{i\}} ) - f( x_{S_{\pi_k}(i)} )
++ f( x_{S_{\pi_k^{-1}}(i) \cup \{i\}} ) - f( x_{S_{\pi_k^{-1}}(i)} )
+\Big]
+\end{equation}
+
+This approach significantly reduces computational cost while maintaining efficiency consistency.
+
+\subsection{Global SHAP Interpretations}
+
+Running SHAP for all instances produces an $n \times M$ matrix of Shapley values.  
+Aggregating these yields various global interpretability plots.
+
+\paragraph{Feature Importance.}
+Global importance is computed as the mean absolute SHAP value:
+
+\begin{equation}
+I_j = \frac{1}{n} \sum_{k=1}^{n} \big| \phi_j(x^{(k)}) \big|
+\end{equation}
+
+\paragraph{Dependence Plot.}
+Each point represents a pair $(x^{(k)}_j, \phi_j(x^{(k)}))$:
+
+\begin{equation}
+\big\{ (x^{(k)}_j, \phi_j(x^{(k)})) \big\}_{k=1}^{n}
+\end{equation}
+
+This shows both the feature effect and its variance across the dataset.  
+Coloring by another feature visualizes feature interactions.
+
+\paragraph{Interaction Values.}
+The Shapley interaction index measures the pure pairwise effect between features $i$ and $j$:
+
+\begin{equation}
+\phi_{i,j}(f, x) =
+\sum_{S \subseteq N \setminus \{i,j\}}
+\frac{|S|!\,(M-|S|-2)!}{(M-1)!}
+\Big[
+v_x(S \cup \{i,j\}) - v_x(S \cup \{i\}) - v_x(S \cup \{j\}) + v_x(S)
+\Big]
+\end{equation}
+
+\subsection{Strengths}
+
+\begin{itemize}
+    \item Solid theoretical foundation grounded in cooperative game theory.
+    \item Provides consistent local and global explanations from the same attributions.
+    \item Connects Shapley values and LIME under one additive framework.
+    \item TreeSHAP enables fast, exact computation for tree models.
+    \item Rich visualization suite (force plots, summary plots, dependence plots, interaction heatmaps).
+\end{itemize}
+
+\subsection{Limitations}
+
+\begin{itemize}
+    \item KernelSHAP is computationally expensive and assumes feature independence.
+    \item Marginal SHAP ignores correlations, while conditional SHAP changes the underlying value function.
+    \item Path-dependent TreeSHAP can yield unintuitive non-zero attributions for unused features.
+    \item Shapley-based explanations can be misinterpreted or manipulated (\citeauthor{Slack2020Fooling}, 2020).
+\end{itemize}
+
+\subsection{Software Implementations}
+
+\begin{itemize}
+    \item \textbf{Python:} The \texttt{shap} package, integrated with \texttt{scikit-learn}, \texttt{XGBoost}, and \texttt{LightGBM}.
+    \item \textbf{R:} Packages \texttt{shapper}, \texttt{fastshap}, and SHAP functionality in \texttt{xgboost}.
+    \item \textbf{Advanced interactions:} The \texttt{shapiq} Python package.
+\end{itemize}
+
+\subsection{Summary}
+
+SHAP provides a unified, theoretically grounded framework for model interpretability.  
+By connecting cooperative game theory with practical estimation and visualization tools, it offers consistent local and global explanations applicable to a wide range of model types.  
+Its strength lies in its fairness axioms, efficient tree-based implementation, and ability to unify interpretability methods under one coherent paradigm.
+
+
+\section{Ceteris Paribus (CP) Plots}
+
+\subsection{Introduction}
+
+\textbf{Ceteris Paribus (CP) plots} \citep{Kuzba2019CeterisParibus} visualize how changes in a single feature affect the prediction for a given data instance, while keeping all other features constant.  
+The Latin phrase \textit{ceteris paribus} means “all other things being equal,” reflecting the method’s core principle: vary one feature at a time and observe how the model’s output changes.
+
+Despite their simplicity, CP plots form the foundation of many model-agnostic interpretation techniques.  
+They enable an intuitive understanding of a model’s local behavior around a specific instance and serve as building blocks for more advanced methods such as:
+\begin{itemize}
+    \item \textbf{Individual Conditional Expectation (ICE)} plots — which stack multiple CP curves for all instances.
+    \item \textbf{Partial Dependence Plots (PDPs)} — which average CP curves across the dataset.
+\end{itemize}
+
+\subsection{Concept and Definition}
+
+Given a model $f$, a feature of interest $x_j$, and a particular observation $x = (x_1, x_2, \dots, x_p)$, the Ceteris Paribus function for $x_j$ is defined as:
+
+\begin{equation}
+f^{CP}_x(x_j') = f(x_1, \dots, x_{j-1}, x_j', x_{j+1}, \dots, x_p)
+\end{equation}
+
+This function describes how the prediction changes when the $j$-th feature value is replaced by $x_j'$, keeping all other feature values fixed at those of the original observation.  
+Plotting $f^{CP}_x(x_j')$ across a grid of $x_j'$ values yields the CP curve.
+
+\subsection{Algorithm}
+
+For a numerical feature $x_j$, the procedure is as follows:
+
+\begin{enumerate}
+    \item \textbf{Input:} Model $f$, data point $x$, and feature $x_j$ to vary.
+    \item \textbf{Create a grid:} Define an equidistant grid 
+    \[
+    \{ x_j^{(1)}, x_j^{(2)}, \dots, x_j^{(m)} \}, 
+    \quad \text{where typically } \min(x_j) \le x_j^{(1)} < \dots < x_j^{(m)} \le \max(x_j).
+    \]
+    \item \textbf{Generate modified instances:} For each grid value $x_j^{(k)}$, create a modified instance
+    \[
+    x^{(k)} = (x_1, \dots, x_{j-1}, x_j^{(k)}, x_{j+1}, \dots, x_p).
+    \]
+    \item \textbf{Predict:} Compute the corresponding predictions 
+    \[
+    \hat{y}^{(k)} = f(x^{(k)}).
+    \]
+    \item \textbf{Visualize:} Plot the pairs $(x_j^{(k)}, \hat{y}^{(k)})$ as a continuous curve.  
+    Mark the original feature value $x_j$ with a dot.
+\end{enumerate}
+
+For a categorical feature, the algorithm becomes even simpler:
+
+\begin{enumerate}
+    \item Obtain the set of unique categories 
+    \[
+    \mathcal{C}_j = \{ c_1, c_2, \dots, c_r \}.
+    \]
+    \item For each category $c_\ell$, create a modified instance 
+    \[
+    x^{(\ell)} = (x_1, \dots, x_{j-1}, c_\ell, x_{j+1}, \dots, x_p),
+    \]
+    and compute 
+    \[
+    \hat{y}^{(\ell)} = f(x^{(\ell)}).
+    \]
+    \item Plot $\hat{y}^{(\ell)}$ versus $c_\ell$ as a bar or dot plot.
+\end{enumerate}
+
+The grid size determines the smoothness of the CP curve but also the number of model evaluations.
+
+\subsection{Illustrative Examples}
+
+\paragraph{Example 1: Penguin Classification.}
+A random forest model predicts the probability of a penguin being female.  
+For an Adelie penguin with bill depth $20.6\,\mathrm{mm}$, a CP plot for bill depth shows that small decreases in bill depth slightly increase $P(\text{female})$, but further decreases sharply reduce it.  
+The original feature value is indicated by a dot on the curve.
+
+However, correlations between features (e.g., bill depth, body mass, flipper length) may cause unrealistic combinations when varying one feature while keeping others fixed.  
+Thus, caution is advised when interpreting parts of the CP curve far from the original value.
+
+\paragraph{Example 2: Bike Rental Prediction.}
+An SVM model predicts the number of rented bikes based on weather and seasonal variables.  
+CP plots across all features reveal that the number of bikes rented two days earlier and temperature have the strongest influence on predictions.  
+For unrealistic manipulations (e.g., increasing temperature to $30^\circ$C during winter), CP plots can yield unrealistic predictions, reflecting model behavior outside the data manifold.
+
+\subsection{Relationship to ICE and PDP}
+
+CP plots are the foundation for more complex model-agnostic visualization methods:
+
+\begin{itemize}
+    \item \textbf{ICE Plots:} Contain all CP curves for every observation in the dataset.  
+    Formally, an ICE plot is 
+    \[
+    \{ f^{CP}_{x^{(i)}}(x_j') \}_{i=1}^n.
+    \]
+    \item \textbf{PDPs:} Represent the average of all CP curves:
+    \[
+    \text{PDP}(x_j') = \frac{1}{n} \sum_{i=1}^n f^{CP}_{x^{(i)}}(x_j').
+    \]
+\end{itemize}
+
+Hence, CP plots visualize the local prediction surface for a single instance, ICE plots visualize individual-level heterogeneity, and PDPs provide global trends.
+
+\subsection{Applications and Extensions}
+
+\begin{itemize}
+    \item \textbf{Model comparison:} Overlay CP curves from different models (e.g., linear model, SVM, decision tree) to study how each model responds to changes in a feature.
+    \item \textbf{Feature comparison:} Plot CP curves for multiple features to identify which features influence the prediction most strongly.
+    \item \textbf{Class comparison:} For multi-class models, plot separate CP curves for each class probability.
+    \item \textbf{Data subsets:} Compute CP curves on subgroups (e.g., by gender, region) to study differential model behavior.
+\end{itemize}
+
+\subsection{Interpretation Considerations}
+
+\begin{itemize}
+    \item \textbf{Feature dependence:}  
+    When features are correlated, modifying one feature while keeping others fixed can create unrealistic data points.  
+    Analysts should restrict the range of $x_j'$ to realistic intervals or use conditional sampling.
+    \item \textbf{Causal interpretation:}  
+    CP plots describe correlations in the model’s learned function, not necessarily causal effects.  
+    Causal conclusions require a causal model structure or experimental design.
+\end{itemize}
+
+\subsection{Visualization Variants}
+
+\begin{itemize}
+    \item \textbf{Full CP curves:} Continuous lines showing prediction changes across the entire feature range.
+    \item \textbf{Sparklines:} Minimalist line plots summarizing local prediction sensitivity (popularized by \citet{Tufte1983Sparklines}).
+\end{itemize}
+
+\subsection{Strengths}
+
+\begin{itemize}
+    \item \textbf{Simplicity:}  
+    Easy to compute and interpret; ideal for introducing model-agnostic explainability.
+    \item \textbf{Complementarity:}  
+    Complements attribution methods (e.g., SHAP, LIME) by showing prediction sensitivity to feature changes.
+    \item \textbf{Flexibility:}  
+    Serves as a foundational building block for ICE and PDP plots and can be extended across models, hyperparameters, and classes.
+\end{itemize}
+
+\subsection{Limitations}
+
+\begin{itemize}
+    \item \textbf{One-feature-at-a-time:}  
+    CP plots only vary one feature, ignoring interactions unless manually extended.
+    \item \textbf{Feature correlation:}  
+    Unrealistic scenarios can arise when correlated features are treated as independent.
+    \item \textbf{Risk of misinterpretation:}  
+    Non-experts may incorrectly interpret CP curves causally; careful communication is necessary.
+\end{itemize}
+
+\subsection{Summary}
+
+Ceteris Paribus plots are simple yet powerful tools for understanding how model predictions respond to feature changes.  
+They provide clear visual explanations for individual instances, support model comparison, and form the foundation of more complex interpretability methods like ICE and PDP.  
+Despite their simplicity, they should be applied carefully in the presence of correlated features or when causal interpretations are implied.
+
+
