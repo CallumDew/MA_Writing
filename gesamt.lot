@@ -1,6 +1,12 @@
-\select@language {english}
-\select@language {ngerman}
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces F\IeC {\"u}r die Modellierung verwendete Randbedingungen\relax }}{8}{table.caption.6}
-\contentsline {table}{\numberline {A.1}{\ignorespaces Simulationsergebnisse, die den Lesefluss st\IeC {\"o}ren.\relax }}{12}{table.caption.10}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\def \@chapapp {\appendixname }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Simulationsergebnisse, die den Lesefluss stören.}}{20}{table.caption.7}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

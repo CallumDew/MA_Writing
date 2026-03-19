@@ -1,0 +1,67 @@
+\begin{thebibliography}{17}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Aas et~al.(2021)Aas, Jullum and Løland}]{aas_explaining_2021}
+Aas, Kjersti, Jullum, Martin and Løland, Anders (2021): {\em Explaining individual predictions when features are dependent: {More} accurate approximations to {Shapley} values\/}.
+\newblock Artificial Intelligence, Bd.~298, S.~103502.
+\newblock ISSN 00043702.
+
+\bibitem[{Apley and Zhu(2019)}]{apley2019visualizingeffectspredictorvariables}
+Apley, Daniel~W. and Zhu, Jingyu (2019): {\em Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models\/}.
+
+\bibitem[{Breiman(2001)}]{BreimanRandomForest}
+Breiman, Leo (2001): {\em Random Forests\/}.
+\newblock Mach. Learn., Bd.~45, S.~5–32.
+\newblock ISSN 0885-6125.
+
+\bibitem[{Fisher et~al.(2019)Fisher, Rudin and Dominici}]{fisher2019modelswrongusefullearning}
+Fisher, Aaron, Rudin, Cynthia and Dominici, Francesca (2019): {\em All Models are Wrong, but Many are Useful: Learning a Variable's Importance by Studying an Entire Class of Prediction Models Simultaneously\/}.
+
+\bibitem[{Goldstein et~al.(2015)Goldstein, Kapelner, Bleich and Pitkin}]{goldstein_peeking_2015}
+Goldstein, Alex, Kapelner, Adam, Bleich, Justin and Pitkin, Emil (2015): {\em Peeking {Inside} the {Black} {Box}: {Visualizing} {Statistical} {Learning} {With} {Plots} of {Individual} {Conditional} {Expectation}\/}.
+\newblock Journal of Computational and Graphical Statistics, Bd.~24, S.~44--65.
+\newblock ISSN 1061-8600, 1537-2715.
+
+\bibitem[{Karimi et~al.(2020)Karimi, Barthe, Balle and Valera}]{karimi2020modelagnosticcounterfactualexplanationsconsequential}
+Karimi, Amir-Hossein, Barthe, Gilles, Balle, Borja and Valera, Isabel (2020): {\em Model-Agnostic Counterfactual Explanations for Consequential Decisions\/}.
+
+\bibitem[{Kusner et~al.(2018)Kusner, Loftus, Russell and Silva}]{kusner2018counterfactualfairness}
+Kusner, Matt~J., Loftus, Joshua~R., Russell, Chris and Silva, Ricardo (2018): {\em Counterfactual Fairness\/}.
+
+\bibitem[{Lundberg and Lee(2017)}]{lundberg2017unifiedapproachinterpretingmodel}
+Lundberg, Scott and Lee, Su-In (2017): {\em A Unified Approach to Interpreting Model Predictions\/}.
+
+\bibitem[{Lundberg et~al.(2019)Lundberg, Erion and Lee}]{lundberg2019consistentindividualizedfeatureattribution}
+Lundberg, Scott~M., Erion, Gabriel~G. and Lee, Su-In (2019): {\em Consistent Individualized Feature Attribution for Tree Ensembles\/}.
+
+\bibitem[{Molnar(2022)}]{Molnar2022}
+Molnar, Christoph (2022): {\em Interpretable Machine Learning\/}.
+\newblock Leanpub.
+\newblock Available online.
+
+\bibitem[{Ribeiro et~al.(2016)Ribeiro, Singh and Guestrin}]{ribeiro2016modelagnosticinterpretabilitymachinelearning}
+Ribeiro, Marco~Tulio, Singh, Sameer and Guestrin, Carlos (2016): {\em Model-Agnostic Interpretability of Machine Learning\/}.
+
+\bibitem[{Shapley(1953)}]{Shapley1953}
+Shapley, L.~S. (1953): {\em Stochastic Games*\/}.
+\newblock Proceedings of the National Academy of Sciences, Bd.~39, S.~1095--1100.
+
+\bibitem[{Sundararajan et~al.(2017)Sundararajan, Taly and Yan}]{sundararajan2017axiomaticattributiondeepnetworks}
+Sundararajan, Mukund, Taly, Ankur and Yan, Qiqi (2017): {\em Axiomatic Attribution for Deep Networks\/}.
+
+\bibitem[{Verma et~al.(2022)Verma, Boonsanong, Hoang, Hines, Dickerson and Shah}]{verma2022counterfactualexplanationsalgorithmicrecourses}
+Verma, Sahil, Boonsanong, Varich, Hoang, Minh, Hines, Keegan~E., Dickerson, John~P. and Shah, Chirag (2022): {\em Counterfactual Explanations and Algorithmic Recourses for Machine Learning: A Review\/}.
+
+\bibitem[{Wachter et~al.(2018)Wachter, Mittelstadt and Russell}]{wachter2018counterfactualexplanationsopeningblack}
+Wachter, Sandra, Mittelstadt, Brent and Russell, Chris (2018): {\em Counterfactual Explanations without Opening the Black Box: Automated Decisions and the GDPR\/}.
+
+\bibitem[{Zeiler and Fergus(2014)}]{zeiler2014visualizing}
+Zeiler, Matthew~D. and Fergus, Rob (2014): {\em Visualizing and Understanding Convolutional Networks\/}.
+\newblock In: {\em Proceedings of the European Conference on Computer Vision (ECCV)\/}, S. 818--833. Springer.
+
+\bibitem[{Štrumbelj and Kononenko(2014)}]{strumbelj_explaining_2014}
+Štrumbelj, Erik and Kononenko, Igor (2014): {\em Explaining prediction models and individual predictions with feature contributions\/}.
+\newblock Knowledge and Information Systems, Bd.~41, S.~647--665.
+\newblock ISSN 0219-1377, 0219-3116.
+
+\end{thebibliography}
