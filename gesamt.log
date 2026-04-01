@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.19)  19 MAR 2026 13:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.19)  1 APR 2026 18:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1098,18 +1098,8 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
-(scrreprt)                for headings is available for the heading on line 9.
-(scrreprt)                If you need additional sectioning commands, you
-(scrreprt)                should define them using \DeclareNewSectionCommand
-(scrreprt)                instead.
-
-
-Package scrreprt Warning: Usage of \@startsection detected.
-(scrreprt)                Note, the sectioning of scrreprt does neither use
-(scrreprt)                nor support the usage of \@startsection command.
-(scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                35.
+(scrreprt)                37.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
@@ -1125,18 +1115,7 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                51.
-(scrreprt)                If you need additional sectioning commands, you
-(scrreprt)                should define them using \DeclareNewSectionCommand
-(scrreprt)                instead.
-
-
-Package scrreprt Warning: Usage of \@startsection detected.
-(scrreprt)                Note, the sectioning of scrreprt does neither use
-(scrreprt)                nor support the usage of \@startsection command.
-(scrreprt)                This means, that none of the KOMA-Script features
-(scrreprt)                for headings is available for the heading on line
-(scrreprt)                69.
+(scrreprt)                53.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
@@ -1148,6 +1127,17 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
 (scrreprt)                71.
+(scrreprt)                If you need additional sectioning commands, you
+(scrreprt)                should define them using \DeclareNewSectionCommand
+(scrreprt)                instead.
+
+
+Package scrreprt Warning: Usage of \@startsection detected.
+(scrreprt)                Note, the sectioning of scrreprt does neither use
+(scrreprt)                nor support the usage of \@startsection command.
+(scrreprt)                This means, that none of the KOMA-Script features
+(scrreprt)                for headings is available for the heading on line
+(scrreprt)                73.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
@@ -1287,18 +1277,18 @@ L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 32716 strings out of 467525
- 721849 string characters out of 5418982
- 1448095 words of memory out of 5000000
- 60964 multiletter control sequences out of 15000+600000
+ 32714 strings out of 467525
+ 721832 string characters out of 5418982
+ 1449095 words of memory out of 5000000
+ 60963 multiletter control sequences out of 15000+600000
  694904 words of font info for 124 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  108i,20n,107p,11267b,1322s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on gesamt.pdf (28 pages, 316049 bytes).
+Output written on gesamt.pdf (28 pages, 314995 bytes).
 PDF statistics:
- 616 PDF objects out of 1000 (max. 8388607)
- 550 compressed objects within 6 object streams
- 142 named destinations out of 1000 (max. 500000)
- 407 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 611 PDF objects out of 1000 (max. 8388607)
+ 545 compressed objects within 6 object streams
+ 141 named destinations out of 1000 (max. 500000)
+ 399 words of extra memory for PDF output out of 10000 (max. 10000000)
 
