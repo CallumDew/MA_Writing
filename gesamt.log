@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.19)  1 APR 2026 18:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.19)  1 APR 2026 18:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1099,10 +1099,13 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                37.
+(scrreprt)                14.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
+
+
+LaTeX Warning: Reference `' on page 14 undefined on input line 17.
 
 [14
 
@@ -1115,7 +1118,7 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                53.
+(scrreprt)                45.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
@@ -1126,7 +1129,19 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                71.
+(scrreprt)                61.
+(scrreprt)                If you need additional sectioning commands, you
+(scrreprt)                should define them using \DeclareNewSectionCommand
+(scrreprt)                instead.
+
+[15]
+
+Package scrreprt Warning: Usage of \@startsection detected.
+(scrreprt)                Note, the sectioning of scrreprt does neither use
+(scrreprt)                nor support the usage of \@startsection command.
+(scrreprt)                This means, that none of the KOMA-Script features
+(scrreprt)                for headings is available for the heading on line
+(scrreprt)                79.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
@@ -1137,12 +1152,12 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                73.
+(scrreprt)                81.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) (./kapitel/Results.tex [15]
+) (./kapitel/Results.tex [16]
 chapter 5.
 
 Package scrreprt Warning: Usage of \@startsection detected.
@@ -1198,7 +1213,7 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) (./kapitel/Conclusion.tex [16
+) (./kapitel/Conclusion.tex [17
 
 
 
@@ -1235,15 +1250,15 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) (./literatur/literatur.tex [17
+) (./literatur/literatur.tex [18
 
 
 
-] (./gesamt.bbl [18
+] (./gesamt.bbl [19
 
 
 
-])) (./kapitel/anhang.tex [19]
+])) (./kapitel/anhang.tex [20]
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
@@ -1266,29 +1281,33 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) [20
+) [21
 
 
 
-] [21] (./gesamt.aux)
+] [22] (./gesamt.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
  ) 
 Here is how much of TeX's memory you used:
- 32714 strings out of 467525
- 721832 string characters out of 5418982
- 1449095 words of memory out of 5000000
- 60963 multiletter control sequences out of 15000+600000
+ 32719 strings out of 467525
+ 721873 string characters out of 5418982
+ 1448095 words of memory out of 5000000
+ 60965 multiletter control sequences out of 15000+600000
  694904 words of font info for 124 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  108i,20n,107p,11267b,1322s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on gesamt.pdf (28 pages, 314995 bytes).
+Output written on gesamt.pdf (29 pages, 317317 bytes).
 PDF statistics:
- 611 PDF objects out of 1000 (max. 8388607)
- 545 compressed objects within 6 object streams
- 141 named destinations out of 1000 (max. 500000)
- 399 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 621 PDF objects out of 1000 (max. 8388607)
+ 554 compressed objects within 6 object streams
+ 144 named destinations out of 1000 (max. 500000)
+ 407 words of extra memory for PDF output out of 10000 (max. 10000000)
 

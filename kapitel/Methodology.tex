@@ -11,10 +11,18 @@ This chapter describes the experimental setup used to analyse feature importance
 % \subsection{Dataset description (source, units, conditions)}
 % CMAPSS details
 
-
+\section{Dataset and Data Preparation}
 
 \subsection{Features set / sensors used}
+The raw input space of each CMAPSS sub-dataset consitst of three operational settings and 21 sensor measurements per time step. Eight sensors: s1, s5, s6, s10, s14, s16, s18, and s19, were identified as non-informative due to near-constant values across all trajectories and were excluded from the analysis. The remaining 13 sensor channels, listed in \ref{}, form the feature set used throughout this work.
 
+\begin{table}
+    
+\end{table}
+
+Each sensor channel is scaled indepentently to the range [0, 1] using a MinMax scaler. Because sensosr readings vary systematically with ooperating condition, scaling is applied separately within each of the distinct operating regimes present in the data. The scaler is fitted exclusively on the training set and applied withougt modification to the validation and test sets, preventing any leakage of test distribution statistics into the preprocessing pipeline.
+
+Input sequences are constructed using a sliding window of length $T = 70$ time steps and stride 1, yielding tensors of shape (N x 30 x 70), where N is the number of sequences. The label associated with each window is the RUL value at the final time step of that window.
 
 Initial available inputs -> original input variables(3 operational settings, 21 sensor measurements)
 
