@@ -14,36 +14,85 @@ This chapter describes the experimental setup used to analyse feature importance
 \section{Dataset and Data Preparation}
 
 \subsection{Features set / sensors used}
-The raw input space of each CMAPSS sub-dataset consitst of three operational settings and 21 sensor measurements per time step. Eight sensors: s1, s5, s6, s10, s14, s16, s18, and s19, were identified as non-informative due to near-constant values across all trajectories and were excluded from the analysis. The remaining 13 sensor channels, listed in \ref{}, form the feature set used throughout this work.
+The raw input space of each CMAPSS sub-dataset consitst of three operational settings and 21 sensor measurements per time step. Eight sensors: s1, s5, s6, s10, s14, s16, s18, and s19, were identified as non-informative due to near-constant values across all trajectories and were excluded from the analysis. The remaining 13 sensor channels, listed in \ref{tab:sensors_used}, form the feature set used throughout this work.
 
-\begin{table}
-    
+\begin{table}[h]
+    \centering
+    \caption{Sensor features retained after non-informative sensor removal.}
+    \label{tab:sensors_used}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Senso ID} & \textbf{Physical Description} \\
+        \midrule
+        s2 & LPC outlet temperature\\
+        s3 & HPC outlet temperature\\
+        s4 & LPT outlet temperature\\
+        s7 & HPC outlet pressure\\
+        s8 & Fan speed\\
+        s9 & Core speed\\
+        s11 & HPC outlet static pressure\\
+        s12 & Ratio to Fuel flow to Ps30\\
+        s13 & Corrected fan speed\\
+        s15 & Bypass ratio\\
+        s17 & Bleed enthalpy\\
+        s20 & HPT cool air flow\\
+        s21 & LPT cool air flow\\
+        \bottomrule
+    \end{tabular}
 \end{table}
 
-Each sensor channel is scaled indepentently to the range [0, 1] using a MinMax scaler. Because sensosr readings vary systematically with ooperating condition, scaling is applied separately within each of the distinct operating regimes present in the data. The scaler is fitted exclusively on the training set and applied withougt modification to the validation and test sets, preventing any leakage of test distribution statistics into the preprocessing pipeline.
+Each sensor channel is scaled indepentently to the range [0, 1] using a MinMax scaler. Because sensosr readings vary systematically with ooperating condition, scaling is applied separately within each of the distinct operating regimes present in the data. The scaler is fitted exclusively on the training set.
 
 Input sequences are constructed using a sliding window of length $T = 70$ time steps and stride 1, yielding tensors of shape (N x 30 x 70), where N is the number of sequences. The label associated with each window is the RUL value at the final time step of that window.
 
-Initial available inputs -> original input variables(3 operational settings, 21 sensor measurements)
+%Initial available inputs -> original input variables(3 operational settings, 21 sensor measurements)
 
-Removal of Non-Informative Sensors (Sensor used, shape (13x70))
+%Removal of Non-Informative Sensors (Sensor used, shape (13x70))
 
-Correlation-Based Feature Reduction (removed sensors:'s1', 's5', 's6', 's10', 's14', 's16', 's18', 's19')
+%Correlation-Based Feature Reduction (removed sensors:'s1', 's5', 's6', 's10', 's14', 's16', 's18', 's19')
 
-Feature Normalisation (Sensor channels scaled independently, scaling method, scaling parameters computed on training set only, Applied unchanged to validation and test sets)
+%Feature Normalisation (Sensor channels scaled independently, scaling method, scaling parameters computed on training set only, Applied unchanged to validation and test sets)
 
 %\subsection{Windowing \& input format}
 
 \subsection{Target definition (RUL label)}
-Raw RUL Computation -> for each engine trajectory($T_failure$ = final cycle of that unit, t = current cycle)
+The raw RUL for each engine trajectory is computed as the difference between the end-of-life cycle $t_{\text{EOL}}$ and the current cycle $t$:
+\begin{equation}
+    \text{RUL}_{\text{raw}}(t) = t_{\text{EOL}} - t
+\end{equation}
 
-Linear Piecewise RUL Transformation -> fundamentals why; here how (linear piecewise transformation using a maximum RUL threshold $RUL_max$, Early-life cycles are assigned a constant maximum RUL. Only degredation region retains linear decrease, reduces dominance of healty regime samples)
+A purely linear RUL label is known to dominate model training with the healthy regime, where no meaningful degradation signal is present. To address this, a piecewise linear transformatino is applied using a maximum RUL threshold $R_c = \text{125}$ cycles. Early-life cycles, where the tru RUL exceeds $R_c$, are assigned a constant label of $R_c$, under the assumptioin that the engine shows no detectable degradation in this regime. Only once the trajectory enters the degradation region does the label decrease linearly toward zero at failure:
+\begin{equation}
+    \text{RUL}(t) = min(\text{RUL}_{\text{raw}}(t), R_c).
+\end{equation}
 
-Target Normalization (Formula, Normalization applied after piecewise transformation, same scaling used for all datasets)
+This transformation prevents the model from being overwhelmed by healthy-state samples and focuses learning on the degradation region, which carries the operationally relevant signal.
+
+Following the piecewise transfromation, RUL labels are normalized to [-1, 1] using a min-max scaling based on the training set:
+\begin{equation}
+    \hat{y} = 2 * \frac{\text{RUL}(t) - \text{RUL}_{\text{min}}}{\text{RUL}_{\text{max}} - \text{RUL}_{\text{min}}} - 1,
+\end{equation}
+
+where $\text{RUL}_{\text{min}}$ and $\text{RUL}_{\text{max}} = R_c = \text{125}$ by construction, so that a healthy engine at the cap maps to +1 and an engine at failure maps to -1. The same scaling parameters are applied to the test set without re-fitting.
+
+%Raw RUL Computation -> for each engine trajectory($T_failure$ = final cycle of that unit, t = current cycle)
+
+%Linear Piecewise RUL Transformation -> fundamentals why; here how (linear piecewise transformation using a maximum RUL threshold $RUL_max$, Early-life cycles are assigned a constant maximum RUL. Only degredation region retains linear decrease, reduces dominance of healty regime samples)
+
+%Target Normalization (Formula, Normalization applied after piecewise transformation, same scaling used for all datasets)
 
 
 \section{Model Setup}
-The neural network models used in this work are not the primary contribution of the thesis but serve as controlled predictive systems for analyzing and comparing feature importance behavior under different feature-space configurations.
+All model variants used in this thesis share a common architecture base on a Domain-Adversarial Neural Netwrok (DANN) \cite{}. The DANN consists of three components: a convolutional feature extractor, a label predictor, and an optional domain classifier connected via a Gradien Reversal Layer (GRL). Since the primary purpose of the models here is to serve as a stable substrate for feature importance analysis rather than to maximise transfer performance, the domain classifier branch is used selectively and the architecture is held fixed across all configurations.
+
+The \textbf{Feature Extractor} processes the input tensor of shape $(N x 13 x T)$ through four successive one-dimensional convolutional layers. The number of filters follows a halvinbg schedule: 128, 64, 32, and 16 channels respectively, each with kernel size 5 and same-length padding of 2. After each convolutional layer, a LeakyReLu activation with negative slope 0.1 is applied. The temporal dimenstions is collapsed using a global average pooling operation (AdaptiveAvgPool1d), which produces a fixed-length represnentation of 16 values regardless of input sequence length. A final fully connected layer projects this to a feature vector of length 64.
+
+The \textbf{Label Predictor} maps the 64-dimensioinal feature vector to a scalar RUL estimate through two fully connected layers: Linear $(\text{64} \rightarrow \text{32})$ and Linear $(\text{32} \rightarrow \text{1})$, each preceded by a ReLU activation. The output is a single value representing the predicted RUL.
+
+%The optional \textbf{Domain Classifier} receives the feature vector after it has passed through a Gradient Reversal lLayer, which negates gradients during backpropagation with a scaling factor $\alpha$. This adversarial signal encourages the featrure extractor to produce domain-invariant representations when training across multiples CMAPSS sub-datasets. The domain classifier architecture is a single fully connected layer with batch normalization. For the remainder of the thesis, the domain classifier is only used in the "All Models System" configuration, where data from all four CMAPSS sub-datasets are combined for training. In the single and pairwise model setups, the domain classifier is omitted to focus on feature importance within a single domain.
+
+
+
 \subsection{Baseline model}
 Describe DANN architecture used -> (model type, backbone, input shape, all model variants share the same architecture, only input feature configuration differs)
 

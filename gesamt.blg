@@ -3,6 +3,7 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: gesamt.aux
 The style file: literatur/itsBibStyle.bst
 Database file #1: literatur/bib.bib
+Warning--I didn't find a database entry for ""
 You've used 17 entries,
             2810 wiz_defined-function locations,
             716 strings with 7666 characters,
@@ -44,3 +45,4 @@ warning$ -- 0
 while$ -- 61
 width$ -- 0
 write$ -- 187
+(There was 1 warning)
