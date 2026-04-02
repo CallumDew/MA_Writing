@@ -24,30 +24,26 @@
 \contentsline {section}{\numberline {4.1}Dataset and Data Preparation}{14}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Features set / sensors used}{14}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Target definition (RUL label)}{15}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}Model Setup}{15}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Baseline model}{16}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Single model setup}{16}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Pairwise model setup}{16}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}All models system}{16}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.2}Model Setup}{16}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Training Procedure}{16}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Single model setup}{16}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Pairwise model setup}{17}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}All models system}{17}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}Implementation of Feature Importance Methods}{17}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Unified Feature Importance Representation}{17}{section.4.5}%
-\contentsline {chapter}{\numberline {5}Results}{18}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Verification of FI algorithms}{18}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Comparison: Single vs Combined Models}{18}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Feature Importance Results per Method}{18}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Comparison}{18}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Discussion}{18}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Conclusion and Outlook}{19}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Contributions}{19}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Answering the Research Questions}{19}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Outlook}{19}{section.6.3}%
-\contentsline {chapter}{References}{20}{dummy.4}%
+\contentsline {subsection}{\numberline {4.3.1}Single model setup}{17}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Pairwise model setup}{18}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}All models system}{18}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}Implementation of Feature Importance Methods}{18}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Unified Feature Importance Representation}{20}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Results}{22}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Verification of FI algorithms}{22}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Comparison: Single vs Combined Models}{22}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Feature Importance Results per Method}{22}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Comparison}{22}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Discussion}{22}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Conclusion and Outlook}{23}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Contributions}{23}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Answering the Research Questions}{23}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Outlook}{23}{section.6.3}%
+\contentsline {chapter}{References}{24}{dummy.4}%
 \def \@chapapp {\appendixname }
-\contentsline {chapter}{Appendix}{22}{chapter*.7}%
-\contentsline {section}{\numberline {A.1}Anhang 1}{22}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Anhang 2}{22}{section.A.2}%
+\contentsline {chapter}{Appendix}{26}{chapter*.9}%
+\contentsline {section}{\numberline {A.1}Anhang 1}{26}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Anhang 2}{26}{section.A.2}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -314,6 +314,7 @@ The accumulated local effect up to a point $z$ in the domain of feature $x_j$ is
 
 To ensure interpretability, ALE functions are typically centered such that their mean over the empirical distribution of $x_j$ is zero:
 \begin{equation}
+    \label{equation:ALE_centering}
     \int ALE_j(z)dP_{X_j}(z) = 0.
 \end{equation}
 

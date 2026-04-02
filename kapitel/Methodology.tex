@@ -43,7 +43,16 @@ The raw input space of each CMAPSS sub-dataset consitst of three operational set
 
 Each sensor channel is scaled indepentently to the range [0, 1] using a MinMax scaler. Because sensosr readings vary systematically with ooperating condition, scaling is applied separately within each of the distinct operating regimes present in the data. The scaler is fitted exclusively on the training set.
 
-Input sequences are constructed using a sliding window of length $T = 70$ time steps and stride 1, yielding tensors of shape (N x 30 x 70), where N is the number of sequences. The label associated with each window is the RUL value at the final time step of that window.
+Input sequences are constructed using a sliding window of length $T = 70$ time steps and stride 1, yielding tensors of shape (N x 30 x 70), where N is the number of sequences. The label associated with each window is the RUL value at the final time step of that window. The resulting input strcture is illustrated in Figure \ref{fig:input_tensor}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Methodology/cmapss_input_tensor.pdf}
+    \caption{Structure of the input tensor for a single sliding window sample, consisting of 13 sensor channels over 70 consecutive time steps. Each slice in the depth direction represents one engine unit.}
+    \label{fig:input_tensor}
+\end{figure}
+
+%\includegraphics[width=0.7\textwidth]{bilder/MetMethodology/cmapss_input_tensor.svg}
 
 %Initial available inputs -> original input variables(3 operational settings, 21 sensor measurements)
 
@@ -83,50 +92,65 @@ where $\text{RUL}_{\text{min}}$ and $\text{RUL}_{\text{max}} = R_c = \text{125}$
 
 
 \section{Model Setup}
-All model variants used in this thesis share a common architecture base on a Domain-Adversarial Neural Netwrok (DANN) \cite{}. The DANN consists of three components: a convolutional feature extractor, a label predictor, and an optional domain classifier connected via a Gradien Reversal Layer (GRL). Since the primary purpose of the models here is to serve as a stable substrate for feature importance analysis rather than to maximise transfer performance, the domain classifier branch is used selectively and the architecture is held fixed across all configurations.
+All model variants used in this thesis share a common architecture base on a Domain-Adversarial Neural Netwrok (DANN) \cite{}. The DANN consists of three components: a convolutional feature extractor, a label predictor, and an optional domain classifier connected via a Gradient Reversal Layer (GRL). Since the primary purpose of the models here is to serve as a stable substrate for feature importance analysis rather than to maximise transfer performance, the domain classifier branch is used selectively and the architecture is held fixed across all configurations.
 
-The \textbf{Feature Extractor} processes the input tensor of shape $(N x 13 x T)$ through four successive one-dimensional convolutional layers. The number of filters follows a halvinbg schedule: 128, 64, 32, and 16 channels respectively, each with kernel size 5 and same-length padding of 2. After each convolutional layer, a LeakyReLu activation with negative slope 0.1 is applied. The temporal dimenstions is collapsed using a global average pooling operation (AdaptiveAvgPool1d), which produces a fixed-length represnentation of 16 values regardless of input sequence length. A final fully connected layer projects this to a feature vector of length 64.
+The \textbf{Feature Extractor} processes the input tensor of shape $(N x 13 x T)$ through four successive one-dimensional convolutional layers. The number of filters follows a halving schedule: 128, 64, 32, and 16 channels respectively, each with kernel size 5 and same-length padding of 2. After each convolutional layer, a LeakyReLu activation with negative slope 0.1 is applied. The temporal dimensions is collapsed using a global average pooling operation (AdaptiveAvgPool1d), which produces a fixed-length representation of 16 values regardless of input sequence length. A final fully connected layer projects this to a feature vector of length 64. Note that the slab height in Figure \ref{fig:dann_architecture} is a visual convention representing the reducing channell count and does not imply a reduction in the temporal dimesnion, which remains 70 throughout.
 
 The \textbf{Label Predictor} maps the 64-dimensioinal feature vector to a scalar RUL estimate through two fully connected layers: Linear $(\text{64} \rightarrow \text{32})$ and Linear $(\text{32} \rightarrow \text{1})$, each preceded by a ReLU activation. The output is a single value representing the predicted RUL.
 
 %The optional \textbf{Domain Classifier} receives the feature vector after it has passed through a Gradient Reversal lLayer, which negates gradients during backpropagation with a scaling factor $\alpha$. This adversarial signal encourages the featrure extractor to produce domain-invariant representations when training across multiples CMAPSS sub-datasets. The domain classifier architecture is a single fully connected layer with batch normalization. For the remainder of the thesis, the domain classifier is only used in the "All Models System" configuration, where data from all four CMAPSS sub-datasets are combined for training. In the single and pairwise model setups, the domain classifier is omitted to focus on feature importance within a single domain.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Methodology/architecture_diagram.pdf}
+    \caption{Architecture of the 1D convolutional neural network. The red window illustrates the receptive field of the convolutional kernel ($k=5$). Green: feature extractor, blue: label predictor.}
+    \label{fig:dann_architecture}
+\end{figure}
 
-
-\subsection{Baseline model}
-Describe DANN architecture used -> (model type, backbone, input shape, all model variants share the same architecture, only input feature configuration differs)
-
-Network structure -> diagramm (convolutional layers, kernel sizes, Activation ReLu, layers, output)
-
-\subsection{Single model setup}
-Explain setup and purpose
-
-\subsection{Pairwise model setup}
-explain why / motivation
-
-\subsection{All models system}
-Full model using all sensors -> explain why
 
 \section{Training Procedure}
-loss function
+All models are trained to minimise the mean squared error (MSE) between the predicted and true normalised RUL values:
+\begin{equation}
+    \mathcal{L} = \frac{1}{N} \sum_{i=1}^{N} (\hat{y}^{(i)} - y^{(i)})^2.
+\end{equation}
 
-hyperparameters
-
-optimisation
-
-keep short -> activation function and trained on MSE , two liner
+The models are trained with the following subset combinations.
 
 \subsection{Single model setup}
-Explain setup and purpose
+Four single-dataset models are trained, one for each CMAPSS sub-dataset (FD001, FD002, FD003, and FD004). Each model sees only the data from its respective sub-datasest during training. These models allow feature importance to be analysed individually per subb-datset, revealing whether different operating conditions and fault moded lead to systematically different feature reliance.
 
 \subsection{Pairwise model setup}
-explain why / motivation
+Six pairwise models are trained, one for each combination of two CMAPSS sub-dataset: FD001+FD002, FD001+FD003, FD001+FD004, FD002+FD003, FD002+FD004, and FD003+FD004. Training data from both sub-datasets are concatenated and used jointly. the motivation for this setup is to examine how feature importance redistributes when a model must reconcile two distinct operating regimes simultaneously, without yet being exposed to the full diversity of all four sub-datasets.
 
 \subsection{All models system}
-Full model using all sensors -> explain why
+A single model is trained on the combined data from all four CMAPSS sub-satasets. This configuration represents the most demanding generalistaion scenario and serves as the counterpart to the single-dataset models, allowing a direct comparison of feature importance under narrow versus broad training distributions.
 
 \section{Implementation of Feature Importance Methods}
+All eight feature importance methods are applied post-hoc to the trained models, without any modification of the learned weights. A central implementation challenge shared across all methods is the multivariate time-series structure of the input: each sample is a tensor of shape (N x 13 x 70), where the 13 sensor channels and 70 time steps together constitute the model's input spcae. Most standard feature importance implementations assume a tabular input where each column corresponds to an independent scalar feature. Applying these methods to a sequence model therefore requires deliberate desing dicisions about how features are defined, how perturbations are applied and how attributions over the temporal dimesnion are reduced to a per-sensor importance score. Unless stated otherwise, the full temporal extent of a sensor channel is treated as a single unit, perturbations are applied uniformly across all 70 time steps of a given sensor simultaneously and the resulting attributions are aggregated over time to yield a scalar importance score per sensor. This choice reflects the physically motivated view that a sensor's contribution to the RUL prediction should be attributed to the sensor as a whole rather than decomposed into individual time steps, which would result in a 910-dimensional attribution space that is difficutlt to interpret and compare across methods.
+
+\textbf{Individual Conditional Expectation (ICE)}: For each of the 13 sensors, a uniform grid of 20 values is constructed between the 5th and 95th empirical percentile of that sensor's observed values across the dataset. The percentile bound are used in place of the global minimum and maximum to avoid evaluatiing the model in the tails of the distribution, where training data is sparse and prediction may be unreliable. For each grid value $g$ and each instance in the dataset, the entire time series of sensor $j$ is replaced by the constant value $g$, that is, $x_{j,t} = g$ for all $t \in [1, 70]$, while all remaining sensor channels are kept at their observed values. This produces one ICE curve per instance, tracing how the predicted RUL changes as sensor $j$ is swept across its range in isolation. The PDP is then computed as the pointwise mean of all ICE curves. Feature importance is derived as the range of the PDP curve, defined as the difference between its maximum and minmimum values, which captures the total variation in average predicted RUL attributable to sensor $j$.
+
+\textbf{Feature Ablation}: The implementation follows the grouped ablatioin scheme provided by Captums's \textsl{FeatureAblation}, in which all 70 timesteps belonging to a given sensor channel are masked simultaneously as a single group rather than independently. This sensor-grouped formulation is essential for the present setting: ablating individual timesteps in isolation would produce attributions across 910 independent input positions, making cross-method comparison difficult and reducing the physical interpretability of the results. When sensor $j$ is ablated, its entire time series is replaced by the training set mean computed independently for each channel, representing the expected signal in the absence of informative variation. Attributions are defined as the absolute change in prediction relative to the unpertrubed output, and global feature importance is obtained by averaging these absolute differences over all instances in the evaluation set.
+
+\textbf{Shapley Additive Explanations}: To maintain consistency with the grouped ablation scheme described above, the 13 sensor channels are treated as 13 players in the cooperative game rather than operating on the 910-dimensional flattened input. Exact Shapley values are computed by enumerating all $2^{13} = \text{8192}$ possible sensor coalitions and evaluating the model on each, which is computatinoally tractable for this group size. When a sensor group is absent from a coalition, its timesteps are replaced by a mean valued baseline as in the ablation method. For each coalitioin $S$, the masked input is constructed by replacing the features of all sensors not in $S$ with the baseline and the model is queried to obtain $v(S)$. The Shapley values are then computed from these chached coalition outputs, yielding a per-sensor attribution for each instance in the dataset. A visualistation of the Shapley values is provided in the results chapter and implemented using the \textsl{shap} library.
+
+\textbf{Local Interpretable Model-Agnostic Explanations}: The implementation uses Captum's \texttt{LIME} with a Lasso linear surrogate as the interpretable model class. Since LIME operates by perturbing the input in an interpretable feature space and fitting a weighted linear regression, the (13 x 70) input tensor is first flattened to a 910-dimensional vector. For each instance to be explained, 4000 perturbed samples are drawn in the neighbourhood of the input, each evaluated by the model. A proximity-weighted Lasso regression($\alpha = 0.01$) is then iftted to approximate the model locally, with the regularisation term enforcing sparsity in the resulting attribution vector. The zero vector is used as the reference baseline. After fitting, the 910-dimesninal weight vector is reshaped back to (13 x 70) and the time dimensioin is averaged to obtain sensor-level importance scores. The Lasso regularisation parameter $\alpha$ was selected to balance sparsity with attribution stability across instances.
+
+\textbf{Counterfactual Explanations}: Counterfactual explanations are generated using the \texttt{DiCE} library, which implements a gradient -based search for minmally modified inputs that shift the model's prediction into a specified target range. As \texttt{DiCE} requires a tabular input representation, the (13 x 70) tensor is flattened to a 910-dimensional feature vector before being passed to the \texttt{DiCE} data interface, which is initialised using the training set to define plausible feature ranges. For each query instance, the desired output range is specified as a window around the original prediction, so that the counterfactual represents a plasuible alternative trajectory with a meaningfully differen predicted RUL. The distance between the original and counterfactual input is pnealised using an $\text{L}_1$ norm, which encourages sparse modifications, that is, changes concentrated in a small number of features. Feature importance is subseqently derived by computing the magnitued of change per sensor, aggregated across the 70 timesteps, which identifies which sensors were most frequently or substantially modified to achieve the target prediction shift.
+
+\textbf{Permutation Feature Importance}: For each sensor channel, its values are permuted randomly across all N samples in the evaluation set, while all other channels remain at their original values. This destroys the statistical association between that sensor and the target RUL without altering the marginal distribution of the sensor's values, so any resulting drop in predictive performance can be attributed to the loss of that sensor's information. Performance is measured as MSE on the normaliised RUL scale. To account for variablity in the permutation, the procedure is repeated with 5 independent random permutations and the mean and standard deviation of the MSE increase are reported per sensor. The use of 5 repeats provides a sufficiently stable estimate for 13 sensors while keeping the total number of model evaluation manageable.
+
+\textbf{Accumulated Local Effects}: The domain of each sensor is partitioned into 20 bins using quantile-based bin edges, so that each bin contains approximately the same number of samples. Quantile-based binning is preferred over unifrom binning because sensor distributions may be skewed after operating-condition-specific normalisation and equal-frequency bins ensure that local effect estimates are based on suffiecient data throughout the feature range. Bin membership for each sample is determined by the mean value of that sensor's time series, which reduces the (N x L) sensor values to a scalar per sample for assignment purposes. Within each bin, the local prediction difference is computed by replacing the entire time series of senso $j$ with the lower and uper bin boundary values in turm, and recording the resulting change in model output. These local differences are averaged within each bin and then accumulated across bins following \ref{equation:ALE_centering}. The accumulated effect curve is centered to zero mean over the empirical distribution of sensor values. A scalar importance scoe is derived as the range of the centered ALE curve, reflecting the total span of predicted RUL variation attributable to that senos under the local conditional distribution.
+
+%\textbf{Integrated Gradients}: The implementation uses Captum's \texttt{Integrated Gradients} with 100 integration steps and the Gauss-Legendre quadrature approximation, which provides a more accruate estimate of the path integral than a simple Riemann sum for the same number of steps. The \texttt{multiply_by_inputs} flag is set as \texttt{true}, which scales each gradient by the difference between the input and the baseline, ensuring that the completeness property holds: the sum of attributions over all input dimensions equals the difference between the input and the baseline, ensuring that the completeness property holds: the sum of attributions over all input dimensions equals the difference between the model's prediction at the input and at the baseline. A zero-valued tensor of shape (1 x 13 x 70) is used as the baselin, consistent witht the choice made for SHAP and Feature Ablation. Since all sensor values lie in $[0, 1]$ after MinMax normalisation, a zero baselin represents a meaningful reference state corresponding to the minimum observed sensor value in each channel. Attrubtions are computed per instance over the full (13 x 70) input space, absolute values are taken to reflect attribution magnitude regardless of sign, and the temporal dimension is averaged to yield a per-sensor importance score of shape (13,).
+
+
 
 \section{Unified Feature Importance Representation}
+Because the eight feature importance methods produce attributions in different units and on different scales, a unified representation is required before any cross method comparison can be made. For each method, the raw feature-level attributions are reduced to a single importance score per sensro by aggregating over the temporal dimension where applicable. The resulting scores are then normalised using $L_1$ normalisation:
 
-L1 normalisation
+\begin{equation}
+    \text{FI}_{\text{L}_1} = \frac{|\text{FI}_j|}{\sum_{k=1}^{13} |\text{FI}_k|},
+\end{equation}
+
+so that the importance scores for all features sum to one for any given instance or aggregate. This normaliation ensures that the magnitude of attributions is comparable across methods regardless of their original scale, enabling direct visual and quantitative comparison in the results chapter. 

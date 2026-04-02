@@ -5,6 +5,8 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Structure of the input tensor for a single sliding window sample, consisting of 13 sensor channels over 70 consecutive time steps. Each slice in the depth direction represents one engine unit.}}{15}{figure.caption.6}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Architecture of the 1D convolutional neural network. The red window illustrates the receptive field of the convolutional kernel ($k=5$). Green: feature extractor, blue: label predictor.}}{17}{figure.caption.7}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \def \@chapapp {\appendixname }
