@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{33}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Aas et~al.(2021)Aas, Jullum and Løland}]{aas_explaining_2021}
@@ -6,8 +6,20 @@ Aas, Kjersti, Jullum, Martin and Løland, Anders (2021): {\em Explaining individ
 \newblock Artificial Intelligence, Bd.~298, S.~103502.
 \newblock ISSN 00043702.
 
+\bibitem[{Alomari et~al.(2023)Alomari, And\'{o} and Baptista}]{Alomari2023}
+Alomari, Yazan, And\'{o}, M\'{a}ty\'{a}s and Baptista, Marcia~L. (2023): {\em Advancing Aircraft Engine {RUL} Predictions: An Interpretable Integrated Approach of Feature Engineering and Aggregated Feature Importance\/}.
+\newblock Scientific Reports, Bd.~13, S.~13466.
+
 \bibitem[{Apley and Zhu(2019)}]{apley2019visualizingeffectspredictorvariables}
 Apley, Daniel~W. and Zhu, Jingyu (2019): {\em Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models\/}.
+
+\bibitem[{Baptista et~al.(2022)Baptista, Goebel and Henriques}]{Baptista2022}
+Baptista, Marcia~L., Goebel, Kai and Henriques, Elsa M.~P. (2022): {\em Relation Between Prognostics Predictor Evaluation Metrics and Local Interpretability {SHAP} Values\/}.
+\newblock Artificial Intelligence, Bd.~306, S.~103667.
+
+\bibitem[{Baptista et~al.(2024)Baptista, Mishra, Henriques and Prendinger}]{Baptista2024}
+Baptista, Marcia~L., Mishra, Madhav, Henriques, Elsa and Prendinger, Helmut (2024): {\em Using Explainable Artificial Intelligence to Interpret Remaining Useful Life Estimation with Gated Recurrent Unit\/}.
+\newblock In: {\em Annual Conference of the PHM Society\/}, Bd.~16.
 
 \bibitem[{Breiman(2001)}]{BreimanRandomForest}
 Breiman, Leo (2001): {\em Random Forests\/}.
@@ -17,32 +29,70 @@ Breiman, Leo (2001): {\em Random Forests\/}.
 \bibitem[{Fisher et~al.(2019)Fisher, Rudin and Dominici}]{fisher2019modelswrongusefullearning}
 Fisher, Aaron, Rudin, Cynthia and Dominici, Francesca (2019): {\em All Models are Wrong, but Many are Useful: Learning a Variable's Importance by Studying an Entire Class of Prediction Models Simultaneously\/}.
 
+\bibitem[{Gawde et~al.(2024)Gawde, Patil, Kumar, Kamat, Kotecha and Alfarhood}]{Gawde2024}
+Gawde, Sujay, Patil, Shruti, Kumar, Satish, Kamat, Pooja, Kotecha, Ketan and Alfarhood, Sultan (2024): {\em Explainable Predictive Maintenance of Rotating Machines Using {LIME}, {SHAP}, {PDP}, {ICE}\/}.
+\newblock IEEE Access, Bd.~12, S.~29345--29361.
+
 \bibitem[{Goldstein et~al.(2015)Goldstein, Kapelner, Bleich and Pitkin}]{goldstein_peeking_2015}
 Goldstein, Alex, Kapelner, Adam, Bleich, Justin and Pitkin, Emil (2015): {\em Peeking {Inside} the {Black} {Box}: {Visualizing} {Statistical} {Learning} {With} {Plots} of {Individual} {Conditional} {Expectation}\/}.
 \newblock Journal of Computational and Graphical Statistics, Bd.~24, S.~44--65.
 \newblock ISSN 1061-8600, 1537-2715.
 
-\bibitem[{Karimi et~al.(2020)Karimi, Barthe, Balle and Valera}]{karimi2020modelagnosticcounterfactualexplanationsconsequential}
-Karimi, Amir-Hossein, Barthe, Gilles, Balle, Borja and Valera, Isabel (2020): {\em Model-Agnostic Counterfactual Explanations for Consequential Decisions\/}.
+\bibitem[{Heimes(2008)}]{Heimes2008}
+Heimes, Felix~O. (2008): {\em Recurrent Neural Networks for Remaining Useful Life Estimation\/}.
+\newblock In: {\em 2008 International Conference on Prognostics and Health Management\/}, S. 1--6. IEEE, Denver, CO, USA.
+
+\bibitem[{Hong et~al.(2020)Hong, Lee, Lee, Ko, Kim and Hur}]{Hong2020}
+Hong, Chang~Woo, Lee, Changmin, Lee, Kwangsuk, Ko, Min-Seung, Kim, Dae~Eun and Hur, Kyeon (2020): {\em Remaining Useful Life Prognosis for Turbofan Engine Using Explainable Deep Neural Networks with Dimensionality Reduction\/}.
+\newblock Sensors, Bd.~20, S.~6626.
 
 \bibitem[{Kusner et~al.(2018)Kusner, Loftus, Russell and Silva}]{kusner2018counterfactualfairness}
 Kusner, Matt~J., Loftus, Joshua~R., Russell, Chris and Silva, Ricardo (2018): {\em Counterfactual Fairness\/}.
 
-\bibitem[{Lundberg and Lee(2017)}]{lundberg2017unifiedapproachinterpretingmodel}
-Lundberg, Scott and Lee, Su-In (2017): {\em A Unified Approach to Interpreting Model Predictions\/}.
+\bibitem[{Li et~al.(2022)Li, Wang and Li}]{LiCBAM2022}
+Li, Hao, Wang, Zhuojian and Li, Zhenglin (2022): {\em An Enhanced {CNN-LSTM} Remaining Useful Life Prediction Model for Aircraft Engine with Attention Mechanism\/}.
+\newblock PeerJ Computer Science, Bd.~8, S.~e1084.
 
-\bibitem[{Lundberg et~al.(2019)Lundberg, Erion and Lee}]{lundberg2019consistentindividualizedfeatureattribution}
-Lundberg, Scott~M., Erion, Gabriel~G. and Lee, Su-In (2019): {\em Consistent Individualized Feature Attribution for Tree Ensembles\/}.
+\bibitem[{Li et~al.(2018)Li, Ding and Sun}]{Li2018}
+Li, Xiang, Ding, Qian and Sun, Jian-Qiao (2018): {\em Remaining Useful Life Estimation in Prognostics Using Deep Convolution Neural Networks\/}.
+\newblock Reliability Engineering \& System Safety, Bd.~172, S.~1--11.
 
-\bibitem[{Molnar(2022)}]{Molnar2022}
+\bibitem[{Lundberg and Lee(2017{\natexlab{a}})}]{lundberg2017unifiedapproachinterpretingmodel}
+Lundberg, Scott and Lee, Su-In (2017{\natexlab{a}}): {\em A Unified Approach to Interpreting Model Predictions\/}.
+
+\bibitem[{Lundberg and Lee(2017{\natexlab{b}})}]{lundberg2017}
+Lundberg, Scott~M. and Lee, Su-In (2017{\natexlab{b}}): {\em A unified approach to interpreting model predictions\/}.
+\newblock In: {\em Advances in Neural Information Processing Systems\/}, Bd.~30.
+
+\bibitem[{Molnar(2022)}]{molnar2022}
 Molnar, Christoph (2022): {\em Interpretable Machine Learning\/}.
 \newblock Leanpub.
 \newblock Available online.
 
+\bibitem[{Ramasso and Saxena(2014)}]{Ramasso2014}
+Ramasso, Emmanuel and Saxena, Abhinav (2014): {\em Performance Benchmarking and Analysis of Prognostic Methods for {CMAPSS} Datasets\/}.
+\newblock International Journal of Prognostics and Health Management, Bd.~5, S.~1--15.
+
 \bibitem[{Ribeiro et~al.(2016)Ribeiro, Singh and Guestrin}]{ribeiro2016modelagnosticinterpretabilitymachinelearning}
 Ribeiro, Marco~Tulio, Singh, Sameer and Guestrin, Carlos (2016): {\em Model-Agnostic Interpretability of Machine Learning\/}.
 
-\bibitem[{Shapley(1953)}]{Shapley1953}
+\bibitem[{Rudin(2019)}]{Rudin2019}
+Rudin, Cynthia (2019): {\em Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead\/}.
+\newblock Nature Machine Intelligence, Bd.~1, S.~206--215.
+
+\bibitem[{Sateesh~Babu et~al.(2016)Sateesh~Babu, Zhao and Li}]{SateeshBabu2016}
+Sateesh~Babu, Giduthuri, Zhao, Peilin and Li, Xiao-Li (2016): {\em Deep Convolutional Neural Network Based Regression Approach for Estimation of Remaining Useful Life\/}.
+\newblock In: {\em Database Systems for Advanced Applications (DASFAA 2016)\/}, Bd. 9642 von {\em Lecture Notes in Computer Science\/}, S. 214--228. Springer, Cham.
+
+\bibitem[{Saxena et~al.(2008)Saxena, Goebel, Simon and Eklund}]{Saxena2008}
+Saxena, Abhinav, Goebel, Kai, Simon, Don and Eklund, Neil (2008): {\em Damage Propagation Modeling for Aircraft Engine Run-to-Failure Simulation\/}.
+\newblock In: {\em 2008 International Conference on Prognostics and Health Management\/}, S. 1--9. IEEE, Denver, CO, USA.
+
+\bibitem[{Serradilla et~al.(2020)Serradilla, Zugasti, Cernuda, Aranburu, de~Okariz and Zurutuza}]{Serradilla2020}
+Serradilla, Oscar, Zugasti, Ekhi, Cernuda, Cristobal, Aranburu, Aitor, de~Okariz, Jaime~Ramirez and Zurutuza, Urko (2020): {\em Interpreting Remaining Useful Life Estimations Combining Explainable Artificial Intelligence and Domain Knowledge in Industrial Machinery\/}.
+\newblock In: {\em 2020 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE)\/}, S. 1--8. IEEE.
+
+\bibitem[{Shapley(1953)}]{shapley1953}
 Shapley, L.~S. (1953): {\em Stochastic Games*\/}.
 \newblock Proceedings of the National Academy of Sciences, Bd.~39, S.~1095--1100.
 
@@ -55,9 +105,25 @@ Verma, Sahil, Boonsanong, Varich, Hoang, Minh, Hines, Keegan~E., Dickerson, John
 \bibitem[{Wachter et~al.(2018)Wachter, Mittelstadt and Russell}]{wachter2018counterfactualexplanationsopeningblack}
 Wachter, Sandra, Mittelstadt, Brent and Russell, Chris (2018): {\em Counterfactual Explanations without Opening the Black Box: Automated Decisions and the GDPR\/}.
 
+\bibitem[{Wang et~al.(2008)Wang, Yu, Siegel and Lee}]{Wang2008}
+Wang, Tianyi, Yu, Jianbo, Siegel, David and Lee, Jay (2008): {\em A Similarity-Based Prognostics Approach for Remaining Useful Life Estimation of Engineered Systems\/}.
+\newblock In: {\em 2008 International Conference on Prognostics and Health Management\/}, S. 1--6. IEEE, Denver, CO, USA.
+
+\bibitem[{Wu et~al.(2018)Wu, Yuan, Dong, Lin and Liu}]{Wu2018}
+Wu, Yuting, Yuan, Mei, Dong, Shaopeng, Lin, Li and Liu, Yongqian (2018): {\em Remaining Useful Life Estimation of Engineered Systems Using Vanilla {LSTM} Neural Networks\/}.
+\newblock Neurocomputing, Bd.~275, S.~167--179.
+
 \bibitem[{Zeiler and Fergus(2014)}]{zeiler2014visualizing}
 Zeiler, Matthew~D. and Fergus, Rob (2014): {\em Visualizing and Understanding Convolutional Networks\/}.
 \newblock In: {\em Proceedings of the European Conference on Computer Vision (ECCV)\/}, S. 818--833. Springer.
+
+\bibitem[{Zhao et~al.(2017)Zhao, Yan, Wang and Mao}]{Zhao2017}
+Zhao, Rui, Yan, Ruqiang, Wang, Jinjiang and Mao, Kezhi (2017): {\em Learning to Monitor Machine Health with Convolutional Bi-Directional {LSTM} Networks\/}.
+\newblock Sensors, Bd.~17, S.~273.
+
+\bibitem[{Zheng et~al.(2017)Zheng, Ristovski, Farahat and Gupta}]{Zheng2017}
+Zheng, Shuai, Ristovski, Kosta, Farahat, Ahmed and Gupta, Chetan (2017): {\em Long Short-Term Memory Network for Remaining Useful Life Estimation\/}.
+\newblock In: {\em 2017 IEEE International Conference on Prognostics and Health Management (ICPHM)\/}, S. 88--95. IEEE, Dallas, TX, USA.
 
 \bibitem[{Štrumbelj and Kononenko(2014)}]{strumbelj_explaining_2014}
 Štrumbelj, Erik and Kononenko, Igor (2014): {\em Explaining prediction models and individual predictions with feature contributions\/}.

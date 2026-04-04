@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.19)  2 APR 2026 19:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.19)  4 APR 2026 11:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1030,68 +1030,75 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-
-Package scrreprt Warning: Usage of \@startsection detected.
-(scrreprt)                Note, the sectioning of scrreprt does neither use
-(scrreprt)                nor support the usage of \@startsection command.
-(scrreprt)                This means, that none of the KOMA-Script features
-(scrreprt)                for headings is available for the heading on line
-(scrreprt)                11.
-(scrreprt)                If you need additional sectioning commands, you
-(scrreprt)                should define them using \DeclareNewSectionCommand
-(scrreprt)                instead.
-
-
-Package scrreprt Warning: Usage of \@startsection detected.
-(scrreprt)                Note, the sectioning of scrreprt does neither use
-(scrreprt)                nor support the usage of \@startsection command.
-(scrreprt)                This means, that none of the KOMA-Script features
-(scrreprt)                for headings is available for the heading on line
-(scrreprt)                14.
-(scrreprt)                If you need additional sectioning commands, you
-(scrreprt)                should define them using \DeclareNewSectionCommand
-(scrreprt)                instead.
-
-) (./kapitel/Background.tex [2
+[2
 
 
 
 ]
-chapter 3.
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                16.
+(scrreprt)                36.
+(scrreprt)                If you need additional sectioning commands, you
+(scrreprt)                should define them using \DeclareNewSectionCommand
+(scrreprt)                instead.
+
+[3]
+
+Package scrreprt Warning: Usage of \@startsection detected.
+(scrreprt)                Note, the sectioning of scrreprt does neither use
+(scrreprt)                nor support the usage of \@startsection command.
+(scrreprt)                This means, that none of the KOMA-Script features
+(scrreprt)                for headings is available for the heading on line
+(scrreprt)                51.
+(scrreprt)                If you need additional sectioning commands, you
+(scrreprt)                should define them using \DeclareNewSectionCommand
+(scrreprt)                instead.
+
+[4]) (./kapitel/Background.tex [5]
+chapter 3.
+
+Overfull \hbox (3.61946pt too wide) in paragraph at lines 11--12
+\T1/ptm/m/n/12 nique. The meth-ods are di-vided into model-agnostic and model-specific ap-proaches; application-
+ []
+
+
+Package scrreprt Warning: Usage of \@startsection detected.
+(scrreprt)                Note, the sectioning of scrreprt does neither use
+(scrreprt)                nor support the usage of \@startsection command.
+(scrreprt)                This means, that none of the KOMA-Script features
+(scrreprt)                for headings is available for the heading on line
+(scrreprt)                13.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 13.24796pt on input line 34.
-[3
+(Font)              scaled to size 13.24796pt on input line 23.
+[6
 
 
 
-] [4] [5]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 149.
- (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [6] [7] [8] [9] [10] [11]
+] [7] [8]
+
+Package natbib Warning: Citation `kakarimi2020modelagnosticcounterfactualexplanationsconsequential' on page 9 undefined on input line 111.
+
+[9]
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                341.
+(scrreprt)                156.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-[12]) (./kapitel/Methodology.tex [13]
+[10]) (./kapitel/Methodology.tex [11]
 chapter 4.
 
 Package scrreprt Warning: Usage of \@startsection detected.
@@ -1104,17 +1111,17 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-[14
+[12
 
 
 
 ]
-<bilder/Methodology/cmapss_input_tensor.pdf, id=356, 1475.5125pt x 836.12375pt>
+<bilder/Methodology/cmapss_input_tensor.pdf, id=382, 1475.5125pt x 836.12375pt>
 File: bilder/Methodology/cmapss_input_tensor.pdf Graphic file (type pdf)
 <use bilder/Methodology/cmapss_input_tensor.pdf>
 Package pdftex.def Info: bilder/Methodology/cmapss_input_tensor.pdf  used on input line 50.
 (pdftex.def)             Requested size: 455.24408pt x 257.97089pt.
- [15 <./bilder/Methodology/cmapss_input_tensor.pdf>]
+ [13 <./bilder/Methodology/cmapss_input_tensor.pdf>]
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
@@ -1131,11 +1138,14 @@ Overfull \hbox (2.10701pt too wide) in paragraph at lines 95--96
 \T1/ptm/m/n/12 All model vari-ants used in this the-sis share a com-mon ar-chi-tec-ture base on a Domain-Adversarial
  []
 
-<bilder/Methodology/architecture_diagram.pdf, id=414, 736.7525pt x 836.12375pt>
+<bilder/Methodology/architecture_diagram.pdf, id=440, 736.7525pt x 836.12375pt>
 File: bilder/Methodology/architecture_diagram.pdf Graphic file (type pdf)
 <use bilder/Methodology/architecture_diagram.pdf>
 Package pdftex.def Info: bilder/Methodology/architecture_diagram.pdf  used on input line 105.
 (pdftex.def)             Requested size: 455.24408pt x 516.6435pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
@@ -1147,44 +1157,40 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-[16] [17 <./bilder/Methodology/architecture_diagram.pdf>]
-Overfull \hbox (40.21869pt too wide) in paragraph at lines 123--124
-\T1/ptm/m/n/12 Six pair-wise mod-els are trained, one for each com-bi-na-tion of two CMAPSS sub-dataset: FD001+FD002,
- []
-
+[14] [15 <./bilder/Methodology/architecture_diagram.pdf>]
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                128.
+(scrreprt)                159.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-[18]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 137.
+[16]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 168.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-Overfull \hbox (2.53923pt too wide) in paragraph at lines 137--138
+Overfull \hbox (2.53923pt too wide) in paragraph at lines 168--169
 []\T1/ptm/b/n/12 Local In-ter-pretable Model-Agnostic Ex-pla-na-tions\T1/ptm/m/n/12 : The im-ple-men-ta-tion uses Cap-tum's \T1/pcr/m/n/12 LIME
  []
 
-[19] [20]
+[17] [18]
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                147.
+(scrreprt)                178.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) (./kapitel/Results.tex [21]
+) (./kapitel/Results.tex [19]
 chapter 5.
 
 Package scrreprt Warning: Usage of \@startsection detected.
@@ -1240,7 +1246,7 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) (./kapitel/Conclusion.tex [22
+) (./kapitel/Conclusion.tex [20
 
 
 
@@ -1277,15 +1283,15 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) (./literatur/literatur.tex [23
+) (./literatur/literatur.tex [21
 
 
 
-] (./gesamt.bbl [24
+] (./gesamt.bbl [22
 
 
 
-])) (./kapitel/anhang.tex [25]
+] [23])) (./kapitel/anhang.tex [24]
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
@@ -1308,29 +1314,33 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) [26
+) [25
 
 
 
-] [27] (./gesamt.aux)
+]
+
+Package natbib Warning: There were undefined citations.
+
+[26] (./gesamt.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 32783 strings out of 467525
- 723395 string characters out of 5418982
+ 32797 strings out of 467525
+ 723393 string characters out of 5418982
  1448095 words of memory out of 5000000
- 61014 multiletter control sequences out of 15000+600000
- 698312 words of font info for 128 fonts, out of 8000000 for 9000
+ 61037 multiletter control sequences out of 15000+600000
+ 694606 words of font info for 125 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  108i,20n,107p,11267b,1322s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on gesamt.pdf (34 pages, 427859 bytes).
+Output written on gesamt.pdf (33 pages, 430734 bytes).
 PDF statistics:
- 771 PDF objects out of 1000 (max. 8388607)
- 648 compressed objects within 7 object streams
- 152 named destinations out of 1000 (max. 500000)
- 385 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 796 PDF objects out of 1000 (max. 8388607)
+ 672 compressed objects within 7 object streams
+ 147 named destinations out of 1000 (max. 500000)
+ 369 words of extra memory for PDF output out of 10000 (max. 10000000)
 

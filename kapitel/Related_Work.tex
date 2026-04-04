@@ -4,16 +4,53 @@
 \chapter{Related Work}
 \label{Chapter:Related_work}
 
-\section{RUL Prediction using CMAPSS}
+\section{Data-Driven Remaining Useful Life Prediction}
+The dataset used throughout this tesis is C-MAPSS (Commercial Modular Aero-Propulsion System Simulation), published by \cite{Saxena2008} for the PHM 2008 data challenge. It contains four subsets of simulated turbofan engine run-to-failure trajectories, FD001 through FD004, each with a different combination of operating conditions and fault modes. Every engine unit records 21 sensor measurements and three operatinoal settings per cycle. Degradation is injected into the high-pressure compresso(HPC), the fan, or both, depending on the subset. \ref{tab:CMAPSS} gives the breakdown.
 
-Discuss prior CMAPSS work
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c c c c}
+        \toprule
+        Subset & Training Engines & Test Engines & Operating Conditions & Fault Modes \\
+        \midrule
+        FD001 & 100 & 100 & 1 (Sea Level) & 1 (HPC Deg) \\
+        FD002 & 260 & 259 & 6              & 1 (HPC Deg) \\
+        FD003 & 100 & 100 & 1 (Sea Level) & 2 (HPC + Fan Deg) \\
+        FD004 & 248 & 249 & 6              & 2 (HPC + Fan Deg) \\
+        \bottomrule
+    \end{tabular}
+    \caption{Overview of the C-MAPSS dataset subsets \cite{Saxena2008}.}
+    \label{tab:CMAPSS}
+\end{table}
 
-\section{}
-Discuss prior interpretability work regarding RUL prediction
+FD001 is the simples case, one operating condition, one fault mode. FD004, with six operating conditioins and two fault modes, is the hardest. The multi-condition subsets (FD002 and FD004) contain roughly two and a half times as many engines, reflecting the additional variablility. C-MAPSS has appeared in well over a hundred publications since its release and remains the go-to benchmakr, mostly because nothing else offers the same scale with controlled degradation across multiple regimes.
+
+Nearly all C-MAPSS studies adopt a piecewise linear(PwL) labelling scheme for the RUL target. \cite{Heimes2008} showed with a multilayer perceptron that prediction improve when the early, healthy portion of each trajectory is assigned a constant RUL rather than a linearly decreasing one. The reasoning is straightforward: sensors show no measurable degradation in the early cycles, so there is nothing in the data to distinguish an engine at cycle 10 from one at cycle 50. Assigning a constant cap avoids forcing the model to learn distinctions that the sensor readings do ot support. Heimes set this cap at 130 cycles. Later work has used values between 115 and 130; this thesis uses 125, which is among the most common choices. The value is heruistic, and it matters, particularly on FD002 and FD004, where trajectory lengths vary more.
+
+The first generation of data-driven RUL methods relied on classical machine learning. \cite{Wang2008} won the PHM 2008 challenge with a similarity-based algorithm. Support vector machines, random forests and ensemble approaches followed. \cite{Ramasso2014} reviewed this body of work and noted a recurring dependence on hand-crafted health indicators, features built from domain knowledge about which sensors degrade and how. This is effective, but hard to scale.
+
+Deep learning changed that. \cite{SateeshBabu2016} were among the first to apply a deep Convolutional Neural Network (CNN) to RUL prediction, treating the problem as a regression over multivariate time-series inputs. \cite{Li2018} extended this direction with a deeper architecture and a systematic sliding-window sample preparation scheme, feeding raw sensor data directly into the network without manual feature engineering. Their model outperformed most prior methods on C-MAPSS and became one of the most cited CNN-based approaches in the prognostics literature. Long Short-Term Memory(LSTM)-based approaches appeared around the same time \citep{Zheng2017,Wu2018}, exploiting the sequential structure of the degradation data. Hybrid architectures combining CNN feature extraction with LSTM temporal modelling soon followed (e.g., \cite{Zhao2017}), and attention mechanisms were layered on top, for instance, \cite{LiCBAM2022} added a convolutional block attention module (CBAM) to a CNN-LSTM on C-MAPSS, allowing the model to weight sensor channels and time steps selectively. Transformer-based models and domain adaptation techniques are the most recent additions, through the core task, predicting a scalar RUL from a sensor window, has stayed the same throughout.
+
+The model in this thesis is a 1D-CNN: convolutional layers for feature extraction, fully connected layers for regression. No recurrence, no attention, no gating. That structural simplicity matters here, because the focus is on interpretability. Fewer internal mechanism mean fewer confounding factors when attributing prediction back to individual input features.
+
+\section{Explaibale Artificial Intelligence in Prognostics}
+Strong RUL predictions are not enough on their own. In aviation maintenance, where sensor readings feed into decision about grounding aircraft or scheduling inspections, engineers need to understand what a model is responding to. A prediction driven by physically meaningful degradation signals is useful; one driven by spurious correlations in the training data is dangerous. This tension between predictive accuracy and interpretaility runs through the broader machine learning literature \cite{Rudin2019}, but it is especially acute in satey-critical prognostics, where a wrong explanatino attached to a correct prediction can mislead maintenance decisions just as badly as an incorrect prediction.
+
+Applying XAI to prognostic models is still uncommon. \cite{Serradilla2020} applied Local Interpretable Model-agnostic Explanations (LIME; \cite{ribeiro2016modelagnosticinterpretabilitymachinelearning}) permutation-based feature importance to a random forest-based RUL estimator for industrial bushings, using the explanations alongside domain knowledge to guide model development. Theier work demonstrated the principle, that XAI tools can do more than just post-hoc reporting, but was limited to a relatively simple model on non-aviation data.
+
+On C-MAPSS specifically, \cite{Hong2020} were among the first, using SHapley Additive exPlanations (SHAP; \citep{lundberg2017unifiedapproachinterpretingmodel}) on a deep CNN-Bidirectional LSTM. They first reduced the sensor set through correlation analysis and regularisation, then ran SHAP on the reduced inputs. The resulting force plots broke down individual predictions by sensor contribution. Useful as a proof of concept, but the analysis only covered one explanation method, and because sensors had already been filtered before the SHAP step, the attributions described a pre-selected feature space rathen than what the model would have learned from the full suite.
+
+\cite{Baptista2022} compared SHAP attributions against traditional prognostic metrics, monotonicity, trendability, prognostability, that are commonlgy used to assess sensor quality before modelling. The two did not always agree: sensor scoring well on prognostic metrics were not necessarily the ones the trained model weighted most heavily. That disconnect says something about the gap between a priori feature assessment and what a network actually extracts from the data during training.
+
+\cite{Baptista2024} then turned to LIME \citep{ribeiro2016modelagnosticinterpretabilitymachinelearning}, applying it to a Gated Recurrent Unit(GRU) Network on C-MAPSS. LIME recovered both global and local feature importance, but the local explanation quality was uneven. Late in the degradation trajectory, where the signal is strong and clear, surrogate fidelity was reasonable. Early in life, with weak degradation signatures and noisy readings, it dropped off sharply, a known limitation of perturbation-based methods on time-series data, but worth confirming empirically.
+
+\cite{Alomari2023} took SHAP in a different direction,, using it not just for post-hoc explanation but as part of the feature selection pipeline before training. Similar workflows have since appeared, coupling SHAP-based selection with CNN-LSTM or Temporal Convolutional Networks (TCN)-LSTM architectures. \cite{Gawde2024} applied four methods - SHAP, LIME, Partiall Dependence Plots (PDP), and Individual Conditional Expectation (ICE; \cite{goldstein_peeking_2015}) - to rotating machinery health monitoring, demonstrating a multi-method comparison, through on a different domain and with classical ML models rather than deep networks.
+
+The methodological range across the C-MAPSS prognostics literature remains narrow. SHAP dominates. LIME appears occasionally. Gradient-based attribution methods, marginal-effect methods, and counterfactual approaches, all well estabileshed in the broader XAI field (see \ref{Chapter:Background}), are absent from C-MAPSS RUL work almost entirely. The few multi-method studies that do exist, like \cite{Gawde2024}, apply to different equipment and simpler models. On deep networks trained for turbofan prognostics, no comparative evaluation has been carried out.
 
 \section{Research Gap and Thesis Positioning}
-prior work does NOT compare single vs combined models
+The literature reviewed above reveals two things. First, deep learning models for RUL prediction on C-MAPSS have matured rapidly, from basic CNNs and LSTMs to attention-augmented hybrids and Transformers, but the question of what these models actually learn from the sensor data has received far less attention. Second, the small body of work that does address interpretability in this domain relies almost exlusively on SHAP, occasionally LIME, applied in isolation to a single architecture.
 
-limited comparison of feature importance redistribution
+This is a problem, because different explanation methods operate on different principles and can produce differnt, sometimes contradictory, results for the same model and input. A gradient-based method like Integrated Gradients \citep{sundararajan2017axiomaticattributiondeepnetworks} traces attributions through the network's own parameters. A perturbation-based method like Permutation Feature Importance \citep{BreimanRandomForest} observes how prediction change when inputs are shuffled. A marginal-effect method like Accumulated Local Effects (ALE; \cite{apley2019visualizingeffectspredictorvariables}) characterise the prediction surface shifts as a single feature varies. Relying on one method alone risks mistaking that method's particular perspective for a complete picture of the model's behaviour.
 
-limited analysis of RUL in DANN Architectures
+This thesis addresses the gap by applying eight feature importance methods (see \ref{Chapter:Background}) to a 1D CNN trained on a variety of subset combinations of all four C-MAPSS subsets. The contribution is not just an expanded set of explanations, but a systematic comparison, identifying where methods agree on which sensor drive the model's prediction, where they diverge and what effect the different subset combinations have on the model.

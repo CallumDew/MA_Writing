@@ -100,7 +100,7 @@ The \textbf{Label Predictor} maps the 64-dimensioinal feature vector to a scalar
 
 %The optional \textbf{Domain Classifier} receives the feature vector after it has passed through a Gradient Reversal lLayer, which negates gradients during backpropagation with a scaling factor $\alpha$. This adversarial signal encourages the featrure extractor to produce domain-invariant representations when training across multiples CMAPSS sub-datasets. The domain classifier architecture is a single fully connected layer with batch normalization. For the remainder of the thesis, the domain classifier is only used in the "All Models System" configuration, where data from all four CMAPSS sub-datasets are combined for training. In the single and pairwise model setups, the domain classifier is omitted to focus on feature importance within a single domain.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{bilder/Methodology/architecture_diagram.pdf}
     \caption{Architecture of the 1D convolutional neural network. The red window illustrates the receptive field of the convolutional kernel ($k=5$). Green: feature extractor, blue: label predictor.}
@@ -116,19 +116,50 @@ All models are trained to minimise the mean squared error (MSE) between the pred
 
 The models are trained with the following subset combinations.
 
-\subsection{Single model setup}
-Four single-dataset models are trained, one for each CMAPSS sub-dataset (FD001, FD002, FD003, and FD004). Each model sees only the data from its respective sub-datasest during training. These models allow feature importance to be analysed individually per subb-datset, revealing whether different operating conditions and fault moded lead to systematically different feature reliance.
+\subsection{Model Configurations}
 
-\subsection{Pairwise model setup}
-Six pairwise models are trained, one for each combination of two CMAPSS sub-dataset: FD001+FD002, FD001+FD003, FD001+FD004, FD002+FD003, FD002+FD004, and FD003+FD004. Training data from both sub-datasets are concatenated and used jointly. the motivation for this setup is to examine how feature importance redistributes when a model must reconcile two distinct operating regimes simultaneously, without yet being exposed to the full diversity of all four sub-datasets.
+Three training configurations are studied, differing only in the subset of CMAPSS data used during training. The four single-dataset models each train on one sub-dataset in isolation and serve as the baseline for feature importance behaviour under a single operating condition. The six pairwise models each train on the concatenated data from two sub-datasets, allowing examination of how feature importance shifts when a model must generalise across two distinct operating regimes simultaneously. The full-dataset model trains on all four sub-datasets combined and represents the most demanding generalisation scenario. Table~\ref{tab:models} gives an overview of all eleven model configurations.
 
-\subsection{All models system}
-A single model is trained on the combined data from all four CMAPSS sub-satasets. This configuration represents the most demanding generalistaion scenario and serves as the counterpart to the single-dataset models, allowing a direct comparison of feature importance under narrow versus broad training distributions.
+\begin{table}[h]
+\centering
+\caption{Overview of all model configurations used in this work.}
+\label{tab:models}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Configuration} & \textbf{Training data} & \textbf{No.\ of models} \\
+\midrule
+Single   & FD001                         & \\
+         & FD002                         & \\
+         & FD003                         & \\
+         & FD004                         & 4 \\
+\midrule
+Pairwise & FD001 + FD002                 & \\
+         & FD001 + FD003                 & \\
+         & FD001 + FD004                 & \\
+         & FD002 + FD003                 & \\
+         & FD002 + FD004                 & \\
+         & FD003 + FD004                 & 6 \\
+\midrule
+Full     & FD001 + FD002 + FD003 + FD004 & 1 \\
+\midrule
+\textbf{Total} & & \textbf{11} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%\subsection{Single model setup}
+%Four single-dataset models are trained, one for each CMAPSS sub-dataset (FD001, FD002, FD003, and FD004). Each model sees only the data from its respective sub-datasest during training. These models allow feature importance to be analysed individually per subb-datset, revealing whether different operating conditions and fault moded lead to systematically different feature reliance.
+
+%\subsection{Pairwise model setup}
+%Six pairwise models are trained, one for each combination of two CMAPSS sub-dataset: FD001+FD002, FD001+FD003, FD001+FD004, FD002+FD003, FD002+FD004, and FD003+FD004. Training data from both sub-datasets are concatenated and used jointly. the motivation for this setup is to examine how feature importance redistributes when a model must reconcile two distinct operating regimes simultaneously, without yet being exposed to the full diversity of all four sub-datasets.
+
+%\subsection{All models system}
+%A single model is trained on the combined data from all four CMAPSS sub-satasets. This configuration represents the most demanding generalistaion scenario and serves as the counterpart to the single-dataset models, allowing a direct comparison of feature importance under narrow versus broad training distributions.
 
 \section{Implementation of Feature Importance Methods}
 All eight feature importance methods are applied post-hoc to the trained models, without any modification of the learned weights. A central implementation challenge shared across all methods is the multivariate time-series structure of the input: each sample is a tensor of shape (N x 13 x 70), where the 13 sensor channels and 70 time steps together constitute the model's input spcae. Most standard feature importance implementations assume a tabular input where each column corresponds to an independent scalar feature. Applying these methods to a sequence model therefore requires deliberate desing dicisions about how features are defined, how perturbations are applied and how attributions over the temporal dimesnion are reduced to a per-sensor importance score. Unless stated otherwise, the full temporal extent of a sensor channel is treated as a single unit, perturbations are applied uniformly across all 70 time steps of a given sensor simultaneously and the resulting attributions are aggregated over time to yield a scalar importance score per sensor. This choice reflects the physically motivated view that a sensor's contribution to the RUL prediction should be attributed to the sensor as a whole rather than decomposed into individual time steps, which would result in a 910-dimensional attribution space that is difficutlt to interpret and compare across methods.
 
-\textbf{Individual Conditional Expectation (ICE)}: For each of the 13 sensors, a uniform grid of 20 values is constructed between the 5th and 95th empirical percentile of that sensor's observed values across the dataset. The percentile bound are used in place of the global minimum and maximum to avoid evaluatiing the model in the tails of the distribution, where training data is sparse and prediction may be unreliable. For each grid value $g$ and each instance in the dataset, the entire time series of sensor $j$ is replaced by the constant value $g$, that is, $x_{j,t} = g$ for all $t \in [1, 70]$, while all remaining sensor channels are kept at their observed values. This produces one ICE curve per instance, tracing how the predicted RUL changes as sensor $j$ is swept across its range in isolation. The PDP is then computed as the pointwise mean of all ICE curves. Feature importance is derived as the range of the PDP curve, defined as the difference between its maximum and minmimum values, which captures the total variation in average predicted RUL attributable to sensor $j$.
+\textbf{Individual Conditional Expectation (ICE)}: For each of the 13 sensors, a uniform grid of 20 values is constructed between the 5th and 95th empirical percentile of that sensor's observed values across the dataset. The percentile bound are used in place of the global minimum and maximum to avoid evaluatiing the model in the tails of the distribution, where training data is sparse and prediction may be unreliable. For each grid value $g$ and each instance in the dataset, the entire time series of sensor $j$ is replaced by the constant value $g$, that is, $x_{j,t} = g$ for all $t \in [1, 70]$, while all remaining sensor channels are kept at their observed values. This produces one ICE curve per instance, tracing how the predicted RUL changes as sensor $j$ is swept across its range in isolation. The PDP is then computed as the pointwise mean of all ICE curves. Feature importance is derived as $\mathrm{ICE\text{-}FI}_j$ (see \ref{equation:ICE-FI}), measuring the mean variance of ICE curves across all instances.
 
 \textbf{Feature Ablation}: The implementation follows the grouped ablatioin scheme provided by Captums's \textsl{FeatureAblation}, in which all 70 timesteps belonging to a given sensor channel are masked simultaneously as a single group rather than independently. This sensor-grouped formulation is essential for the present setting: ablating individual timesteps in isolation would produce attributions across 910 independent input positions, making cross-method comparison difficult and reducing the physical interpretability of the results. When sensor $j$ is ablated, its entire time series is replaced by the training set mean computed independently for each channel, representing the expected signal in the absence of informative variation. Attributions are defined as the absolute change in prediction relative to the unpertrubed output, and global feature importance is obtained by averaging these absolute differences over all instances in the evaluation set.
 
@@ -140,7 +171,7 @@ All eight feature importance methods are applied post-hoc to the trained models,
 
 \textbf{Permutation Feature Importance}: For each sensor channel, its values are permuted randomly across all N samples in the evaluation set, while all other channels remain at their original values. This destroys the statistical association between that sensor and the target RUL without altering the marginal distribution of the sensor's values, so any resulting drop in predictive performance can be attributed to the loss of that sensor's information. Performance is measured as MSE on the normaliised RUL scale. To account for variablity in the permutation, the procedure is repeated with 5 independent random permutations and the mean and standard deviation of the MSE increase are reported per sensor. The use of 5 repeats provides a sufficiently stable estimate for 13 sensors while keeping the total number of model evaluation manageable.
 
-\textbf{Accumulated Local Effects}: The domain of each sensor is partitioned into 20 bins using quantile-based bin edges, so that each bin contains approximately the same number of samples. Quantile-based binning is preferred over unifrom binning because sensor distributions may be skewed after operating-condition-specific normalisation and equal-frequency bins ensure that local effect estimates are based on suffiecient data throughout the feature range. Bin membership for each sample is determined by the mean value of that sensor's time series, which reduces the (N x L) sensor values to a scalar per sample for assignment purposes. Within each bin, the local prediction difference is computed by replacing the entire time series of senso $j$ with the lower and uper bin boundary values in turm, and recording the resulting change in model output. These local differences are averaged within each bin and then accumulated across bins following \ref{equation:ALE_centering}. The accumulated effect curve is centered to zero mean over the empirical distribution of sensor values. A scalar importance scoe is derived as the range of the centered ALE curve, reflecting the total span of predicted RUL variation attributable to that senos under the local conditional distribution.
+\textbf{Accumulated Local Effects}: The domain of each sensor is partitioned into 20 bins using quantile-based bin edges, so that each bin contains approximately the same number of samples. Quantile-based binning is preferred over unifrom binning because sensor distributions may be skewed after operating-condition-specific normalisation and equal-frequency bins ensure that local effect estimates are based on suffiecient data throughout the feature range. Bin membership for each sample is determined by the mean value of that sensor's time series, which reduces the (N x L) sensor values to a scalar per sample for assignment purposes. Within each bin, the local prediction difference is computed by replacing the entire time series of senso $j$ with the lower and uper bin boundary values in turm, and recording the resulting change in model output. These local differences are averaged within each bin and then accumulated across bins following \ref{equation:ALE_center}. The accumulated effect curve is centered to zero mean over the empirical distribution of sensor values. A scalar importance scoe is derived as the range of the centered ALE curve, reflecting the total span of predicted RUL variation attributable to that senos under the local conditional distribution.
 
 \textbf{Integrated Gradients}: The implementation uses Captum's \texttt{IntegratedGradients} with 100 integration steps and the Gauss--Legendre quadrature approximation, which provides a more accurate estimate of the path integral than a simple Riemann sum for the same number of steps. The \texttt{multiply\_by\_inputs} flag is set to \texttt{True}, which scales each gradient by the difference between the input and the baseline. This ensures that the completeness property holds, i.e.\ the sum of attributions over all input dimensions equals the difference between the model's prediction at the input and at the baseline. A zero-valued tensor of shape $(1 \times 13 \times 70)$ is used as the baseline, consistent with the choice made for SHAP and Feature Ablation. Since all sensor values lie in $[0,1]$ after MinMax normalisation, a zero baseline represents a meaningful reference state corresponding to the minimum observed sensor value in each channel. Attributions are computed per instance over the full $(13 \times 70)$ input space, absolute values are taken to reflect attribution magnitude regardless of sign, and the temporal dimension is averaged to yield a per-sensor importance score of shape $(13,)$.
 

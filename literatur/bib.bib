@@ -226,7 +226,7 @@ eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.39.10.1095}}
   doi     = {10.1115/1.4026126}
 }
 
-@techreport{Saxena2008,
+@techreport{Saxena2008_turbofan,
   author      = {Saxena, Abhinav and Goebel, Kai},
   title       = {Turbofan Engine Degradation Simulation Data Set},
   institution = {NASA Ames Research Center},
@@ -292,13 +292,6 @@ eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.39.10.1095}}
   publisher = {Springer}
 }
 
-@inproceedings{Zheng2017,
-  author    = {Zheng, Shun and Ristovski, Kristijan and Farahat, Ahmed and Gupta, Chetan},
-  title     = {Long short-term memory network for remaining useful life estimation},
-  booktitle = {Proceedings of the IEEE International Conference on Prognostics and Health Management},
-  year      = {2017}
-}
-
 % ================================
 % Interpretability & XAI
 % ================================
@@ -338,3 +331,214 @@ eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.39.10.1095}}
   year      = {2022},
   note      = {Available online}
 }
+
+
+% ===========================================================
+% Related Work References — Complete and Verified
+% ===========================================================
+ 
+% --- Dataset and RUL Labelling ---
+ 
+@inproceedings{Saxena2008,
+  author    = {Saxena, Abhinav and Goebel, Kai and Simon, Don and Eklund, Neil},
+  title     = {Damage Propagation Modeling for Aircraft Engine Run-to-Failure Simulation},
+  booktitle = {2008 International Conference on Prognostics and Health Management},
+  year      = {2008},
+  pages     = {1--9},
+  publisher = {IEEE},
+  address   = {Denver, CO, USA},
+  doi       = {10.1109/PHM.2008.4711414},
+}
+ 
+@inproceedings{Heimes2008,
+  author    = {Heimes, Felix O.},
+  title     = {Recurrent Neural Networks for Remaining Useful Life Estimation},
+  booktitle = {2008 International Conference on Prognostics and Health Management},
+  year      = {2008},
+  pages     = {1--6},
+  publisher = {IEEE},
+  address   = {Denver, CO, USA},
+  doi       = {10.1109/PHM.2008.4711422},
+}
+ 
+% --- Classical ML on C-MAPSS ---
+ 
+@inproceedings{Wang2008,
+  author    = {Wang, Tianyi and Yu, Jianbo and Siegel, David and Lee, Jay},
+  title     = {A Similarity-Based Prognostics Approach for Remaining Useful Life Estimation of Engineered Systems},
+  booktitle = {2008 International Conference on Prognostics and Health Management},
+  year      = {2008},
+  pages     = {1--6},
+  publisher = {IEEE},
+  address   = {Denver, CO, USA},
+  doi       = {10.1109/PHM.2008.4711421},
+}
+ 
+
+@article{Ramasso2014,
+  author  = {Ramasso, Emmanuel and Saxena, Abhinav},
+  title   = {Performance Benchmarking and Analysis of Prognostic Methods for {CMAPSS} Datasets},
+  journal = {International Journal of Prognostics and Health Management},
+  year    = {2014},
+  volume  = {5},
+  number  = {2},
+  pages   = {1--15},
+}
+ 
+% --- Deep Learning for RUL ---
+ 
+@article{Li2018,
+  author  = {Li, Xiang and Ding, Qian and Sun, Jian-Qiao},
+  title   = {Remaining Useful Life Estimation in Prognostics Using Deep Convolution Neural Networks},
+  journal = {Reliability Engineering \& System Safety},
+  year    = {2018},
+  volume  = {172},
+  pages   = {1--11},
+  doi     = {10.1016/j.ress.2017.11.021},
+}
+ 
+@inproceedings{Zheng2017,
+  author    = {Zheng, Shuai and Ristovski, Kosta and Farahat, Ahmed and Gupta, Chetan},
+  title     = {Long Short-Term Memory Network for Remaining Useful Life Estimation},
+  booktitle = {2017 IEEE International Conference on Prognostics and Health Management (ICPHM)},
+  year      = {2017},
+  pages     = {88--95},
+  publisher = {IEEE},
+  address   = {Dallas, TX, USA},
+  doi       = {10.1109/ICPHM.2017.7998311},
+}
+ 
+@article{Wu2018,
+  author  = {Wu, Yuting and Yuan, Mei and Dong, Shaopeng and Lin, Li and Liu, Yongqian},
+  title   = {Remaining Useful Life Estimation of Engineered Systems Using Vanilla {LSTM} Neural Networks},
+  journal = {Neurocomputing},
+  year    = {2018},
+  volume  = {275},
+  pages   = {167--179},
+  doi     = {10.1016/j.neucom.2017.05.063},
+}
+ 
+% ADDED: for "Hybrid CNN-LSTM architectures" claim
+@article{Zhao2017,
+  author  = {Zhao, Rui and Yan, Ruqiang and Wang, Jinjiang and Mao, Kezhi},
+  title   = {Learning to Monitor Machine Health with Convolutional Bi-Directional {LSTM} Networks},
+  journal = {Sensors},
+  year    = {2017},
+  volume  = {17},
+  number  = {2},
+  pages   = {273},
+  doi     = {10.3390/s17020273},
+}
+ 
+% --- XAI in Prognostics ---
+ 
+@article{Hong2020,
+  author  = {Hong, Chang Woo and Lee, Changmin and Lee, Kwangsuk and Ko, Min-Seung and Kim, Dae Eun and Hur, Kyeon},
+  title   = {Remaining Useful Life Prognosis for Turbofan Engine Using Explainable Deep Neural Networks with Dimensionality Reduction},
+  journal = {Sensors},
+  year    = {2020},
+  volume  = {20},
+  number  = {22},
+  pages   = {6626},
+  doi     = {10.3390/s20226626},
+}
+ 
+@article{Baptista2022,
+  author  = {Baptista, Marcia L. and Goebel, Kai and Henriques, Elsa M. P.},
+  title   = {Relation Between Prognostics Predictor Evaluation Metrics and Local Interpretability {SHAP} Values},
+  journal = {Artificial Intelligence},
+  year    = {2022},
+  volume  = {306},
+  pages   = {103667},
+  doi     = {10.1016/j.artint.2022.103667},
+}
+ 
+@inproceedings{Baptista2024,
+  author    = {Baptista, Marcia L. and Mishra, Madhav and Henriques, Elsa and Prendinger, Helmut},
+  title     = {Using Explainable Artificial Intelligence to Interpret Remaining Useful Life Estimation with Gated Recurrent Unit},
+  booktitle = {Annual Conference of the PHM Society},
+  year      = {2024},
+  volume    = {16},
+  doi       = {10.36001/phmconf.2024.v16i1.4124},
+}
+ 
+@article{Alomari2023,
+  author  = {Alomari, Yazan and And\'{o}, M\'{a}ty\'{a}s and Baptista, Marcia L.},
+  title   = {Advancing Aircraft Engine {RUL} Predictions: An Interpretable Integrated Approach of Feature Engineering and Aggregated Feature Importance},
+  journal = {Scientific Reports},
+  year    = {2023},
+  volume  = {13},
+  number  = {1},
+  pages   = {13466},
+  doi     = {10.1038/s41598-023-40315-1},
+}
+
+% --- Data-Driven RUL: additional sources ---
+ 
+@inproceedings{SateeshBabu2016,
+  author    = {Sateesh Babu, Giduthuri and Zhao, Peilin and Li, Xiao-Li},
+  title     = {Deep Convolutional Neural Network Based Regression Approach for Estimation of Remaining Useful Life},
+  booktitle = {Database Systems for Advanced Applications (DASFAA 2016)},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {9642},
+  pages     = {214--228},
+  year      = {2016},
+  publisher = {Springer},
+  address   = {Cham},
+  doi       = {10.1007/978-3-319-32025-0_14},
+}
+ 
+@article{LiCBAM2022,
+  author  = {Li, Hao and Wang, Zhuojian and Li, Zhenglin},
+  title   = {An Enhanced {CNN-LSTM} Remaining Useful Life Prediction Model for Aircraft Engine with Attention Mechanism},
+  journal = {PeerJ Computer Science},
+  year    = {2022},
+  volume  = {8},
+  pages   = {e1084},
+  doi     = {10.7717/peerj-cs.1084},
+}
+ 
+@article{AriasChao2021,
+  author  = {Arias Chao, Manuel and Kulkarni, Chetan and Goebel, Kai and Fink, Olga},
+  title   = {Aircraft Engine Run-to-Failure Dataset Under Real Flight Conditions for Prognostics and Diagnostics},
+  journal = {Data},
+  year    = {2021},
+  volume  = {6},
+  number  = {1},
+  pages   = {5},
+  doi     = {10.3390/data6010005},
+}
+ 
+% --- XAI in Prognostics: additional sources ---
+ 
+@inproceedings{Serradilla2020,
+  author    = {Serradilla, Oscar and Zugasti, Ekhi and Cernuda, Cristobal and Aranburu, Aitor and de Okariz, Jaime Ramirez and Zurutuza, Urko},
+  title     = {Interpreting Remaining Useful Life Estimations Combining Explainable Artificial Intelligence and Domain Knowledge in Industrial Machinery},
+  booktitle = {2020 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE)},
+  year      = {2020},
+  pages     = {1--8},
+  publisher = {IEEE},
+  doi       = {10.1109/FUZZ48607.2020.9177537},
+}
+ 
+@article{Gawde2024,
+  author  = {Gawde, Sujay and Patil, Shruti and Kumar, Satish and Kamat, Pooja and Kotecha, Ketan and Alfarhood, Sultan},
+  title   = {Explainable Predictive Maintenance of Rotating Machines Using {LIME}, {SHAP}, {PDP}, {ICE}},
+  journal = {IEEE Access},
+  year    = {2024},
+  volume  = {12},
+  pages   = {29345--29361},
+  doi     = {10.1109/ACCESS.2024.3368510},
+}
+ 
+@article{Rudin2019,
+  author  = {Rudin, Cynthia},
+  title   = {Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead},
+  journal = {Nature Machine Intelligence},
+  year    = {2019},
+  volume  = {1},
+  number  = {5},
+  pages   = {206--215},
+  doi     = {10.1038/s42256-019-0048-x},
+}
+ 
