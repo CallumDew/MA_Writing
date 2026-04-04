@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.19)  4 APR 2026 11:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.19)  4 APR 2026 20:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -994,7 +994,12 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 
 
 
-] (./gesamt.lof)
+] (./gesamt.lof
+Overfull \hbox (5.39604pt too wide) in paragraph at lines 11--11
+ [][] [][][]\T1/ptm/m/n/12 Verification of fea-ture im-por-tance im-ple-men-ta-tions on a lin-ear model with known 
+ []
+
+)
 \tf@lof=\write5
 \openout5 = `gesamt.lof'.
 
@@ -1116,7 +1121,7 @@ Package scrreprt Warning: Usage of \@startsection detected.
 
 
 ]
-<bilder/Methodology/cmapss_input_tensor.pdf, id=382, 1475.5125pt x 836.12375pt>
+<bilder/Methodology/cmapss_input_tensor.pdf, id=407, 1475.5125pt x 836.12375pt>
 File: bilder/Methodology/cmapss_input_tensor.pdf Graphic file (type pdf)
 <use bilder/Methodology/cmapss_input_tensor.pdf>
 Package pdftex.def Info: bilder/Methodology/cmapss_input_tensor.pdf  used on input line 50.
@@ -1138,7 +1143,7 @@ Overfull \hbox (2.10701pt too wide) in paragraph at lines 95--96
 \T1/ptm/m/n/12 All model vari-ants used in this the-sis share a com-mon ar-chi-tec-ture base on a Domain-Adversarial
  []
 
-<bilder/Methodology/architecture_diagram.pdf, id=440, 736.7525pt x 836.12375pt>
+<bilder/Methodology/architecture_diagram.pdf, id=465, 736.7525pt x 836.12375pt>
 File: bilder/Methodology/architecture_diagram.pdf Graphic file (type pdf)
 <use bilder/Methodology/architecture_diagram.pdf>
 Package pdftex.def Info: bilder/Methodology/architecture_diagram.pdf  used on input line 105.
@@ -1202,13 +1207,87 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
+<bilder/Results/golden_test_weights.pdf, id=567, 1475.5125pt x 836.12375pt>
+File: bilder/Results/golden_test_weights.pdf Graphic file (type pdf)
+<use bilder/Results/golden_test_weights.pdf>
+Package pdftex.def Info: bilder/Results/golden_test_weights.pdf  used on input line 24.
+(pdftex.def)             Requested size: 455.24408pt x 257.97089pt.
+[20
+
+
+
+ <./bilder/Results/golden_test_weights.pdf>]
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                15.
+(scrreprt)                39.
+(scrreprt)                If you need additional sectioning commands, you
+(scrreprt)                should define them using \DeclareNewSectionCommand
+(scrreprt)                instead.
+
+[21]
+
+LaTeX Warning: Reference `fig:shap_beeswarm' on page 22 undefined on input line 60.
+
+
+LaTeX Warning: Reference `fig:shap_waterfall' on page 22 undefined on input line 68.
+
+[22]
+
+Package scrreprt Warning: Usage of \@startsection detected.
+(scrreprt)                Note, the sectioning of scrreprt does neither use
+(scrreprt)                nor support the usage of \@startsection command.
+(scrreprt)                This means, that none of the KOMA-Script features
+(scrreprt)                for headings is available for the heading on line
+(scrreprt)                77.
+(scrreprt)                If you need additional sectioning commands, you
+(scrreprt)                should define them using \DeclareNewSectionCommand
+(scrreprt)                instead.
+
+<bilder/Results/compare_methods_single_FD001.pdf, id=755, 1130.85928pt x 488.2435pt>
+File: bilder/Results/compare_methods_single_FD001.pdf Graphic file (type pdf)
+<use bilder/Results/compare_methods_single_FD001.pdf>
+Package pdftex.def Info: bilder/Results/compare_methods_single_FD001.pdf  used on input line 83.
+(pdftex.def)             Requested size: 455.24408pt x 196.54553pt.
+[23 <./bilder/Results/compare_methods_single_FD001.pdf>]
+<bilder/Results/compare_methods_single_FD002.pdf, id=803, 1130.85928pt x 488.2435pt>
+File: bilder/Results/compare_methods_single_FD002.pdf Graphic file (type pdf)
+<use bilder/Results/compare_methods_single_FD002.pdf>
+Package pdftex.def Info: bilder/Results/compare_methods_single_FD002.pdf  used on input line 92.
+(pdftex.def)             Requested size: 455.24408pt x 196.54553pt.
+<bilder/Results/compare_methods_pairwise_FD001_FD002.pdf, id=804, 974.84636pt x 415.97351pt>
+File: bilder/Results/compare_methods_pairwise_FD001_FD002.pdf Graphic file (type pdf)
+<use bilder/Results/compare_methods_pairwise_FD001_FD002.pdf>
+Package pdftex.def Info: bilder/Results/compare_methods_pairwise_FD001_FD002.pdf  used on input line 104.
+(pdftex.def)             Requested size: 455.24408pt x 194.25082pt.
+<bilder/Results/compare_methods_all_all.pdf, id=805, 986.31927pt x 415.97351pt>
+File: bilder/Results/compare_methods_all_all.pdf Graphic file (type pdf)
+<use bilder/Results/compare_methods_all_all.pdf>
+Package pdftex.def Info: bilder/Results/compare_methods_all_all.pdf  used on input line 113.
+(pdftex.def)             Requested size: 455.24408pt x 191.9912pt.
+ [24 <./bilder/Results/compare_methods_single_FD002.pdf>]
+
+Package scrreprt Warning: Usage of \@startsection detected.
+(scrreprt)                Note, the sectioning of scrreprt does neither use
+(scrreprt)                nor support the usage of \@startsection command.
+(scrreprt)                This means, that none of the KOMA-Script features
+(scrreprt)                for headings is available for the heading on line
+(scrreprt)                120.
+(scrreprt)                If you need additional sectioning commands, you
+(scrreprt)                should define them using \DeclareNewSectionCommand
+(scrreprt)                instead.
+
+[25 <./bilder/Results/compare_methods_pairwise_FD001_FD002.pdf> <./bilder/Results/compare_methods_all_all.pdf>]
+
+Package scrreprt Warning: Usage of \@startsection detected.
+(scrreprt)                Note, the sectioning of scrreprt does neither use
+(scrreprt)                nor support the usage of \@startsection command.
+(scrreprt)                This means, that none of the KOMA-Script features
+(scrreprt)                for headings is available for the heading on line
+(scrreprt)                139.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
@@ -1219,7 +1298,7 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                22.
+(scrreprt)                142.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
@@ -1230,27 +1309,12 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                25.
+(scrreprt)                148.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-
-Package scrreprt Warning: Usage of \@startsection detected.
-(scrreprt)                Note, the sectioning of scrreprt does neither use
-(scrreprt)                nor support the usage of \@startsection command.
-(scrreprt)                This means, that none of the KOMA-Script features
-(scrreprt)                for headings is available for the heading on line
-(scrreprt)                31.
-(scrreprt)                If you need additional sectioning commands, you
-(scrreprt)                should define them using \DeclareNewSectionCommand
-(scrreprt)                instead.
-
-) (./kapitel/Conclusion.tex [20
-
-
-
-]
+) (./kapitel/Conclusion.tex [26] [27]
 chapter 6.
 
 Package scrreprt Warning: Usage of \@startsection detected.
@@ -1283,15 +1347,15 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) (./literatur/literatur.tex [21
+) (./literatur/literatur.tex [28
 
 
 
-] (./gesamt.bbl [22
+] (./gesamt.bbl [29
 
 
 
-] [23])) (./kapitel/anhang.tex [24]
+] [30])) (./kapitel/anhang.tex [31]
 
 Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                Note, the sectioning of scrreprt does neither use
@@ -1309,38 +1373,42 @@ Package scrreprt Warning: Usage of \@startsection detected.
 (scrreprt)                nor support the usage of \@startsection command.
 (scrreprt)                This means, that none of the KOMA-Script features
 (scrreprt)                for headings is available for the heading on line
-(scrreprt)                36.
+(scrreprt)                16.
 (scrreprt)                If you need additional sectioning commands, you
 (scrreprt)                should define them using \DeclareNewSectionCommand
 (scrreprt)                instead.
 
-) [25
-
-
-
-]
+)
 
 Package natbib Warning: There were undefined citations.
 
-[26] (./gesamt.aux)
+[32
+
+
+
+] (./gesamt.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
  ) 
 Here is how much of TeX's memory you used:
- 32797 strings out of 467525
- 723393 string characters out of 5418982
- 1448095 words of memory out of 5000000
- 61037 multiletter control sequences out of 15000+600000
+ 32866 strings out of 467525
+ 725826 string characters out of 5418982
+ 1449095 words of memory out of 5000000
+ 61085 multiletter control sequences out of 15000+600000
  694606 words of font info for 125 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  108i,20n,107p,11267b,1322s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on gesamt.pdf (33 pages, 430734 bytes).
+Output written on gesamt.pdf (39 pages, 585122 bytes).
 PDF statistics:
- 796 PDF objects out of 1000 (max. 8388607)
- 672 compressed objects within 7 object streams
- 147 named destinations out of 1000 (max. 500000)
- 369 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1224 PDF objects out of 1440 (max. 8388607)
+ 853 compressed objects within 9 object streams
+ 168 named destinations out of 1000 (max. 500000)
+ 442 words of extra memory for PDF output out of 10000 (max. 10000000)
 

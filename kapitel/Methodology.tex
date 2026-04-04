@@ -79,7 +79,7 @@ This transformation prevents the model from being overwhelmed by healthy-state s
 
 Following the piecewise transfromation, RUL labels are normalized to [-1, 1] using a min-max scaling based on the training set:
 \begin{equation}
-    \hat{y} = 2 * \frac{\text{RUL}(t) - \text{RUL}_{\text{min}}}{\text{RUL}_{\text{max}} - \text{RUL}_{\text{min}}} - 1,
+    \hat{y} = 2 \cdot \frac{\text{RUL}(t) - \text{RUL}_{\text{min}}}{\text{RUL}_{\text{max}} - \text{RUL}_{\text{min}}} - 1,
 \end{equation}
 
 where $\text{RUL}_{\text{min}}$ and $\text{RUL}_{\text{max}} = R_c = \text{125}$ by construction, so that a healthy engine at the cap maps to +1 and an engine at failure maps to -1. The same scaling parameters are applied to the test set without re-fitting.

@@ -8,6 +8,11 @@
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Structure of the input tensor for a single sliding window sample, consisting of 13 sensor channels over 70 consecutive time steps. Each slice in the depth direction represents one engine unit.}}{13}{figure.caption.7}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Architecture of the 1D convolutional neural network. The red window illustrates the receptive field of the convolutional kernel ($k=5$). Green: feature extractor, blue: label predictor.}}{15}{figure.caption.8}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Verification of feature importance implementations on a linear model with known weights. Bars show estimated weight; black markers indicate the true weights.}}{20}{figure.caption.10}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces L1-normalised sensor importance across all eight methods for the single-FD001 model. Sensors are ordered by decreasing mean importance.}}{23}{figure.caption.15}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces L1-normalised sensor importance across all eight methods for the single-FD002 model. Sensors are ordered by decreasing mean importance.}}{24}{figure.caption.16}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces L1-normalised sensor importance across all eight methods for the pairwise-FD001-FD002 model. Sensors are ordered by decreasing mean importance.}}{25}{figure.caption.17}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces L1-normalised sensor importance across all eight methods for the model trained on all subsets. Sensors are ordered by decreasing mean importance.}}{25}{figure.caption.18}%
 \addvspace {10\p@ }
 \def \@chapapp {\appendixname }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

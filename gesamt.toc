@@ -31,17 +31,23 @@
 \contentsline {section}{\numberline {4.5}Unified Feature Importance Representation}{19}{section.4.5}%
 \contentsline {chapter}{\numberline {5}Results}{20}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Verification of FI algorithms}{20}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Comparison: Single vs Combined Models}{20}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Feature Importance Results per Method}{20}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Comparison}{20}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Discussion}{20}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Conclusion and Outlook}{21}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Contributions}{21}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Answering the Research Questions}{21}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Outlook}{21}{section.6.3}%
-\contentsline {chapter}{References}{22}{dummy.4}%
+\contentsline {section}{\numberline {5.2}Individual Method Results}{21}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}ICE Curves}{22}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}SHAP Analysis}{22}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Comparative Feature Importance Across Methods}{23}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Single-Dataset Models}{23}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Multi-Dataset Models}{24}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Patterns Across Configuration}{26}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Feature Importance Results per Method}{26}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Comparison}{26}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Discussion}{27}{section.5.7}%
+\contentsline {chapter}{\numberline {6}Conclusion and Outlook}{28}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Contributions}{28}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Answering the Research Questions}{28}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Outlook}{28}{section.6.3}%
+\contentsline {chapter}{References}{29}{dummy.4}%
 \def \@chapapp {\appendixname }
-\contentsline {chapter}{Appendix}{25}{chapter*.11}%
-\contentsline {section}{\numberline {A.1}Anhang 1}{25}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Anhang 2}{25}{section.A.2}%
+\contentsline {chapter}{Appendix}{32}{chapter*.20}%
+\contentsline {section}{\numberline {A.1}Individual Results}{32}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Comparative Results}{32}{section.A.2}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
