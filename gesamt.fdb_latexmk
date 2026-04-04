@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex gesamt"] 1775325776.67152 "gesamt.aux" "gesamt.bbl" "gesamt" 1775325778.65859 0
+["bibtex gesamt"] 1775334784.8059 "gesamt.aux" "gesamt.bbl" "gesamt" 1775334786.51059 0
   "./literatur/bib.bib" 1775291711.60294 21840 acb07a87d3a2e1c331ca49e9635b59ac ""
   "./literatur/itsBibStyle.bst" 1773916594.52878 28302 741670b6b06beb026651d88d0878af2e ""
-  "gesamt.aux" 1775325778.39059 33305 276af180e7aad2ebb535d86bd4469b1a "pdflatex"
+  "gesamt.aux" 1775334786.29123 36860 20183d805611a51d0192d591a4e25055 "pdflatex"
   (generated)
   "gesamt.bbl"
   "gesamt.blg"
   (rewritten before read)
-["pdflatex"] 1775325776.7654 "/Users/callumdew/Desktop/Uni/Master/Thesis/Writing/thesis/gesamt.tex" "gesamt.pdf" "gesamt" 1775325778.65874 0
+["pdflatex"] 1775334784.88584 "/Users/callumdew/Desktop/Uni/Master/Thesis/Writing/thesis/gesamt.tex" "gesamt.pdf" "gesamt" 1775334786.51075 0
   "/Users/callumdew/Desktop/Uni/Master/Thesis/Writing/thesis/gesamt.tex" 1773916594.5266 4599 c97878f125e40eac253ae5b6a306b42a ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -222,18 +222,18 @@
   "bilder/Results/compare_methods_single_FD001.pdf" 1775324489.01902 18130 31eb30e6938b64bf175a3dd2019c6dab ""
   "bilder/Results/compare_methods_single_FD002.pdf" 1775324489.14999 18097 7864dd6124c309698c0bd3659587bd34 ""
   "bilder/Results/golden_test_weights.pdf" 1775314268.43754 88659 8da15350e30c03269b4d326d47f7d6cb ""
-  "gesamt.aux" 1775325778.39059 33305 276af180e7aad2ebb535d86bd4469b1a "pdflatex"
-  "gesamt.bbl" 1775325776.76246 9784 d741584bd76bc9749c00a0895ac956ae "bibtex gesamt"
-  "gesamt.lof" 1775325778.39678 1971 d23eb5dc54b9b82512515c26314bb4ba "pdflatex"
-  "gesamt.lot" 1775325778.39681 719 f9b17482086cb00efcb249259f8d642d "pdflatex"
+  "gesamt.aux" 1775334786.29123 36860 20183d805611a51d0192d591a4e25055 "pdflatex"
+  "gesamt.bbl" 1775334784.88347 9784 d741584bd76bc9749c00a0895ac956ae "bibtex gesamt"
+  "gesamt.lof" 1775334786.29756 1971 d23eb5dc54b9b82512515c26314bb4ba "pdflatex"
+  "gesamt.lot" 1775334786.2976 719 f9b17482086cb00efcb249259f8d642d "pdflatex"
   "gesamt.tex" 1773916594.5266 4599 c97878f125e40eac253ae5b6a306b42a ""
-  "gesamt.toc" 1775325778.39667 4231 7704a2f5f79703e807d823921e6d4eaf "pdflatex"
+  "gesamt.toc" 1775334786.2975 4807 5f737c8df36f4edc237dc56e22eb6763 "pdflatex"
   "kapitel/Background.tex" 1775209190.98366 16693 9ae5a4b922a6ebb30b4677a6ccb20675 ""
   "kapitel/Conclusion.tex" 1773916594.52695 176 c73d5fc8f716a0ea3e9acd9b2cdd9bd7 ""
   "kapitel/Introduction.tex" 1773916594.52721 2501 a5ecae17bf92f9f7a1fc8212bd794ff6 ""
   "kapitel/Methodology.tex" 1775318812.11182 22750 add335e473f52a699de7b89c5087f824 ""
   "kapitel/Related_Work.tex" 1775296485.49663 10814 4d002bde6a62046ff099963e07740460 ""
-  "kapitel/Results.tex" 1775325774.61539 16278 31428cec56eff23abf094fc37e75241f ""
+  "kapitel/Results.tex" 1775334782.78279 18584 4c4bfebff4fe8c2527939fa5ce1d534e ""
   "kapitel/anhang.tex" 1775322643.881 594 7e35b31cb89111af631411c586ad9c84 ""
   "literatur/literatur.tex" 1773916594.52892 627 4fe70499230fc6d8844f644e7dd9ead8 ""
   "sonstiges/ersteseiten.tex" 1773916594.5294 2250 672c8d933f56951a9003664c28aa0b3a ""

@@ -117,7 +117,7 @@ When the model is trained on FD001 and FD002 together, the rankings stabilise so
 
 The all-dataset model shows the most agreement across methods. Sesnor s11 is the clear front-runner, IG, SHAP, FA, ALE and ICE all. plcae it first, with normalised importance between 0.10 and 0.19. LIME assigns it roughly 0.48, continuing its pattern of over concentration. Sensors s4 and s9 follow in the secont tier, with s12, s2 and s15 in the middle ground. PFI deviates again, spiking on s12 ($\sim 0.30$) and s13 ($\sim0.30$) while giving s11 minimal importance. CF distributes importance more evenly than in single-dataset cases but still does not match the consensus ranking.
 
-\section{Patterns Across Configuration}
+\subsection{Patterns Across Configuration}
 Several patterns hold across all four configuration.
 
 The gradient-based and Shapley-based methods, IG, SHAP and FA, tend to cluster together. they rearely disagree on which sensor is most important ant their normalised magnitudes are usually within a few percentage points of each other. ALE often falls close to this cluster as well. These four methods form what might be called the consensus core of the comparison.
@@ -130,20 +130,33 @@ CF does not produce stable or interpretable rankings in this setting. Its result
 
 The transisiton from single-dataset to multi-dataset training reveals a shift in which sensor dominate. On FD001alone, s9 lead. On FD002 and multi-dataset configurations, s11 takes over. This shift is discussed further in the context of the underlying physical degradation mechanism in Section~\ref{sec:discussion}.
 
-global comparison
+\subsection{Additional configurations: FD004 and Cross-Complexity Pairing}
+The previous compariosons covered FD001 (simplest), FD002(multi-condition), a pairwise combination and the full dataset. To round out the picture, this sectionlooks at FD004, the most complex subset, with six operating conditions and two fault modes, and the FD001-FD004 pairing, which puts the simplest and most complex subset together in a single training set.
 
-sensor comparison
+%%%Continue here figure
 
-time comparison
+On FD004 alone, s11 leads for the consensus methods (IG, SHAP, FA, ALE), just as it did on FD002. That is not surprising, both share six operating conditions and s11 appears to carry the most reliable degradation signal when operating-point variablility is high. Sensors s9 and s12 hodl the second tier. What is worth noting is that FD004's two fault modes create a richer training set where no single sensor'spermutation causes the kind of catastrophic error spikes seen on FD002. CF remains diffuse, with no strong preference for any particular sensor.
 
-\section{Feature Importance Results per Method}
-per method analysis
+Comparing FD004 single against FD001 single directly, the contrast is stark. On FD001, s9 dominates and the consensus methods assign it roughly double the importance of any other sensors. The model trained on teh more complex data has learned to spread its reliance across multiple signals rather tahn leanin heavily on one. A pattern that makes sense when operating conditions vary, since any single sensor's value becomes a less clean indicator of degradation state.
 
-\section{Comparison}
-correlation matrices
-feature importance of all methods, summed together -> heat maps
+%% continue here figure
 
-time component 
+The pairwise FD001-FD004 model is interesting because it forces the network to reconcile the simples and most complex subsets. The resulting ranking is close to what the all-datamodel produces: s11, s9 and s12 as the top three, with s4 and s15 following. The consensus methods agree more tightly here than in either single-subset case. This suggests that exposure to both extremes of the complexity spectrum is enough to stabilise the learned feature representation, adding the intermediate subsets (FD002, FD003) contributes less additional information than one might expect. LIME continues to pile importance onto s11 alone and PFI deviates on different sensors than it did on the single models, but neither disrupts the consensus top three.
+
+
+\section{Top-3 Confidence Scoring and Stability Analysis}
+
+\subsection{Confidence Scoring}
+
+\subsection{Mean Importance and Variability}
+
+\subsection{Cross-Confguration Ranking Agreement}
+
+
+
+\section{Temporal Distribution of Feature Importance}
+
+\section{Reduced Sensor Model Performance}
 
 \section{Discussion}
 \label{sec:discussion}
