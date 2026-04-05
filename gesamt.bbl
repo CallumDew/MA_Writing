@@ -1,4 +1,4 @@
-\begin{thebibliography}{33}
+\begin{thebibliography}{35}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Aas et~al.(2021)Aas, Jullum and Løland}]{aas_explaining_2021}
@@ -10,8 +10,9 @@ Aas, Kjersti, Jullum, Martin and Løland, Anders (2021): {\em Explaining individ
 Alomari, Yazan, And\'{o}, M\'{a}ty\'{a}s and Baptista, Marcia~L. (2023): {\em Advancing Aircraft Engine {RUL} Predictions: An Interpretable Integrated Approach of Feature Engineering and Aggregated Feature Importance\/}.
 \newblock Scientific Reports, Bd.~13, S.~13466.
 
-\bibitem[{Apley and Zhu(2019)}]{apley2019visualizingeffectspredictorvariables}
-Apley, Daniel~W. and Zhu, Jingyu (2019): {\em Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models\/}.
+\bibitem[{Apley and Zhu(2020)}]{apley2020ale}
+Apley, Daniel~W. and Zhu, Jingyu (2020): {\em Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models\/}.
+\newblock Journal of the Royal Statistical Society: Series B (Statistical Methodology), Bd.~82, S.~1059--1086.
 
 \bibitem[{Baptista et~al.(2022)Baptista, Goebel and Henriques}]{Baptista2022}
 Baptista, Marcia~L., Goebel, Kai and Henriques, Elsa M.~P. (2022): {\em Relation Between Prognostics Predictor Evaluation Metrics and Local Interpretability {SHAP} Values\/}.
@@ -20,6 +21,10 @@ Baptista, Marcia~L., Goebel, Kai and Henriques, Elsa M.~P. (2022): {\em Relation
 \bibitem[{Baptista et~al.(2024)Baptista, Mishra, Henriques and Prendinger}]{Baptista2024}
 Baptista, Marcia~L., Mishra, Madhav, Henriques, Elsa and Prendinger, Helmut (2024): {\em Using Explainable Artificial Intelligence to Interpret Remaining Useful Life Estimation with Gated Recurrent Unit\/}.
 \newblock In: {\em Annual Conference of the PHM Society\/}, Bd.~16.
+
+\bibitem[{Barredo~Arrieta et~al.(2020)Barredo~Arrieta, D{\'\i}az-Rodr{\'\i}guez, Del~Ser, Bennetot, Tabik, Barbado, Garc{\'\i}a, Gil-L{\'o}pez, Molina, Benjamins, Chatila and Herrera}]{BarredoArrieta2020}
+Barredo~Arrieta, Alejandro, D{\'\i}az-Rodr{\'\i}guez, Natalia, Del~Ser, Javier, Bennetot, Adrien, Tabik, Siham, Barbado, Alberto, Garc{\'\i}a, Salvador, Gil-L{\'o}pez, Sergio, Molina, Daniel, Benjamins, Richard, Chatila, Raja and Herrera, Francisco (2020): {\em Explainable Artificial Intelligence ({XAI}): Concepts, Taxonomies, Opportunities and Challenges Toward Responsible {AI}\/}.
+\newblock Information Fusion, Bd.~58, S.~82--115.
 
 \bibitem[{Breiman(2001)}]{BreimanRandomForest}
 Breiman, Leo (2001): {\em Random Forests\/}.
@@ -46,8 +51,17 @@ Heimes, Felix~O. (2008): {\em Recurrent Neural Networks for Remaining Useful Lif
 Hong, Chang~Woo, Lee, Changmin, Lee, Kwangsuk, Ko, Min-Seung, Kim, Dae~Eun and Hur, Kyeon (2020): {\em Remaining Useful Life Prognosis for Turbofan Engine Using Explainable Deep Neural Networks with Dimensionality Reduction\/}.
 \newblock Sensors, Bd.~20, S.~6626.
 
-\bibitem[{Kusner et~al.(2018)Kusner, Loftus, Russell and Silva}]{kusner2018counterfactualfairness}
+\bibitem[{Jardine et~al.(2006)Jardine, Lin and Banjevic}]{Jardine2006}
+Jardine, Andrew K.~S., Lin, Daming and Banjevic, Dragan (2006): {\em A review on machinery diagnostics and prognostics implementing condition-based maintenance\/}.
+\newblock Mechanical Systems and Signal Processing, Bd.~20, S.~1483--1510.
+
+\bibitem[{Kakarimi et~al.(2020)Kakarimi, Schulte and Zilles}]{karimi2020modelagnosticcounterfactualexplanationsconsequential}
+Kakarimi, Zahra, Schulte, Oliver and Zilles, Sandra (2020): {\em Model-Agnostic Counterfactual Explanations for Consequential Decisions\/}.
+\newblock Proceedings of the AAAI Conference on Artificial Intelligence, Bd.~34, S.~8952--8959.
+
+\bibitem[{Kusner et~al.(2018)Kusner, Loftus, Russell and Silva}]{kusner2018counterfactual}
 Kusner, Matt~J., Loftus, Joshua~R., Russell, Chris and Silva, Ricardo (2018): {\em Counterfactual Fairness\/}.
+\newblock In: {\em Advances in Neural Information Processing Systems 31 (NeurIPS 2018)\/}, S. 4066--4076.
 
 \bibitem[{Li et~al.(2022)Li, Wang and Li}]{LiCBAM2022}
 Li, Hao, Wang, Zhuojian and Li, Zhenglin (2022): {\em An Enhanced {CNN-LSTM} Remaining Useful Life Prediction Model for Aircraft Engine with Attention Mechanism\/}.
@@ -57,24 +71,22 @@ Li, Hao, Wang, Zhuojian and Li, Zhenglin (2022): {\em An Enhanced {CNN-LSTM} Rem
 Li, Xiang, Ding, Qian and Sun, Jian-Qiao (2018): {\em Remaining Useful Life Estimation in Prognostics Using Deep Convolution Neural Networks\/}.
 \newblock Reliability Engineering \& System Safety, Bd.~172, S.~1--11.
 
-\bibitem[{Lundberg and Lee(2017{\natexlab{a}})}]{lundberg2017unifiedapproachinterpretingmodel}
-Lundberg, Scott and Lee, Su-In (2017{\natexlab{a}}): {\em A Unified Approach to Interpreting Model Predictions\/}.
+\bibitem[{Lundberg and Lee(2017)}]{lundberg2017unified}
+Lundberg, Scott~M. and Lee, Su-In (2017): {\em A Unified Approach to Interpreting Model Predictions\/}.
+\newblock In: {\em Advances in Neural Information Processing Systems\/}, Bd.~30, S. 4765--4774.
 
-\bibitem[{Lundberg and Lee(2017{\natexlab{b}})}]{lundberg2017}
-Lundberg, Scott~M. and Lee, Su-In (2017{\natexlab{b}}): {\em A unified approach to interpreting model predictions\/}.
-\newblock In: {\em Advances in Neural Information Processing Systems\/}, Bd.~30.
-
-\bibitem[{Molnar(2022)}]{molnar2022}
-Molnar, Christoph (2022): {\em Interpretable Machine Learning\/}.
-\newblock Leanpub.
-\newblock Available online.
+\bibitem[{Molnar(2025)}]{molnar2023}
+Molnar, Christoph (2025): {\em Interpretable Machine Learning\/}.
+\newblock 3.~ Aufl.
+\newblock ISBN 978-3-911578-03-5.
 
 \bibitem[{Ramasso and Saxena(2014)}]{Ramasso2014}
 Ramasso, Emmanuel and Saxena, Abhinav (2014): {\em Performance Benchmarking and Analysis of Prognostic Methods for {CMAPSS} Datasets\/}.
 \newblock International Journal of Prognostics and Health Management, Bd.~5, S.~1--15.
 
 \bibitem[{Ribeiro et~al.(2016)Ribeiro, Singh and Guestrin}]{ribeiro2016modelagnosticinterpretabilitymachinelearning}
-Ribeiro, Marco~Tulio, Singh, Sameer and Guestrin, Carlos (2016): {\em Model-Agnostic Interpretability of Machine Learning\/}.
+Ribeiro, Marco~Tulio, Singh, Sameer and Guestrin, Carlos (2016): {\em ``Why Should I Trust You?'': Explaining the Predictions of Any Classifier\/}.
+\newblock In: {\em Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining\/}, S. 1135--1144.
 
 \bibitem[{Rudin(2019)}]{Rudin2019}
 Rudin, Cynthia (2019): {\em Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead\/}.
@@ -93,17 +105,20 @@ Serradilla, Oscar, Zugasti, Ekhi, Cernuda, Cristobal, Aranburu, Aitor, de~Okariz
 \newblock In: {\em 2020 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE)\/}, S. 1--8. IEEE.
 
 \bibitem[{Shapley(1953)}]{shapley1953}
-Shapley, L.~S. (1953): {\em Stochastic Games*\/}.
+Shapley, Lloyd~S. (1953): {\em Stochastic Games\/}.
 \newblock Proceedings of the National Academy of Sciences, Bd.~39, S.~1095--1100.
 
 \bibitem[{Sundararajan et~al.(2017)Sundararajan, Taly and Yan}]{sundararajan2017axiomaticattributiondeepnetworks}
 Sundararajan, Mukund, Taly, Ankur and Yan, Qiqi (2017): {\em Axiomatic Attribution for Deep Networks\/}.
+\newblock In: {\em Proceedings of the 34th International Conference on Machine Learning\/}, Bd.~70 von {\em Proceedings of Machine Learning Research\/}, S. 3319--3328. PMLR.
 
 \bibitem[{Verma et~al.(2022)Verma, Boonsanong, Hoang, Hines, Dickerson and Shah}]{verma2022counterfactualexplanationsalgorithmicrecourses}
 Verma, Sahil, Boonsanong, Varich, Hoang, Minh, Hines, Keegan~E., Dickerson, John~P. and Shah, Chirag (2022): {\em Counterfactual Explanations and Algorithmic Recourses for Machine Learning: A Review\/}.
+\newblock ACM Computing Surveys, Bd.~55, S.~1--37.
 
 \bibitem[{Wachter et~al.(2018)Wachter, Mittelstadt and Russell}]{wachter2018counterfactualexplanationsopeningblack}
-Wachter, Sandra, Mittelstadt, Brent and Russell, Chris (2018): {\em Counterfactual Explanations without Opening the Black Box: Automated Decisions and the GDPR\/}.
+Wachter, Sandra, Mittelstadt, Brent and Russell, Chris (2018): {\em Counterfactual Explanations without Opening the Black Box: Automated Decisions and the {GDPR}\/}.
+\newblock Harvard Journal of Law \& Technology, Bd.~31, S.~841--887.
 
 \bibitem[{Wang et~al.(2008)Wang, Yu, Siegel and Lee}]{Wang2008}
 Wang, Tianyi, Yu, Jianbo, Siegel, David and Lee, Jay (2008): {\em A Similarity-Based Prognostics Approach for Remaining Useful Life Estimation of Engineered Systems\/}.

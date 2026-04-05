@@ -26,56 +26,69 @@ All eight feature importance methods were then applied to the trained model usin
     \label{fig:golden_test}
 \end{figure}
 
-Six of the eight methods, Integrated Gradients, Feature Ablation, SHAP, ALE, ICE and LIME, cloesly reproduce the true weight distribution. Their bars track the ground truth across all ten features, correctly assigning near-zero importance to $x_5$ through $x_9$ and recovering the correct ranking and approximate magnitudes for $x_0$ through $x_4$. Minor deviaitons exist, ICE slightly overestimates the importance of $x_0$ relative to the other active featrues, but these are within the range expected from sampling variability.
+Six of the eight methods, Integrated Gradients, Feature Ablation, SHAP, ALE, ICE and LIME, closely reproduce the true weight distribution. Their bars track the ground truth across all ten features, correctly assigning near-zero importance to $x_5$ through $x_9$ and recovering the correct ranking and approximate magnitudes for $x_0$ through $x_4$. Minor deviations exist, ICE slightly overestimates the importance of $x_0$ relative to the other active features, but these are within the range expected from sampling variability.
 
-Permutation Feature Importance (PFI) and Counterfactual Explanations (CF) show larger deviations, thugh for different reasons.
+Permutation Feature Importance (PFI) and Counterfactual Explanations (CF) show larger deviations, though for different reasons.
 
-PFI overestimates $x_0$ substantially, roughly 2.5 in estimated weight terms, versus the true value of 5, while compressing the remaining active features downward. The ranking among $x_0$ through $x_4$ is preserved and $x_5$ through $x_0$ are correctly identified as irrelevant. The skew toward $x_0$ is a known property of PFI on correlated or hgih-variance features: because PFI measures the increase in prediction error when a feature is permuted, the feature with the largest absolute weight causes the largest error disruption when shuffled, and this effect scale nonlinearly with the weight magnitude under squared-error metrics like MSE. The relative ordering is correct, but the magnitdue distribution does not directly reflect the underlying weight ratios.
+PFI overestimates $x_0$ substantially, roughly 2.5 in estimated weight terms, versus the true value of 5, while compressing the remaining active features downward. The ranking among $x_0$ through $x_4$ is preserved and $x_5$ through $x_0$ are correctly identified as irrelevant. The skew toward $x_0$ is a known property of PFI on correlated or high-variance features: because PFI measures the increase in prediction error when a feature is permuted, the feature with the largest absolute weight causes the largest error disruption when shuffled, and this effect scales nonlinearly with the weight magnitude under squared-error metrics like MSE. The relative ordering is correct, but the magnitude distribution does not directly reflect the underlying weight ratios.
 
-Counterfactual Explanations show a different kid of deviation. Rathern than preserving the ranking with distorted magnitudes, CF partially msorders the active features, in the raw weieght estimates, $x_3$ receives the highest estimated weight and the overall distribution across $x_0$ through $x_4$ does not follow the true ordering . This is not unexpected. Counterfactual methods search for the smallest input change that shifts the prediction into a target range. That search depends on the local geometry of the predictino surface and the permitted perturbation ranges, not directly on the magnitude of learned weights. In a linear model the prediction surface is uniformly sloped, which removes the kind of local structure that counterfactual search id designed to exploit, making this an inherently unfavourable test case for the method. On more complex models with nonlinear interactions, such as the 1D CNN used on C-MAPSS, counterfactual explanations may behave more meaningfully.
+Counterfactual Explanations show a different kind of deviation. Rather than preserving the ranking with distorted magnitudes, CF partially misorders the active features, in the raw weieght estimates, $x_3$ receives the highest estimated weight and the overall distribution across $x_0$ through $x_4$ does not follow the true ordering . This is not unexpected. Counterfactual methods search for the smallest input change that shifts the prediction into a target range. That search depends on the local geometry of the prediction surface and the permitted perturbation ranges, not directly on the magnitude of learned weights. In a linear model the prediction surface is uniformly sloped, which removes the kind of local structure that counterfactual search i designed to exploit, making this an inherently unfavourable test case for the method. On more complex models with nonlinear interactions, such as the 1D CNN used on C-MAPSS, counterfactual explanations may behave more meaningfully.
 
-The key outcome of this verification is that all eight methods correctly distinguish relevant feature from irrelevant ones. The six gradient-based, perturbation-based and marginal-effect methods additionally recover the correct rankin and approximate magnitudes. PFI recovers the ranking but distorts magnitudes. CF struggles with both ranking and magnitudes on this liinear test case, but still separates the two groups cleanly. These results provide confidence that the implementation are functioning correlcy and that observed differences on C-MAPSS reflect genuine properties of the methods rather than implementation errors.
+The key outcome of this verification is that all eight methods correctly distinguish relevant feature from irrelevant ones. The six gradient-based, perturbation-based and marginal-effect methods additionally recover the correct ranking and approximate magnitudes. PFI recovers the ranking but distorts magnitudes. CF struggles with both ranking and magnitudes on this linear test case, but still separates the two groups cleanly. These results provide confidence that the implementations are functioning correctly and that observed differences on C-MAPSS reflect genuine properties of the methods rather than implementation errors.
 
 \section{Individual Method Results}
 Before comparing the eight methods against each other, it is worth looking at the kind of output they produce individually. This section shows representative ICE curves and SHAP plots, all from the single-FD001 model, the simplest configuration and therefore the easiest to interpret. Complete plots for all model configurations are provided in Appendix \ref{app:individual_results}
 
 \subsection{ICE Curves}
-ICE plots show how the model's RUL prediction changes as a single sensor value is varied across its oberved range, with one curve per test instance. The black line is Partial Dependence (PD) curve, the average across all instances.
+ICE plots show how the model's RUL prediction changes as a single sensor value is varied across its observed range, with one curve per test instance. The black line is Partial Dependence (PD) curve, the average across all instances.
 %
-\begin{figure}
-    
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Results/ICE_s9.pdf}
+    \caption{Centered ICE curves and PD line (black) for sensor s9 on the single-FD001 model. Each coloured line represents one test instance.}
+    \label{fig:ice_s9}
 \end{figure}
 %
-For s9, the individual ICE curves spread across a range of roughly $\pm 0.4$ in centered RUL, with several raching $\pm 0.6$ or beyond at the extremes of the sensor range. The PD curve shows a mild negative trend, higher s9 values are associated with slightly lower predicted RUL, but the more telling aspect is the spread itself. The wide dispersion of individual curves mean that the effect of s9 on the prediction depends heavily on the values of the other sensor for that particular engine instance. The model is not using s9 in a simple, unifrom way; its influence interacts with the broader sensor context.
+For s9, the individual ICE curves spread across a range of roughly $\pm 0.4$ in centered RUL, with several reaching $\pm 0.6$ or beyond at the extremes of the sensor range. The PD curve shows a mild negative trend, higher s9 values are associated with slightly lower predicted RUL, but the more telling aspect is the spread itself. The wide dispersion of individual curves means that the effect of s9 on the prediction depends heavily on the values of the other sensors for that particular engine instance. The model is not using s9 in a simple, unifrom way; its influence interacts with the broader sensor context.
 
-\begin{figure}
-    
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Results/ICE_s3.pdf}
+    \caption{Centered ICE curves and PD line (black) for sensor s3 on the single-FD001 model. Each coloured line represents one test instance.}
+    \label{fig:ice_s3}
 \end{figure}
 
 Sensor s3 looks entirely different. The PD curve is effectively flat and the individual ICE curves are tightly clustered within $\pm 0.1$. Varying s3 across its full range barely moves the prediction regardless of context. The model has learned to largely ignore this sensor, consistent with the comparative importance rankings in the next section, where s3 appears near the bottom across all methods.
 
-The contrast between these two sensors illustrates what ICE curves are goot ad: they do not just say "this sensor matters more than that one," they show \textit{how} a sensor's effect manifests, whether it is roughly unifrom across instances or highly variable, suggesting interactions with other features.
+The contrast between these two sensors illustrates what ICE curves are good at: they do not just say "this sensor matters more than that one," they show \textit{how} a sensor's effect manifests, whether it is roughly uniform across instances or highly variable, suggesting interactions with other features.
 
 \subsection{SHAP Analysis}
 Figure ~\ref{fig:shap_beeswarm} shows the SHAP beeswarm plot for the single-FD001 model. Each dot represents one test instance; horizontal position indicates the SHAP value (contribution to the prediction) and colour indicates the sensor reading for that instance (red for high, blue for low).
 %
-\begin{figure}
-    
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{bilder/Results/single_FD001_beeswarm.pdf}
+    \caption{SHAP beeswarm plot for the single-FD001 model. Each dot is one test instance; horizontal position shows the SHAP value, colour indicates the sensor reading (red~=~high, blue~=~low). Sensors are ordered by decreasing mean absolute SHAP value.}
+    \label{fig:shap_beeswarm}
 \end{figure}
 %
-Sensor s9 stands out immediately, it has by far the widest spread of SHAP values, ranging from approximately $-0.5$ to $+0.3$. No other sensor comes close in magnitude. Sensors s4 and s1 form a second tier, with SHAP values reaching roughly $\pm 0.2$. The remaining sensors cluster much more tightly around zero, contributing little to individual predictions. The colour gradient reveals directional effects: for s4, blue dots (low sensor values) tend to produce positive SHAP values and red dots (high values) tend to push negative, meaning that as s4 increases, the modell predicts lower RUL. Sensors further down the ranking, s17 and s3, show very narrow SHAP distributions, confirming that the model assigns them minimal influence on this subset.
+Sensor s9 stands out immediately, it has by far the widest spread of SHAP values, ranging from approximately $-0.45$ to $+0.40$. No other sensor comes close in magnitude. Sensors s7 and s2 form a second tier, with SHAP values reaching roughly $\pm 0.2$. The colour gradient shows a clear directional pattern for s9: red dots (high sensor values) tend toward negative SHAP values, while blue dots (low values) cluster on the positive side. Sensors s7, s2 and s12 form a second tier, with SHAP values reaching roughly $\pm0.15$ to $\pm0.20$. Below that, s4, s11, s15 and s8 all show moderate spread, and the remaining sensors, s20, s21, s13, s17, s3, are tightly clustered around zero. The ranking is more distributed than the bar chart comparisons might suggest: rather than a single dominant sensor and sharp drop-off, the beeswarm reveals a gradual decline in influence across the top seven or eight sensors.
 
-Figure ~\ref{fig:shap_waterfall} shows a SHAP waterfall plot for asingle test instance, breaking down how the model moves from the expected prediction $E\left[f(X)\right] = 0.007$ to the instance-specific prediction $f(x)=0.265$.
-
-\begin{figure}
-    
+Figure ~\ref{fig:shap_waterfall} shows a SHAP waterfall plot for a single test instance, one engine unit at one point in time, breaking down how the model moves from the expected prediction $E\left[f(X)\right] = 0.007$ to the instance-specific prediction $f(x)=-0.738$.
+%
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{bilder/Results/single_FD001_waterfall_instance_0.pdf}
+    \caption{SHAP waterfall plot for a single test instance on the single-FD001 model. Each bar shows one sensor's contribution, shifting the prediction from the baseline $E[f(X)] = 0.007$ to the instance output $f(x) = -0.738$.}
+    \label{fig:shap_waterfall}
 \end{figure}
-Sensor s9 accounts for almost the entire deviation, contributing $+0.23$, roughly 90\% of the shift from the baseline. Sensor s2 adds another $+0.12$ and the remaining sensors contribute small positive or negative adjustments that partially cancel each other. The waterfall makes visible what the beeswarm shows statistically: onn this model, s9 is the dominant drive of individual predictions and most other sesnros play a supporting or corrective role.
+%
+This instance sits near the end of the degradation trajectory, where the model predicts a strongly negative normalised RUL. Almost every sensor pushes the prediction downward from the baseline. Sensors s7 ($-0.14$) and s12 ($-0.13$) contribute the largest negative shifts. Sensor s9 is the only feature pushing in the opposite direction ($+0.11$), partially counteracting the downward pull. The remaining sensors, s8 ($-0.11$), s20, s4, s13, s11 (each around $-0.07$), s2 ($-0.06$) and the rest with smaller contributions, all add incrementally to the negative prediction. The waterfall illustrates something the beeswarm alone cannot show as clearly: on a late-life instance, the model draws on nearly every sensor to build up a low RUL prediction, rather than relying on a single dominant signal.
 
-The SHAP plots add directional informatino that the bar chart comparisons in the next section cannot provide. Where the bar charts show \textit{how much} each sesnor matters in aggregate, the beeswarm and waterfall show in \textit{in which direction} and \textit{for which instances}, whether a high sensor reading pushes predicted RUL up or down. This directional detail is useful for sanity-checking the model against physical expectations, a point returnde to in the Discussion.
+The SHAP plots add directional information that the bar chart comparisons in the next section cannot provide. Where the bar charts show \textit{how much} each sensor matters in aggregate, the beeswarm and waterfall show in \textit{in which direction} and \textit{for which instances}, whether a high sensor reading pushes predicted RUL up or down. The waterfall also makes clear that individual predictions can be driven by a different sensor than the one that ranks highest in aggregate: here, s7 and s12 dominate this particular instance, even though s9 leads in the overall beeswarm ranking. This directional and instance-level detail is useful for sanity-checking the model against physical expectations (see \ref{sec:discussion})
 
 \section{Comparative Feature Importance Across Methods}
-The core of this analysis is the side-by-side comparison of all eight methods on the same model and dataset. Each figure shows L1-normalised sensor importance from every method, with sensors ordererd by decreasing average importance. Four representative configurations are shown: models trained on FD001 alone, FD002 alone, the FD001-FD002 pair, and all four subsets combined. Remaining configurations are included in Appendix~\ref{app:comparative_results}.
+The core of this analysis is the side-by-side comparison of all eight methods on the same model and dataset. Each figure shows L1-normalised sensor importance from every method, with sensors ordered by decreasing average importance. Four representative configurations are shown: models trained on FD001 alone, FD002 alone, the FD001-FD002 pair, and all four subsets combined. Remaining configurations are included in Appendix~\ref{app:comparative_results}.
 
 \subsection{Single-Dataset Models}
 \begin{figure}[ht]
@@ -85,7 +98,7 @@ The core of this analysis is the side-by-side comparison of all eight methods on
     \label{fig:compare_FD001}
 \end{figure}
 
-On the single-FD001 model, s9 is the most important sensor according to most methods. ICE assigns it roughly 0.43, PFI around 0.34, and the gradient- and perturbation-based methods (IG, SHAP, FA) converge around 0.19-0.20. The next tier, s7, s12, and s2, is where methods start to diverge. LIME assigns s7 a normalised importance of roughly 0.34, well above what the other methods give it. ALE places s12 and s4 higher than most alternative. The broad picture is consistent though: s9 leads, a group of four or five sensors follows with moderate importance and the remainder contributes little.
+On the single-FD001 model, s9 is the most important sensor according to most methods. ICE assigns it roughly 0.43, PFI around 0.34, and the gradient- and perturbation-based methods (IG, SHAP, FA) converge around 0.19-0.20. The next tier, s7, s12, and s2, is where methods start to diverge. LIME assigns s7 a normalised importance of roughly 0.34, well above what the other methods give it. ALE places s12 and s4 higher than most alternatives. The broad picture is consistent though: s9 leads, a group of four or five sensors follows with moderate importance and the remainder contributes little.
 
 \begin{figure}[ht]
     \centering
@@ -94,7 +107,7 @@ On the single-FD001 model, s9 is the most important sensor according to most met
     \label{fig:compare_FD002}
 \end{figure}
 
-FD002 changes the picture substantially. With sixx operating conditions instead of one, the model faces more complex input distributions and snsor rankings shift accordingly. Sensor s11 emerges as the most important for IG, ALE, SHAP and FA, the four methods that tended to agree most closely on FD001 as well. LIME concentrates even more aggressively, assigning s11 roughly 0.45 and s15 around 0.38, leaving little importance for anything else. PFI produces extreme outlier spikes, s8 receives nearly 0.49 and s13 around 0.44, not reflected by any other method. These PFI spikes are reminiscent of the magnitude distortion observed in the verification experiment and suggest that PFI's MSE-based scoring amplifies the apparent importance of features whose permutation causes large error in isolated instances.
+FD002 changes the picture substantially. With six operating conditions instead of one, the model faces more complex input distributions and sensor rankings shift accordingly. Sensor s11 emerges as the most important for IG, ALE, SHAP and FA, the four methods that tended to agree most closely on FD001 as well. LIME concentrates even more aggressively, assigning s11 roughly 0.45 and s15 around 0.38, leaving little importance for anything else. PFI produces extreme outlier spikes, s8 receives nearly 0.49 and s13 around 0.44, not reflected by any other method. These PFI spikes are reminiscent of the magnitude distortion observed in the verification experiment and suggest that PFI's MSE-based scoring amplifies the apparent importance of features whose permutation causes large error in isolated instances.
 
 ICE remains erratic in regards to assigning s9 the highest importance at around 0.39 while other methods rank it considerably lower.
 
@@ -106,7 +119,7 @@ ICE remains erratic in regards to assigning s9 the highest importance at around 
     \label{fig:compare_FD001_FD002}
 \end{figure}
 
-When the model is trained on FD001 and FD002 together, the rankings stabilise somewhat. Sensors s11 and s15 emerge as the top two across most methods, with s9, s7 ands4 forming a second tier. The pairwise model has seen both single-condition and multi-condition data and the resulting importance reflects a compromise: sensors that dominated under one condition (s0 for FD001, s11 for FD002) bot retain importance, but neither dominates as strongly as it did alone. PFI still produces an isolated spike on s8 ($\sim0.36$), unsupported by any other method. LIME remains heavily concentrated on s11 and s15, allocating aaround 0.35 and 0.40 respectively.
+When the model is trained on FD001 and FD002 together, the rankings stabilise somewhat. Sensors s11 and s15 emerge as the top two across most methods, with s9, s7 and s4 forming a second tier. The pairwise model has seen both single-condition and multi-condition data and the resulting importance reflects a compromise: sensors that dominated under one condition (s0 for FD001, s11 for FD002) both retain importance, but neither dominates as strongly as it did alone. PFI still produces an isolated spike on s8 ($\sim0.36$), unsupported by any other method. LIME remains heavily concentrated on s11 and s15, allocating around 0.35 and 0.40 respectively.
 
 \begin{figure}[ht]
     \centering
@@ -115,51 +128,222 @@ When the model is trained on FD001 and FD002 together, the rankings stabilise so
     \label{fig:compare_all}
 \end{figure}
 
-The all-dataset model shows the most agreement across methods. Sesnor s11 is the clear front-runner, IG, SHAP, FA, ALE and ICE all. plcae it first, with normalised importance between 0.10 and 0.19. LIME assigns it roughly 0.48, continuing its pattern of over concentration. Sensors s4 and s9 follow in the secont tier, with s12, s2 and s15 in the middle ground. PFI deviates again, spiking on s12 ($\sim 0.30$) and s13 ($\sim0.30$) while giving s11 minimal importance. CF distributes importance more evenly than in single-dataset cases but still does not match the consensus ranking.
+The all-dataset model shows the most agreement across methods. Sensor s11 is the clear front-runner, IG, SHAP, FA, ALE and ICE all place it first, with normalised importance between 0.10 and 0.19. LIME assigns it roughly 0.48, continuing its pattern of over concentration. Sensors s4 and s9 follow in the second tier, with s12, s2 and s15 in the middle ground. PFI deviates again, spiking on s12 ($\sim 0.30$) and s13 ($\sim0.30$) while giving s11 minimal importance. CF distributes importance more evenly than in single-dataset cases but still does not match the consensus ranking.
 
 \subsection{Patterns Across Configuration}
-Several patterns hold across all four configuration.
+Several patterns hold across all four configurations.
 
-The gradient-based and Shapley-based methods, IG, SHAP and FA, tend to cluster together. they rearely disagree on which sensor is most important ant their normalised magnitudes are usually within a few percentage points of each other. ALE often falls close to this cluster as well. These four methods form what might be called the consensus core of the comparison.
+The gradient-based and Shapley-based methods, IG, SHAP, and FA tend to cluster together. They rarely disagree on which sensor is most important and their normalised magnitudes are usually within a few percentage points of each other. On any individual model, ALE often agrees with this cluster as well, though its cross-configuration stability is lower, a point examined quantitatively below.
 
-LIME consistently over-concentrates importance onto one or two sensors. It identifies the same top sensor as the consensus core in most cases, but assigns it two to three times the normalised weight. This is a known property of LIME's local linear surrogate fitting: when one feature dominates the local prediction surface, the surrogate can allocate neraly all explanatory weight to it, compressing the contributions of secondary features.
+LIME consistently over-concentrates importance onto one or two sensors. It identifies the same top sensor as the consensus core in most cases, but assigns it two to three times the normalised weight. This is a known property of LIME's local linear surrogate fitting: when one feature dominates the local prediction surface, the surrogate can allocate nearly all explanatory weight to it, compressing the contributions of secondary features.
 
-PFI produces isolated spikes on sensors that other methods rank as moderate or low importance. The specific sensor varies by configuration, s8 on FD002, s13 on the all-data model, but the pattern is consistent. These spikes likely reflect individual engines or narrow operating regimes where permuting that sensor causes disproportionate error, inflating the global average.
+PFI produces isolated spikes on sensors that other methods rank as moderate or even low importance. The specific sensor varies by configuration, s8 on FD002, s13 on the all-data model, but the pattern is consistent. These spikes likely reflect individual engines or narrow operating regimes where permuting that sensor causes disproportionate error, inflating the global average.
 
-CF does not produce stable or interpretable rankings in this setting. Its results vary substantially across configurations and rarely agree with the consensus of the other methods. As discurssed in the verification section, counterfactual search is sensitive to the local geometry of the prediction surface and to the permitted perturbation ranges. On a 1D CNN with 13 sensor channels and complex temporal interactions, the search space appears large enough that the results are dominated by search dynamics rathen than meaningful feature effects.
+CF does not produce stable or interpretable rankings in this setting. Its results vary substantially across configurations and rarely agree with the consensus of the other methods. As discussed in the verification section, counterfactual search is sensitive to the local geometry of the prediction surface and to the permitted perturbation ranges. On a 1D-CNN with 13 sensor channels and complex temporal interactions, the search space appears large enough that the results are dominated by search dynamics rather than meaningful feature effects.
 
-The transisiton from single-dataset to multi-dataset training reveals a shift in which sensor dominate. On FD001alone, s9 lead. On FD002 and multi-dataset configurations, s11 takes over. This shift is discussed further in the context of the underlying physical degradation mechanism in Section~\ref{sec:discussion}.
+The transition from single-dataset to multi-dataset training reveals a shift in which sensors dominate. On FD001 alone, s9 leads. On FD002 and multi-dataset configuration, s11 takes over. This shift is discussed further in the context of the underlying physical degradation mechanisms in Section~\ref{sec:discussion}.
 
 \subsection{Additional configurations: FD004 and Cross-Complexity Pairing}
-The previous compariosons covered FD001 (simplest), FD002(multi-condition), a pairwise combination and the full dataset. To round out the picture, this sectionlooks at FD004, the most complex subset, with six operating conditions and two fault modes, and the FD001-FD004 pairing, which puts the simplest and most complex subset together in a single training set.
+The previous comparisons covered FD001 (simplest), FD002(multi-condition), a pairwise combination and the full dataset. To round out the picture, this section looks at FD004, the most complex subset, with six operating conditions and two fault modes, and the FD001-FD004 pairing, which puts the simplest and most complex subset together in a single training set.
+%
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Results/compare_methods_single_FD004.pdf}
+    \caption{L1-normalised sensor importance across all eight methods for the single-FD004 model. Sensors are ordered by decreasing mean importance.}
+    \label{fig:compare_FD004}
+\end{figure}
+%
+On FD004 alone, s11 leads for the consensus methods (IG, SHAP, FA, ALE), just as it did on FD002. That is not surprising, both share six operating conditions and s11 appears to carry the most reliable degradation signal when operating-point variability is high. Sensors s9 and s12 hold the second tier. What is worth noting is that FD004's two fault modes create a richer training set where no single sensor's permutation causes the kind of catastrophic error spikes seen on FD002. CF remains diffuse, with no strong preference for any particular sensor.
 
-%%%Continue here figure
+Comparing FD004 single against FD001 single directly, the contrast is stark. On FD001, s9 dominates and the consensus methods assign it roughly double the importance of any other sensors. The model trained on the more complex data has learned to spread its reliance across multiple signals rather than leaning heavily on one. A pattern that makes sense when operating conditions vary, since any single sensor's value becomes a less clean indicator of degradation state.
+%
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Results/compare_methods_pairwise_FD001_FD004.pdf}
+    \caption{L1-normalised sensor importance across all eight methods for the pairwise FD001--FD004 model. Sensors are ordered by decreasing mean importance.}
+    \label{fig:compare_FD001_FD004}
+\end{figure}
+%
+The pairwise FD001-FD004 model is interesting because it forces the network to reconcile the simplest and most complex subsets. The resulting ranking is close to what the all-data model produces: s11, s9 and s12 as the top three, with s4 and s15 following. The consensus methods agree more tightly here than in either single-subset case. This suggests that exposure to both extremes of the complexity spectrum is enough to stabilise the learned feature representation, adding the intermediate subsets (FD002, FD003) contributes less additional information than one might expect. LIME continues to pile importance onto s11 alone and PFI deviates on different sensors than it did on the single models, but neither disrupts the consensus top three.
 
-On FD004 alone, s11 leads for the consensus methods (IG, SHAP, FA, ALE), just as it did on FD002. That is not surprising, both share six operating conditions and s11 appears to carry the most reliable degradation signal when operating-point variablility is high. Sensors s9 and s12 hodl the second tier. What is worth noting is that FD004's two fault modes create a richer training set where no single sensor'spermutation causes the kind of catastrophic error spikes seen on FD002. CF remains diffuse, with no strong preference for any particular sensor.
-
-Comparing FD004 single against FD001 single directly, the contrast is stark. On FD001, s9 dominates and the consensus methods assign it roughly double the importance of any other sensors. The model trained on teh more complex data has learned to spread its reliance across multiple signals rather tahn leanin heavily on one. A pattern that makes sense when operating conditions vary, since any single sensor's value becomes a less clean indicator of degradation state.
-
-%% continue here figure
-
-The pairwise FD001-FD004 model is interesting because it forces the network to reconcile the simples and most complex subsets. The resulting ranking is close to what the all-datamodel produces: s11, s9 and s12 as the top three, with s4 and s15 following. The consensus methods agree more tightly here than in either single-subset case. This suggests that exposure to both extremes of the complexity spectrum is enough to stabilise the learned feature representation, adding the intermediate subsets (FD002, FD003) contributes less additional information than one might expect. LIME continues to pile importance onto s11 alone and PFI deviates on different sensors than it did on the single models, but neither disrupts the consensus top three.
-
+Comparative plots for all remaining model configurations, including single-FD003 and the pairwise combinations FD001-FD002, FD001-FD003, FD002-FD003, FD002-FD004 and FD003-FD004, are provided in Appendix~\ref{app:comparative_results}.
 
 \section{Top-3 Confidence Scoring and Stability Analysis}
+The previous sections described sensor rankings one configuration at a time. That is useful for understanding how training data affects what the model learns, but it does not answer the aggregate question: across all models and all methods, which sensors come out on top most consistently?
 
 \subsection{Confidence Scoring}
+To quantify this, the three highest-ranked sensors from each method on each model configuration receive a weighted score: 3 points for first place, 2 for second, 1 for third. Summing across all configurations and all eight methods yields the aggregate confidence score in 
+%
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Results/confidence_score_ranking.pdf}
+    \caption{Aggregated top-3 confidence scores across all model configurations and feature importance methods. Scoring: 3~points for rank~1, 2~for rank~2, 1~for rank~3, summed over all configurations and methods.}
+    \label{fig:confidence_score}
+\end{figure}
+%
+Sensor s11 leads with 145 points, more than double the next sensor, s9, at 69. Sensor s12 follows closely at 67. The gap between the top three and the rest is substantial. A middle group, s8 (40), s7 (38), s13 (38), s15(38), s4 (36), clusters tightly between 36 and 40 points. These sensors appear in the top three for some methods on some configurations, but without the consistency of s11, s9 or s12. Below 30 points, sensors appear in the top three only sporadically and s20 (3) and s21 (1) almost never make it. 
+
+The dominance of s11 is not driven by any single method or configuration. Even if PFI and CF, the two methods that showed the most erratic behaviour, are mentally excluded, s11 still accumulates the most top-3 appearances from the remaining six methods alone. It ranks first or second on every multi-condition model and remains in the top three even on FD001, where s9 takes the lead. That breadth of support across different training conditions is what separates s11 from sensors like s9 or s12, which lead on specific subsets but fade on others.
 
 \subsection{Mean Importance and Variability}
+The confidence score captures how often a sensor ranks highly, but not how large its importance is when it does. A sensor could land in the top three with a normalised importance of 0.05 every time and still accumulate a respectable score. Figure~\ref{fig:mean_std} adds the magnitude perspective.
+%
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Results/mean_sensor_importance.pdf}
+    \caption{Mean L1-normalised sensor importance across all model configurations and methods. Error bars show one standard deviation. Sensors are ordered by decreasing mean importance.}
+    \label{fig:mean_std}
+\end{figure}
+%
+Sensor s11 has the highest mean importance at approximately 0.15. Sensors s12, s9, s7 and s15 follow in the range of 0.08 - 0.11. The ordering in this middle group does not perfectly match the confidence ranking, s12 slightly outperforms s9 in mean magnitude, even though s9 scored marginally higher on the confidence chart. The differences arises because s0 lands in the top three more frequently (accumulating ranking points) while s12 sometimes receives a higher absolute importance value when it does appear.
 
-\subsection{Cross-Confguration Ranking Agreement}
+The error bars tell an important part of the story. Every sensor's standard deviation is large, typically spanning from near zero to twice the mean. Two sources drive this variability. The first is inter-method disagreement: PFI and CF produce outlier values that pull the distribution wider. The second is inter-configuration variation: a sensor that dominates on FD001 may drop to mid-tier on FD004. Sensor s11 has the largest absolute standard deviation but also the highest mean, so its coefficient of variation is comparable to the other top sensors. Sensors s8 and s4 have error bars that extend noticeably low, consistent with configurations where they receive near-zero importance from the consensus methods but are spiked by PFI.
+
+The two analyses converge on the same conclusion: s11 is the most important sensor by both ranking frequency and average magnitude. Sensors s9 and s12 are reliable second-tier features. Beyond those three, the rankings are sensitive to which method and which training configuration is used, which is precisely the kind of instability that a multi-method comparison is designed to reveal.
+
+\subsection{Cross-Configuration Ranking Agreement}
+The confidence score and mean importance show which sensors end up on top in aggregate, but they do not quantify how consistent the rankings are \textit{within} a given method across different training configurations. A method might always put s11 first but reorder the rest unpredictably, or it might produce nearly identical rankings regardless of whether it sees FD001 alone or all four subsets.
+
+To measure this, the Spearman rank correlation between the sensor importance vectors was computed for every pair of model configurations, separately for each method. The mean off-diagonal correlation, averaged across all configuration pairs, gives a single stability number per method. Figure~\ref{fig:method_correlation} shows the result.
+%
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Results/method_stability_offdiagonal_spearman.pdf}
+    \caption{Mean off-diagonal Spearman rank correlation across model configurations for each feature importance method. Higher values indicate more consistent sensor rankings when the training data changes.}
+    \label{fig:method_correlation}
+\end{figure}
+
+IG and FA lead with mean correlations of 0.626 and 0.614, the two methods whose rankings shift least when the model is retrained on a different subset or combination of subsets. SHAP and ICE follow at 0.562 and 0.511. PFI, despite its tendency to produce magnitude spikes, achieves a moderate 0.522: the spikes inflate individual sensor scores but do not completely scramble the overall ranking order.
+
+The lower end is more surprising. LIME (0.404) and CF (0.371) were expected to score poorly based on the erratic behaviour observed in the per-model comparisons. But ALE lands lowest of all at 0.346, which is unexpected given that ALE consistently agreed with the consensus core on any \textit{individual} model. The explanation lies in what ALE actually measures. It computes local prediction differences within narrow bins of feature values, and those local slopes are sensitive to the specific model being analysed. When the training data changes and the model's internal parameters shift, the local prediction surface rearranges and ALE's bin-level effects can reorder substantially even if the broad ranking of top sensors stays similar. IG and FA, by contrast, accumulate attributions along gradients or through channel-level ablation, which depends more on the model's global structure and less on local surface geometry. That makes them more robust across configurations.
+
+The practical implication is that IG and FA are the most reliable methods for producing sensor rankings that generalise across different training setups. For a single set of "most important sensors" that holds regardless of how the model was trained, IG and FA would be the methods to rely on. SHAP and ICE are reasonable alternatives. LIME, CF and ALE are less dependable for cross-configuration comparisons, even though ALE performs well when applied to a single fixed model.
+
+The individual correlation matrices for each method are provided in Appendix~\ref{app:correlation_matrices}. As an example, the ICE correlation matrix (Figure~\ref{fig:ice_correlation_example}) shows values ranging from -0.06 (single-FD003 vs pairwise FD001-FD003) to 0.93 (pairwise FD002-FD004 vs FD003-FD004), illustrating both the extremes and the general trend. Models that share similar training conditions, particularly those involving multi-conditions subsets, tend to produce more correlated rankings than models trained on different single-condition subsets.
+%
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{bilder/Results/model_correlations/correlation_ICE.pdf}
+    \caption{Spearman rank correlation of sensor importance rankings across model configurations for ICE. Red indicates high agreement, blue indicates disagreement. Complete matrices for all eight methods are provided in Appendix~\ref{app:correlation_matrices}.}
+    \label{fig:ice_correlation_example}
+\end{figure}
+%
 
 
 
 \section{Temporal Distribution of Feature Importance}
+The analyses above aggregate importance across the full sliding window. But the 1D-CNN receives 70 time steps as input and there is no a priori reason to assume every time step matters equally. Four of the eight methods produce attributions resolved at the individual time step level, Integrated Gradients, Feature Ablation, LIME and Counterfactual Explanations, and their heatmaps reveal a clear temporal pattern.
+%
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{bilder/Results/heatmap_comparison_IG_LIME_FA_CF.pdf}
+    \caption{Sensor-by-time importance heatmaps for four methods on the single-FD001 model. Horizontal axis: time index within the sliding window (0~=~earliest, 69~=~most recent). Vertical axis: sensors. Brighter colours indicate higher importance.}
+    \label{fig:heatmaps}
+\end{figure}
+%
+Integrated Gradients shows a clear gradient from dark (low importance) in the early time steps to bright (high importance) in the final 10-15 steps. The concentration is strongest for sensors s9 and s8, the same sensors that rank highest in the aggregated bar charts. The pattern is not binary (all-dark then all-bright) but progressive: importance builds gradually across the second half of the window and peaks sharply at the end. This suggests the model is not simply ignoring early time steps; it assigns them some weight, but the most recent readings carry the prediction.
+
+Feature Ablation shows a similar pattern, though slightly less concentrated. The bright region extends back further, perhaps 15-20 time steps from the end and lights up sensors s2 and s9 in addition to s8. The broader temporal spread could reflect the difference between how the two methods work: IG traces gradients through the network, which can sharpen around the most influential time steps, while FA zeroes out entire channels and measures the prediction change, which may pick up on the cumulative effect of a sensor over a wider window.
+
+LIME produces the most concentrated heatmap of the three. Nearly all importance sits in the final 5-10 time steps and only on sensors s7 and s4. The rest of the heatmap is essentially blank. This extreme concentration is consistent with LIME's tendency to over-focus on the locally most influential features, here, the most influential sensor at the most influential time step captures almost everything.
+
+Counterfactual Explanations are the outlier. The heatmap is noisy, with scattered bright spots across the full window and across all sensors. There is no temporal concentration. This is consistent with everything observed about CF in the previous sections: the method's search dynamics spread perturbations across the entire input space without converging on a consistent pattern. Where IG, FA and LIME all agree that the late window matters most, CF provides no such signal.
+
+The late-window concentration is a genuine finding about the model, not an artefact of the explanation methods. Three independently designed methods, one gradient-based, one ablation based, one surrogate based, converge on the same temporal pattern. The model relies most heavily on the most recent sensor readings when predicting RUL. Earlier readings in the window contribute some context, but the current snapshot dominates. Whether this pattern holds across all model configurations or shifts as training data complexity increases is an open question; the heatmaps shown here are from the single-FD001 model and the temporal structure could differ on multi-condition models where operating point transitions create richer temporal dynamics. 
 
 \section{Reduced Sensor Model Performance}
+The feature importance analysis identified sensors s11, s9 and s12 as the three most consistently important across methods and training configurations. A natural follow-up question is whether the model can maintain its predictive performance using only these three sensors instead of the full set of thirteen. To test this, new models were trained on the same configurations, single-subset, pairwise and all-data, but with only s11, s9 and s12 as input channels. The resulting RMSE and $R^2$ values were compared against the full-sensor baselines.
+
+\subsection{All-Data Model}
+The most striking results come from the model trained on all four subsets. Table~\ref{tab:rmse_all} compares the full-sensor and top-3-sensor models.
+%
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c c c}
+        \toprule
+        Test subset & Full sensors (RMSE) & Top-3 sensors (RMSE) & Top-3 $R^2$ \\
+        \midrule
+        FD001 & 10.60 & 8.85  & 0.95 \\
+        FD002 & 10.13 & 9.64  & 0.94 \\
+        FD003 & 10.56 & 7.95  & 0.96 \\
+        FD004 & 11.04 & 9.11  & 0.95 \\
+        \bottomrule
+    \end{tabular}
+    \caption{RMSE comparison between the full 13-sensor model and the top-3 sensor model (s11, s9, s12), both trained on all four subsets.}
+    \label{tab:rmse_all}
+\end{table}
+%
+The reduced model does not just match the full-sensor model, it outperforms it on every subset. RMSE drops by 10-25\% and $R^2$ values sit at 0.94-0.96 across the board. This is a counterintuitive result at first glance: fewer inputs, better predictions. But it has a straightforward explanation. The ten sensors removed from the input are, according to the importance analysis, carrying minimal predictive signal. What they do contribute is noise, variability that the CNN must learn to ignore. With fewer input channels, the model has a simpler learning task and fewer parameters to fit, which reduces overfitting and improves generalisation. The training data in the all-data configuration is large enough (all four subsets combined) that the model does not need the additional channels to capture degradation patterns.
+
+\subsection{Single-Subset Models}
+The single-subset results tell a very different story. When the model is trained on only one subset and tested on the same subset, the top-3 reduction causes severe performance degradation.
+%
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c c}
+        \toprule
+        Configuration & Full sensors (RMSE) & Top-3 sensors (RMSE) \\
+        \midrule
+        FD001 & 10.72  & 100.19 \\
+        FD002 & 11.78  & 43.08  \\
+        FD003 &  9.81  & 38.68  \\
+        FD004 & 12.00  & 121.48 \\
+        \bottomrule
+    \end{tabular}
+    \caption{RMSE comparison between the full 13-sensor model and the top-3 sensor model (s11, s9, s12) for single-subset training configurations. Each model is tested on the same subset it was trained on.}
+    \label{tab:rmse_single}
+\end{table}
+%
+The RMSE increases by factors of 3-10. On FD001, the model goes from an RMSE of 10.72 to over 100, essentially useless predictions. FD004 is similarly catastrophic. FD002 and FD003 fare somewhat better but still degrade by a factor of 3-4. 
+
+The difference between the all-data and single-subset outcomes makes sense when considered alongside the importance analysis. On FD001 alone, the model relied heavily on s9, with s7, s12 and s2 as important secondary sensors. Removing those secondary sensors, which are not in the top-3 overall ranking but are critical for the FD001-specific model, destroys the prediction. The top-3 sensors (s11, s9, s12) were identified as the most important across all configurations, but that aggregate ranking does not reflect the sensor dependencies of any single-subset model. A model trained only on FD001 never learned to rely on s11 as heavily as the multi-condition models did, so including s11 while removing s7 is a net loss.
+
+\subsection{Pairwise Models}
+The pairwise models fall between the two extremes. Most pairwise top-3 models achieve RMSE values in the 30-40 range when tested on the subsets they were trained on, compared to 10-15 for the full-sensor versions. The degradation is significant but not catastrophic and the models still produce physically meaningful predictions. The exception is FD003-FD004 trained and tested on FD001 or FD002, where RMSE reaches 60, but these are cross-subset evaluations where even the full-sensor models struggle. Full pairwise heatmaps are provided in Appendix~\ref{app:reduced_sensor}.
+
+The reduced sensor experiment reveals a clear interaction between training data diversity and sensor selection. When the model has access to varied training data covering multiple operating conditions and fault modes, three well-chosen sensors are enough, and in fact perform better than the full set, likely due to reduced noise and lower model complexity. When training data is limited to a single subset, the same three sensors are insufficient because the model's learned feature dependencies do not align with the aggregate importance ranking. The practical implication is that sensor reduction based on feature importance analysis is viable, but only when paired with sufficiently diverse training data.
 
 \section{Discussion}
 \label{sec:discussion}
+The results presented in this chapter address three questions: which sensors does the 1D-CNN rely on for RUL prediction, how consistently do different explanation methods answer that question and what practical consequences follow from the answers.
+
+\subsection{Sensor Importance and Physical Interpretation}
+Across all training configurations and explanation methods, three sensors emerge as the most consistently important: s11, s9 and s12. Sensor s11, static pressure at the HPC outlet, leads by a substantial margin in both the confidence scoring and the mean importance analysis. This is physically plausible. HPC outlet pressure is directly affected by compressor degradation: as blade erosion, fouling or tip clearance increases, the compressor's pressure ratio drops and s11 captures that change. Under multiple operating conditions, s11 remains a reliable degradation indicator because the relationship between compressor health and outlet pressure holds across different altitude-speed-throttle combinations, even though the absolute pressure level varies with the operating point.
+
+Sensor s9, core speed, dominates on FD001 but drops to a secondary role on multi-condition subsets. This too is physically consistent. Under a single operating control system adjusts fuel flow, which shifts the spool speed. Under multiple operating conditions, core speed varies substantially with the operating point itself, making it a noisier indicator of degradation. The model trained on FD001 can afford to lean heavily on s9 because operating-point variability is absent. Multi-condition models cannot.
+
+Sensor s12, bleed enthalpy at the HPC outlet, correlates with both temperature and pressure at the compressor exit and picks up degradation effects through both pathways. Its consistent presence in the top three across configurations suggests it captures complementary information to s11.
+
+The shift in sensor dominance from s9 (single-condition) to s11 (multi-condition) is one of the clearer findings. It means that a feature importance analysis conducted on a single-condition model would lead to different conclusions about sensor priority than one conducted on a multi-condition model, a concrete example of why training data composition matters for interpretability, nt just for prediction accurarcy.
+
+\subsection{Method Reliability}
+Not all eight methods proved equally useful. The cross-configuration Spearman analysis revealed a hierarchy.
+
+Integrated Gradients and Feature Ablation are the most stable, producing consistent sensor rankings regardless of which data the model was trained on (mean correlations of 0.626 and 0.614). They agree with each other and with SHAP on the identity of the top sensors and their magnitude estimates are similar. For practical use, chossing which sensors to monitor, or deciding which to remove, these two methods offer the most dependable guidance.
+
+SHAP and ICE are close behing ind stability (0.562 and 0.551) and broadly agree with IG and FA on the top rankings. SHAP adds the advantage of directional and instance-level information thorugh beeswarm and waterfall plots, which IG and FA do not natively provide. SHAP remains the most informative single method, for understanding how a sensor influences the prediction, not just how much.
+
+LIME consistently identifies the correct top sensor but over-concentrates importance, assigning it two to three times the weight that other methods give it. This makes it useful for quick identification of the most dominant feature but unreliable for ranking secondary sensors or for quantitative importance estimates. 
+
+PFI produces magnitude distortions, isolated spikes on sensors that other methods rank as moderate, and its cross-configuration stability is only moderate (0.522). The spikes do not consistently appear on the same sensor, which limits trust in PFI as a standalone tool for this application.
+
+ALE agrees well with the consensus core on any individual model but has the lowest cross-configuration stability of all methods (0.346). This was the most surprising finding. The likely explanation is that ALE's bin-level local slopes are sensitive to the specific model parameters and those parameters shift when the training data changes. ALE is useful for understanding a specific model but not for drawing conclusions that should generalise across training configurations.
+
+Counterfactual Explanations were the least reliable throughout, in the verification test, in the per-model comparisons, in the temporal heatmaps and in the cross-configuration stability analysis. The method's search-based approach appears poorly suited to this setting, where 13 input channels and 70 time steps create a perturbation space too large for the search to converge reliably. This does not mean counterfactual explanations are inherently flawed, they are designed for a different purpose (generating actionable "what-if" scenarios) and may perform better on simpler or lower-dimensional models.
+
+\subsection{Temporal Concentration}
+The temporal heatmaps revealed that the model concentrates its attention on the final 10-15 time steps of the 70-step sliding window. Three independent methods, IG, FA and LIME, converge on this pattern. The model is primarily using the most recent sensor readings to form its RUL prediction, with earlier readings contributing context but not dominating.
+
+This has practical implications. If the model's predictive power is concentrated in the most recent readings, shorter sliding windows might achieve comparable accuracy at lower computational cost. It also suggests that the model is functioning more as a snapshot-based estimator with some temporal context than as a full trajectory learner, a distinction that could inform architecture choices for future work.
+
+\subsection{Reduced Sensor Viability}
+The reduced sensor experiment produced the chapter's most practical finding. hree sensors, s11, s9, s12, are sufficient to match or exceed the full sensor model's performance, but only when the model is trained on diverse data spanning multiple operating conditions and fault modes. On single-subset models, the same reduction is catatrophic.
+
+This result has a direct engineering implication. If a prognostic system is deployed with a model trained on sufficiently varied operational data, monitoring could be simplified to three sensors without sacrificing accuracy. But a model developed and validated on narrow operating data should not be reduced in the same way, its learned feature dependencies may differ substantially from the aggregate importance ranking.
+
+\subsection{Limitation}
+Several limitations need to be noted. The analysis is conducted on a single model architecture, a 1D-CNN, and the results may not transfer directly to recurrent or attention-based architectures. The C-MAPSS dataset, while the standard benchmark, is simulated data; real-world sensor data contains additionoal noise, calibration drift and failure modes not captured in the simulation. The counterfactual explanations underperformed across the board, but this may reflect the specific implementation and parameter choices (target range, perturbation limit) rather than a fundamental limitation of the method. The temporal heatmaps were shown for a single configuration (FD001 single); whether the late-window concentration pattern holds under all training setups was not systematically evaluated. Finally, the top-3 sensor reduction is a conservative test, intermediate reduction (top-5, top-7) were not explored and might offer a better accuracy-simplicity tradeoff on single-subset models.
+
 
 
 

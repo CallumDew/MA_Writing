@@ -3,12 +3,14 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Overview of the C-MAPSS dataset subsets \cite {Saxena2008}.}}{2}{table.caption.5}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Overview of the C-MAPSS dataset subsets \cite {Saxena2008}.}}{3}{table.caption.5}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Sensor features retained after non-informative sensor removal.}}{12}{table.caption.6}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Overview of all model configurations used in this work.}}{16}{table.caption.9}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Sensor features retained after non-informative sensor removal.}}{13}{table.caption.6}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Overview of all model configurations used in this work.}}{17}{table.caption.9}%
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces RMSE comparison between the full 13-sensor model and the top-3 sensor model (s11, s9, s12), both trained on all four subsets.}}{37}{table.caption.26}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces RMSE comparison between the full 13-sensor model and the top-3 sensor model (s11, s9, s12) for single-subset training configurations. Each model is tested on the same subset it was trained on.}}{38}{table.caption.27}%
 \addvspace {10\p@ }
 \def \@chapapp {\appendixname }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

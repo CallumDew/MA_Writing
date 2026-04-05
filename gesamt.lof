@@ -5,14 +5,25 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Structure of the input tensor for a single sliding window sample, consisting of 13 sensor channels over 70 consecutive time steps. Each slice in the depth direction represents one engine unit.}}{13}{figure.caption.7}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Architecture of the 1D convolutional neural network. The red window illustrates the receptive field of the convolutional kernel ($k=5$). Green: feature extractor, blue: label predictor.}}{15}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Structure of the input tensor for a single sliding window sample, consisting of 13 sensor channels over 70 consecutive time steps. Each slice in the depth direction represents one engine unit.}}{14}{figure.caption.7}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Architecture of the 1D convolutional neural network. The red window illustrates the receptive field of the convolutional kernel ($k=5$). Green: feature extractor, blue: label predictor.}}{16}{figure.caption.8}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Verification of feature importance implementations on a linear model with known weights. Bars show estimated weight; black markers indicate the true weights.}}{20}{figure.caption.10}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces L1-normalised sensor importance across all eight methods for the single-FD001 model. Sensors are ordered by decreasing mean importance.}}{23}{figure.caption.15}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces L1-normalised sensor importance across all eight methods for the single-FD002 model. Sensors are ordered by decreasing mean importance.}}{24}{figure.caption.16}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces L1-normalised sensor importance across all eight methods for the pairwise-FD001-FD002 model. Sensors are ordered by decreasing mean importance.}}{25}{figure.caption.17}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces L1-normalised sensor importance across all eight methods for the model trained on all subsets. Sensors are ordered by decreasing mean importance.}}{25}{figure.caption.18}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Verification of feature importance implementations on a linear model with known weights. Bars show estimated weight; black markers indicate the true weights.}}{21}{figure.caption.10}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Centered ICE curves and PD line (black) for sensor s9 on the single-FD001 model. Each coloured line represents one test instance.}}{23}{figure.caption.11}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Centered ICE curves and PD line (black) for sensor s3 on the single-FD001 model. Each coloured line represents one test instance.}}{24}{figure.caption.12}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces SHAP beeswarm plot for the single-FD001 model. Each dot is one test instance; horizontal position shows the SHAP value, colour indicates the sensor reading (red~=~high, blue~=~low). Sensors are ordered by decreasing mean absolute SHAP value.}}{25}{figure.caption.13}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces SHAP waterfall plot for a single test instance on the single-FD001 model. Each bar shows one sensor's contribution, shifting the prediction from the baseline $E[f(X)] = 0.007$ to the instance output $f(x) = -0.738$.}}{26}{figure.caption.14}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces L1-normalised sensor importance across all eight methods for the single-FD001 model. Sensors are ordered by decreasing mean importance.}}{27}{figure.caption.15}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces L1-normalised sensor importance across all eight methods for the single-FD002 model. Sensors are ordered by decreasing mean importance.}}{27}{figure.caption.16}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces L1-normalised sensor importance across all eight methods for the pairwise-FD001-FD002 model. Sensors are ordered by decreasing mean importance.}}{28}{figure.caption.17}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces L1-normalised sensor importance across all eight methods for the model trained on all subsets. Sensors are ordered by decreasing mean importance.}}{29}{figure.caption.18}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces L1-normalised sensor importance across all eight methods for the single-FD004 model. Sensors are ordered by decreasing mean importance.}}{30}{figure.caption.19}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces L1-normalised sensor importance across all eight methods for the pairwise FD001--FD004 model. Sensors are ordered by decreasing mean importance.}}{31}{figure.caption.20}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Aggregated top-3 confidence scores across all model configurations and feature importance methods. Scoring: 3~points for rank~1, 2~for rank~2, 1~for rank~3, summed over all configurations and methods.}}{32}{figure.caption.21}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Mean L1-normalised sensor importance across all model configurations and methods. Error bars show one standard deviation. Sensors are ordered by decreasing mean importance.}}{33}{figure.caption.22}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Mean off-diagonal Spearman rank correlation across model configurations for each feature importance method. Higher values indicate more consistent sensor rankings when the training data changes.}}{34}{figure.caption.23}%
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Spearman rank correlation of sensor importance rankings across model configurations for ICE. Red indicates high agreement, blue indicates disagreement. Complete matrices for all eight methods are provided in Appendix~\ref {app:correlation_matrices}.}}{35}{figure.caption.24}%
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Sensor-by-time importance heatmaps for four methods on the single-FD001 model. Horizontal axis: time index within the sliding window (0~=~earliest, 69~=~most recent). Vertical axis: sensors. Brighter colours indicate higher importance.}}{36}{figure.caption.25}%
 \addvspace {10\p@ }
 \def \@chapapp {\appendixname }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

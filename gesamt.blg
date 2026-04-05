@@ -3,47 +3,47 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: gesamt.aux
 The style file: literatur/itsBibStyle.bst
 Database file #1: literatur/bib.bib
-Warning--I didn't find a database entry for "kakarimi2020modelagnosticcounterfactualexplanationsconsequential"
 Warning--I didn't find a database entry for ""
-You've used 33 entries,
+Warning--empty publisher in molnar2023
+You've used 35 entries,
             2810 wiz_defined-function locations,
-            829 strings with 11243 characters,
-and the built_in function-call counts, 17511 in all, are:
-= -- 1650
-> -- 969
-< -- 21
-+ -- 354
-- -- 312
-* -- 1710
-:= -- 3001
-add.period$ -- 70
-call.type$ -- 33
-change.case$ -- 255
-chr.to.int$ -- 32
-cite$ -- 33
-duplicate$ -- 764
-empty$ -- 1167
-format.name$ -- 413
-if$ -- 3454
-int.to.chr$ -- 2
+            866 strings with 12474 characters,
+and the built_in function-call counts, 20819 in all, are:
+= -- 1984
+> -- 1116
+< -- 26
++ -- 403
+- -- 360
+* -- 2026
+:= -- 3444
+add.period$ -- 82
+call.type$ -- 35
+change.case$ -- 286
+chr.to.int$ -- 38
+cite$ -- 36
+duplicate$ -- 899
+empty$ -- 1427
+format.name$ -- 465
+if$ -- 4186
+int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 26
-newline$ -- 133
-num.names$ -- 132
-pop$ -- 355
+missing$ -- 35
+newline$ -- 148
+num.names$ -- 140
+pop$ -- 410
 preamble$ -- 1
-purify$ -- 236
+purify$ -- 260
 quote$ -- 0
-skip$ -- 525
+skip$ -- 639
 stack$ -- 0
-substring$ -- 820
-swap$ -- 204
-text.length$ -- 10
+substring$ -- 1162
+swap$ -- 267
+text.length$ -- 15
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 294
-warning$ -- 0
-while$ -- 142
+type$ -- 312
+warning$ -- 1
+while$ -- 174
 width$ -- 0
-write$ -- 392
+write$ -- 440
 (There were 2 warnings)

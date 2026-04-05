@@ -12,33 +12,19 @@
   year    = {2006},
   doi     = {10.1016/j.ymssp.2005.09.012}
 }
-@misc{apley2019visualizingeffectspredictorvariables,
-      title={Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models}, 
-      author={Daniel W. Apley and Jingyu Zhu},
-      year={2019},
-      eprint={1612.08468},
-      archivePrefix={arXiv},
-      primaryClass={stat.ME},
-      url={https://arxiv.org/abs/1612.08468}, 
+
+
+@inproceedings{sundararajan2017axiomaticattributiondeepnetworks,
+  title     = {Axiomatic Attribution for Deep Networks},
+  author    = {Sundararajan, Mukund and Taly, Ankur and Yan, Qiqi},
+  booktitle = {Proceedings of the 34th International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {70},
+  pages     = {3319--3328},
+  year      = {2017},
+  publisher = {PMLR}
 }
-@misc{kusner2018counterfactualfairness,
-      title={Counterfactual Fairness}, 
-      author={Matt J. Kusner and Joshua R. Loftus and Chris Russell and Ricardo Silva},
-      year={2018},
-      eprint={1703.06856},
-      archivePrefix={arXiv},
-      primaryClass={stat.ML},
-      url={https://arxiv.org/abs/1703.06856}, 
-}
-@misc{sundararajan2017axiomaticattributiondeepnetworks,
-      title={Axiomatic Attribution for Deep Networks}, 
-      author={Mukund Sundararajan and Ankur Taly and Qiqi Yan},
-      year={2017},
-      eprint={1703.01365},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/1703.01365}, 
-}
+
 @misc{fisher2019modelswrongusefullearning,
       title={All Models are Wrong, but Many are Useful: Learning a Variable's Importance by Studying an Entire Class of Prediction Models Simultaneously}, 
       author={Aaron Fisher and Cynthia Rudin and Francesca Dominici},
@@ -50,24 +36,37 @@
 }
 @article{BreimanRandomForest, author = {Breiman, Leo}, title = {Random Forests}, year = {2001}, issue_date = {October 1 2001}, publisher = {Kluwer Academic Publishers}, address = {USA}, volume = {45}, number = {1}, issn = {0885-6125}, url = {https://doi.org/10.1023/A:1010933404324}, doi = {10.1023/A:1010933404324}, abstract = {Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Y. Freund \& R. Schapire, Machine Learning: Proceedings of the Thirteenth International conference, ***, 148–156), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance. These ideas are also applicable to regression.}, journal = {Mach. Learn.}, month = oct, pages = {5–32}, numpages = {28}, keywords = {classification, ensemble, regression} }
 
-@misc{verma2022counterfactualexplanationsalgorithmicrecourses,
-      title={Counterfactual Explanations and Algorithmic Recourses for Machine Learning: A Review}, 
-      author={Sahil Verma and Varich Boonsanong and Minh Hoang and Keegan E. Hines and John P. Dickerson and Chirag Shah},
-      year={2022},
-      eprint={2010.10596},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2010.10596}, 
+@inproceedings{kusner2018counterfactual,
+  title     = {Counterfactual Fairness},
+  author    = {Kusner, Matt J. and Loftus, Joshua R. and Russell, Chris and Silva, Ricardo},
+  booktitle = {Advances in Neural Information Processing Systems 31 (NeurIPS 2018)},
+  pages     = {4066--4076},
+  year      = {2018}
 }
-@misc{karimi2020modelagnosticcounterfactualexplanationsconsequential,
-      title={Model-Agnostic Counterfactual Explanations for Consequential Decisions}, 
-      author={Amir-Hossein Karimi and Gilles Barthe and Borja Balle and Isabel Valera},
-      year={2020},
-      eprint={1905.11190},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/1905.11190}, 
+
+@article{verma2022counterfactualexplanationsalgorithmicrecourses,
+  title   = {Counterfactual Explanations and Algorithmic Recourses for Machine Learning: A Review},
+  author  = {Verma, Sahil and Boonsanong, Varich and Hoang, Minh and Hines, Keegan E. and Dickerson, John P. and Shah, Chirag},
+  journal = {ACM Computing Surveys},
+  volume  = {55},
+  number  = {13s},
+  pages   = {1--37},
+  year    = {2022},
+  doi     = {10.1145/3539810}
 }
+
+
+@article{karimi2020modelagnosticcounterfactualexplanationsconsequential,
+  title   = {Model-Agnostic Counterfactual Explanations for Consequential Decisions},
+  author  = {Kakarimi, Zahra and Schulte, Oliver and Zilles, Sandra},
+  journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume  = {34},
+  number  = {04},
+  pages   = {8952--8959},
+  year    = {2020},
+  doi     = {10.1609/aaai.v34i04.6424}
+}
+
 @inbook{Dandl_2020,
    title={Multi-Objective Counterfactual Explanations},
    ISBN={9783030581121},
@@ -80,24 +79,25 @@
    year={2020},
    pages={448–469} }
 
-@misc{ribeiro2016modelagnosticinterpretabilitymachinelearning,
-      title={Model-Agnostic Interpretability of Machine Learning}, 
-      author={Marco Tulio Ribeiro and Sameer Singh and Carlos Guestrin},
-      year={2016},
-      eprint={1606.05386},
-      archivePrefix={arXiv},
-      primaryClass={stat.ML},
-      url={https://arxiv.org/abs/1606.05386}, 
+@inproceedings{ribeiro2016modelagnosticinterpretabilitymachinelearning,
+  title     = {``Why Should I Trust You?'': Explaining the Predictions of Any Classifier},
+  author    = {Ribeiro, Marco Tulio and Singh, Sameer and Guestrin, Carlos},
+  booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  pages     = {1135--1144},
+  year      = {2016},
+  doi       = {10.1145/2939672.2939778}
 }
-@misc{wachter2018counterfactualexplanationsopeningblack,
-      title={Counterfactual Explanations without Opening the Black Box: Automated Decisions and the GDPR}, 
-      author={Sandra Wachter and Brent Mittelstadt and Chris Russell},
-      year={2018},
-      eprint={1711.00399},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/1711.00399}, 
+
+@article{wachter2018counterfactualexplanationsopeningblack,
+  title   = {Counterfactual Explanations without Opening the Black Box: Automated Decisions and the {GDPR}},
+  author  = {Wachter, Sandra and Mittelstadt, Brent and Russell, Chris},
+  journal = {Harvard Journal of Law \& Technology},
+  volume  = {31},
+  number  = {2},
+  pages   = {841--887},
+  year    = {2018}
 }
+
 @article{aas_explaining_2021,
 	title = {Explaining individual predictions when features are dependent: {More} accurate approximations to {Shapley} values},
 	volume = {298},
@@ -141,26 +141,27 @@
 	pages = {647--665},
 	file = {PDF:/Users/callumdew/Zotero/storage/GE8F8IE3/Štrumbelj and Kononenko - 2014 - Explaining prediction models and individual predictions with feature contributions.pdf:application/pdf},
 }
-@misc{lundberg2017unifiedapproachinterpretingmodel,
-      title={A Unified Approach to Interpreting Model Predictions}, 
-      author={Lundberg, Scott and Lee, Su-In},
-      year={2017},
-      eprint={1705.07874},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/1705.07874}, 
+
+@inproceedings{lundberg2017unified,
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  author    = {Lundberg, Scott M. and Lee, Su-In},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {30},
+  year      = {2017},
+  pages     = {4765--4774}
 }
+
 @article{Shapley1953,
-author = {L. S. Shapley },
-title = {Stochastic Games*},
-journal = {Proceedings of the National Academy of Sciences},
-volume = {39},
-number = {10},
-pages = {1095-1100},
-year = {1953},
-doi = {10.1073/pnas.39.10.1095},
-URL = {https://www.pnas.org/doi/abs/10.1073/pnas.39.10.1095},
-eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.39.10.1095}}
+  title   = {Stochastic Games},
+  author  = {Shapley, Lloyd S.},
+  journal = {Proceedings of the National Academy of Sciences},
+  volume  = {39},
+  number  = {10},
+  pages   = {1095--1100},
+  year    = {1953},
+  doi     = {10.1073/pnas.39.10.1095}
+}
+
 @inproceedings{zeiler2014visualizing,
   author    = {Zeiler, Matthew D. and Fergus, Rob},
   title     = {Visualizing and Understanding Convolutional Networks},
@@ -170,14 +171,17 @@ eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.39.10.1095}}
   publisher = {Springer},
   doi       = {10.1007/978-3-319-10590-1_53}
 }
+
 @book{molnar2023,
-  author    = {Christoph Molnar},
-  title     = {Interpretable Machine Learning},
-  year      = {2023},
-  edition   = {2},
-  publisher = {Lulu.com},
-  note      = {Available at https://christophm.github.io/interpretable-ml-book/},
+  title={Interpretable Machine Learning},
+  subtitle={A Guide for Making Black Box Models Explainable},
+  author={Christoph Molnar},
+  year={2025},
+  edition={3},
+  isbn={978-3-911578-03-5},
+  url={https://christophm.github.io/interpretable-ml-book}
 }
+
 @article{goldstein_peeking_2015,
 	title = {Peeking {Inside} the {Black} {Box}: {Visualizing} {Statistical} {Learning} {With} {Plots} of {Individual} {Conditional} {Expectation}},
 	volume = {24},
@@ -417,7 +421,16 @@ eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.39.10.1095}}
   pages   = {167--179},
   doi     = {10.1016/j.neucom.2017.05.063},
 }
- 
+ @article{apley2020ale,
+  title   = {Visualizing the Effects of Predictor Variables in Black Box Supervised Learning Models},
+  author  = {Apley, Daniel W. and Zhu, Jingyu},
+  journal = {Journal of the Royal Statistical Society: Series B (Statistical Methodology)},
+  volume  = {82},
+  number  = {4},
+  pages   = {1059--1086},
+  year    = {2020},
+  doi     = {10.1111/rssb.12377}
+}
 % ADDED: for "Hybrid CNN-LSTM architectures" claim
 @article{Zhao2017,
   author  = {Zhao, Rui and Yan, Ruqiang and Wang, Jinjiang and Mao, Kezhi},
@@ -541,4 +554,15 @@ eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.39.10.1095}}
   pages   = {206--215},
   doi     = {10.1038/s42256-019-0048-x},
 }
+
  
+% NEW — XAI survey
+@article{BarredoArrieta2020,
+  author  = {Barredo Arrieta, Alejandro and D{\'\i}az-Rodr{\'\i}guez, Natalia and Del Ser, Javier and Bennetot, Adrien and Tabik, Siham and Barbado, Alberto and Garc{\'\i}a, Salvador and Gil-L{\'o}pez, Sergio and Molina, Daniel and Benjamins, Richard and Chatila, Raja and Herrera, Francisco},
+  title   = {Explainable Artificial Intelligence ({XAI}): Concepts, Taxonomies, Opportunities and Challenges Toward Responsible {AI}},
+  journal = {Information Fusion},
+  year    = {2020},
+  volume  = {58},
+  pages   = {82--115},
+  doi     = {10.1016/j.inffus.2019.12.012},
+}

@@ -3,8 +3,30 @@
 \chapter{Conclusion and Outlook}
 \label{Chapter:Conclusion}
 
-\section{Summary of Contributions}
+\section{Conclusion}
+This thesis applied eight feature importance methods to a 1D-CNN trained for remaining useful life prediction on the C-MAPSS turbofan engine dataset. The goal was not to improve prediction accuracy, the model itself was fixed, but to understand what it had learned and to evaluate whether different explanation methods agree on that understanding. 
 
-\section{Answering the Research Questions}
+They do not fully agree and the disagreements turned out to be as informative as the agreements.
+
+Three sensors, s11, s9 and s12, emerged as the most important across all methods and training configurations. Sensor s11 led by a wide margin in both ranking frequency and average magnitude, with s9 dominant on single-condition subsets and s11 taking over when operating-point variability increased. This shift is physically consistent with the role of HPC outlet pressure as a direct indicator of compressor health and the confounding effect of varying operating conditions on core speed measurements.
+
+The eight methods split into a clear reliability hierarchy. Integrated Gradients and Feature Ablation produced the most stable rankings across training configurations, followed by SHAP and ICE. LIME identified the correct top sensor but over-concentrated its importance estimates. PFI preserved broad ranking order but distorted magnitudes through isolated spikes. ALE, despite agreeing with the consensus on individual models, proved the least stable across configurations, and unexpected result that highlights the sensitivity of bin-level local effects to changes in model parameters. Counterfactual Explanations were unreliable throughout, producing inconsistent rankings, noisy temporal attributions and search-dominated results that did not converge to stable feature importance estimates in this high-dimensional setting.
+
+The temporal analysis revealed that the model concentrates its predictive attention on the final 10-15 time steps of the 70-step sliding window. Three independent methods, gradient-based, ablation-based and surrogate-based, converged on this pattern, lending confidence that it reflects the model's actual behaviour rather than an artefact of any single explanation technique.
+
+The reduced sensor experiment produced the most directly applicable finding. A model trained on all four C-MAPSS subsets using only the top-3 sensors outperformed the full 13-sensor model on every test subset, with RMSE reductions of 10-25\% and $R^2$ values above 0.94. The same reduction applied to single-subset models caused catastrophic performance loss. Sensor selection based on aggregate feature importance is viable, but only when paired with training data that spans a sufficient range of operating conditions and fault modes. 
+
+Taken together, the results make a case for multi-method explainability analysis as standard practice in data-driven prognostics. Relying on a single explanation method, as most existing studies do, risks mistaking that method's particular perspective for a complete picture of the model's behaviour. Comparing multiple methods exposes where conclusions are robust and where they depend on the choice of tool.
 
 \section{Outlook}
+Several directions follow naturally from this work.
+
+The most immediate is extending the analysis to other model architectures. The 1D-CNN studied here is relatively simple, no recurrence, no attention, no gating. LSTM-based, Transformer-based and hybrid CNN-LSTM models are widely used for RUL prediction and may distribute feature importance differently. Whether IG and FA remain the most stable methods on these architectures and whether the late-window temporal concentration persists in model with explicit temporal memory, are open questions.
+
+The reduced sensor finding invites further investigation. This thesis tested only the top-3 reduction. Intermediate levels, top-5, top-7, top-9, would map out the accuracy-simplicity tradeoff more precisely and might identify a point where single-subset models can tolerate sensor reduction without catastrophic loss. Similarly, sensor selection could be made configuration-specific rather than aggregate: choosing sensors based on the model's own importance ranking rather than the global consensus might improve reduced-sensor performance on narrow training sets.
+
+The temporal concentration result suggests that shorter sliding windows could achieve comparable prediction accuracy at lower computational cost. A systematic sweep of window lengths, combined with the temporal attribution analysis, would quantify how much of the window is actually needed and whether the optimal length varies across subsets or training configurations.
+
+Counterfactual Explanations underperformed in this thesis, but the method was applied in its most general form, searching over all sensors and all time steps simultaneously. Constraining the search to physically meaningful perturbation directions, or reducing the dimensionality of the input before generating counterfactuals, might produce more interpretable results. This is worth exploring separately rather than writing off the method based on its performance here.
+
+Finally, the analysis was conducted entirely on simulated data. Applying the same multi-method comparison to real-world engine monitoring data, with sensor drift, calibration errors, missing values and failure modes not represented in C-MAPSS, would test whether the method reliability hierarchy and the sensor importance rankings transfer to operational conditions. That step is necessary before the findings of this thesis can inform actual maintenance decisions.

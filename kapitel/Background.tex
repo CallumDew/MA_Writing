@@ -58,11 +58,11 @@ A large absolute value of $\phi_j(\mathbf{x})$ indicates strong local influence 
     \phi_j^{\mathrm{FA}} = \frac{1}{N} \sum_{i=1}^{N} \left|\phi_j\!\left(\mathbf{x}^{(i)}\right)\right|.
 \end{equation}
 %
-Attributions depend strongly on the choice of $x_j^{\mathrm{ref}}$, and replacing features independently can generate inputs that lie far outside the training distribution when features are statistically dependent \citep{molnar2022}.
+Attributions depend strongly on the choice of $x_j^{\mathrm{ref}}$, and replacing features independently can generate inputs that lie far outside the training distribution when features are statistically dependent \citep{molnar2023}.
 
 \subsection{Shapley Additive Explanations}
 
-SHAP (SHapley Additive exPlanations) attributes a model prediction to its input features using cooperative game theory \citep{lundberg2017, shapley1953}. Each feature is treated as a player, and its attribution is its average marginal contribution to the prediction across all possible feature subsets.
+SHAP (SHapley Additive exPlanations) attributes a model prediction to its input features using cooperative game theory \citep{lundberg2017unified, shapley1953}. Each feature is treated as a player, and its attribution is its average marginal contribution to the prediction across all possible feature subsets.
 
 A value function $v(S) \in \mathbb{R}$, defined for each subset $S \subseteq F = \{1, \ldots, d\}$, quantifies the model output when only the features in $S$ are active, with absent features replaced by a reference value or marginalised out. The Shapley value for feature $j$ is
 %
@@ -76,9 +76,9 @@ where the factorial weight averages the marginal contribution $v(S \cup \{j\}) -
     f(\mathbf{x}) = \phi_0 + \sum_{j=1}^{d} \phi_j,
 \end{equation}
 %
-where $\phi_0 = \mathbb{E}[f(X)]$ is a baseline value under a background distribution \citep{lundberg2017}. Four axioms uniquely characterise the Shapley values: \textit{efficiency} ensures attributions sum to the explained quantity; \textit{symmetry} gives equal attribution to features contributing identically to all coalitions; the \textit{dummy property} assigns zero to features that never change the value function; and \textit{linearity} ensures attributions combine linearly for linear combinations of models.
+where $\phi_0 = \mathbb{E}[f(X)]$ is a baseline value under a background distribution \citep{lundberg2017unified}. Four axioms uniquely characterise the Shapley values: \textit{efficiency} ensures attributions sum to the explained quantity; \textit{symmetry} gives equal attribution to features contributing identically to all coalitions; the \textit{dummy property} assigns zero to features that never change the value function; and \textit{linearity} ensures attributions combine linearly for linear combinations of models.
 
-Two common formulations of $v(S)$ exist. Setting $v(S) = \mathbb{E}[f(X) \mid X_S = x_S]$ respects feature dependencies but requires estimating high-dimensional conditional distributions. Setting $v(S) = \mathbb{E}[f(\mathbf{x}_S, X_{\bar{S}})]$ draws absent features from a background distribution independently, which is computationally simpler but may evaluate the model at unlikely input combinations. Both formulations can yield different attributions when features are correlated \citep{aas_explaining_2021}. Exact computation requires evaluating all $2^d$ coalitions, which quickly becomes intractable; in practice, Shapley values are approximated via sampling-based estimation \citep{strumbelj_explaining_2014} or weighted regression \citep{lundberg2017}, at the cost of some variance in the estimates.
+Two common formulations of $v(S)$ exist. Setting $v(S) = \mathbb{E}[f(X) \mid X_S = x_S]$ respects feature dependencies but requires estimating high-dimensional conditional distributions. Setting $v(S) = \mathbb{E}[f(\mathbf{x}_S, X_{\bar{S}})]$ draws absent features from a background distribution independently, which is computationally simpler but may evaluate the model at unlikely input combinations. Both formulations can yield different attributions when features are correlated \citep{aas_explaining_2021}. Exact computation requires evaluating all $2^d$ coalitions, which quickly becomes intractable; in practice, Shapley values are approximated via sampling-based estimation \citep{strumbelj_explaining_2014} or weighted regression \citep{lundberg2017unified}, at the cost of some variance in the estimates.
 
 \subsection{Local Interpretable Model-Agnostic Explanations}
 
@@ -108,7 +108,7 @@ For an instance $\mathbf{x} \in \mathbb{R}^d$ and a target $y'$, a counterfactua
     \mathbf{x}^{\mathrm{cf}} = \underset{\mathbf{z}}{\arg\min}\; \lambda \cdot \mathcal{L}(f(\mathbf{z}), y') + D(\mathbf{z}, \mathbf{x}),
 \end{equation}
 %
-where $\mathcal{L}$ penalises deviation from $y'$ and $\lambda > 0$ controls the trade-off between prediction fidelity and closeness to the original input \citep{wachter2018counterfactualexplanationsopeningblack}. $D$ is typically an $L_1$ or $L_2$ norm. Additional constraints can be imposed to ensure plausibility, sparsity, or feasibility \citep{kakarimi2020modelagnosticcounterfactualexplanationsconsequential, verma2022counterfactualexplanationsalgorithmicrecourses}, and causal structure can be incorporated to respect feature dependencies \citep{kusner2018counterfactualfairness}. The optimisation is generally non-convex, and multiple valid counterfactuals may exist for any given instance.
+where $\mathcal{L}$ penalises deviation from $y'$ and $\lambda > 0$ controls the trade-off between prediction fidelity and closeness to the original input \citep{wachter2018counterfactualexplanationsopeningblack}. $D$ is typically an $L_1$ or $L_2$ norm. Additional constraints can be imposed to ensure plausibility, sparsity, or feasibility \citep{karimi2020modelagnosticcounterfactualexplanationsconsequential, verma2022counterfactualexplanationsalgorithmicrecourses}, and causal structure can be incorporated to respect feature dependencies \citep{kusner2018counterfactual}. The optimisation is generally non-convex, and multiple valid counterfactuals may exist for any given instance.
 
 \subsection{Permutation Feature Importance}
 
@@ -124,7 +124,7 @@ where a larger value indicates greater model reliance on feature $j$ for error-b
 
 \subsection{Accumulated Local Effects}
 
-Accumulated Local Effects (ALE) estimates the average influence of a feature on model predictions in a way that accounts for feature correlations \citep{apley2019visualizingeffectspredictorvariables}. The standard alternative, PDP, averages predictions over the marginal distribution of all other features, which can produce evaluations at unrealistic input combinations when features are dependent. ALE addresses this by computing prediction differences within narrow local intervals, conditioning only on samples that actually fall in that region.
+Accumulated Local Effects (ALE) estimates the average influence of a feature on model predictions in a way that accounts for feature correlations \citep{apley2020ale}. The standard alternative, PDP, averages predictions over the marginal distribution of all other features, which can produce evaluations at unrealistic input combinations when features are dependent. ALE addresses this by computing prediction differences within narrow local intervals, conditioning only on samples that actually fall in that region.
 
 The domain of feature $x_j$ is partitioned into $K$ disjoint intervals at grid points $z_0 < z_1 < \cdots < z_K$, chosen as empirical quantiles to ensure sufficient data in each bin. For each sample $\mathbf{x}^{(i)}$ in interval $[z_{k-1}, z_k]$, the local prediction difference is
 %
