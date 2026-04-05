@@ -1,40 +1,156 @@
+% \vspace{-15pt}
+% \begin{longtable}{@{}p{0.2\textwidth}@{}p{0.15\textwidth}@{}p{0.64\textwidth}}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Bezeichnung			&	Einheit																	& Beschreibung
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Lateinische Symbole
+% \multicolumn{3}{@{}l}{\itshape{\latinsymbolsname}} \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 	$F_\text{xy}$	 	&   																			& Faktor xy \tabularnewline
+% 	$H$ 						& \si{\meter}  														& Höhe \tabularnewline
+% 	$c_p$ 					& \si{\joule\per\kilogram\per\kelvin}			& Spezifische Wärmekapazität \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Griechische Symbole
+% \tabularnewline\multicolumn{3}{@{}l}{\itshape{\greeksymbolsname}} \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 	$\kappa$	 			&   																			& Isentropenexponent \tabularnewline
+% 	$\lambda$ 			& \si{\watt\per\meter\per\kelvin}  				& Wärmeleitfähigkeit \tabularnewline
+% 	$\epsilon$ 			& \si{\meter^2\per\second^3}							& Dissipationsrate \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Ähnlichkeitskennzahlen
+% \tabularnewline\multicolumn{3}{@{}l}{\itshape{\simparsname}} \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 	$\textit{Bi}$	 	&   																			& Biotzahl \tabularnewline
+% 	$\textit{Nu}$ 	& 									  										& Nußeltzahl \tabularnewline
+% 	$\textit{Pr}$ 	& 																	  		& Prandtlzahl \tabularnewline
+% 	$\textit{Re}$ 	& 																			  & Reynoldszahl \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Indizes
+% \tabularnewline\multicolumn{3}{@{}l}{\itshape{\indicesname}} \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 	r	 							&   																			& r-Koordinate \tabularnewline
+% 	x	 							&   																			& x-Koordinate \tabularnewline
+% 	y								& 										 										& y-Koordinate \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Abkürzungen
+% \tabularnewline\multicolumn{3}{@{}l}{\itshape{\abbrevsname}} \tabularnewline
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 	CFD	 						&   																			& Computational Fluid Dynamics \tabularnewline
+% 	FEM	 						&   																			& Finite-Elemente-Methode \tabularnewline
+% \end{longtable}
+
+
+
+
+
+
 \vspace{-15pt}
 \begin{longtable}{@{}p{0.2\textwidth}@{}p{0.15\textwidth}@{}p{0.64\textwidth}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Bezeichnung			&	Einheit																	& Beschreibung
+% Bezeichnung           &   Einheit                 & Beschreibung
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Lateinische Symbole
 \multicolumn{3}{@{}l}{\itshape{\latinsymbolsname}} \tabularnewline
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	$F_\text{xy}$	 	&   																			& Faktor xy \tabularnewline
-	$H$ 						& \si{\meter}  														& Höhe \tabularnewline
-	$c_p$ 					& \si{\joule\per\kilogram\per\kelvin}			& Spezifische Wärmekapazität \tabularnewline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$d$                     &                           & Number of input features / input dimensionality \tabularnewline
+$f$                     &                           & Trained predictive model, $f: \mathbb{R}^d \to \mathbb{R}$ \tabularnewline
+$g$                     &                           & Local surrogate model (LIME) \tabularnewline
+$k$                     &                           & Convolutional kernel size \tabularnewline
+$m$                     &                           & Number of integration steps (Integrated Gradients) \tabularnewline
+$\hat{y}$               &                           & Normalised predicted RUL \tabularnewline
+$\mathbf{x}$            &                           & Input vector, $\mathbf{x} = (x_1, x_2, \ldots, x_d)$ \tabularnewline
+$x_j$                   &                           & $j$-th feature of input vector \tabularnewline
+$x^{(i)}$               &                           & $i$-th sample in the dataset \tabularnewline
+$x^{(i)}_j$             &                           & Feature $j$ of sample $i$ \tabularnewline
+$x^{\text{cf}}$         &                           & Counterfactual input \tabularnewline
+$x^{\text{ref}}_j$      &                           & Reference (baseline) value for feature $j$ \tabularnewline
+$x^{\prime}$            &                           & Baseline input vector (Integrated Gradients) \tabularnewline
+$\tilde{x}^{(j)}$       &                           & Modified input with feature $j$ permuted or ablated \tabularnewline
+$\tilde{x}_j$           &                           & Modified input with feature $j$ replaced by reference value \tabularnewline
+$z$                     &                           & Grid value used in ICE / ALE evaluation \tabularnewline
+$z_k$                   &                           & Bin boundary at position $k$ (ALE) \tabularnewline
+$D$                     &                           & Distance function (counterfactual optimisation) \tabularnewline
+$F$                     &                           & Full feature set, $F = \{1, \ldots, d\}$ \tabularnewline
+$K$                     &                           & Number of bins or grid points (ALE / ICE) \tabularnewline
+$\mathcal{L}$           &                           & Loss function \tabularnewline
+$N$                     &                           & Number of samples in the dataset \tabularnewline
+$N_k$                   &                           & Number of samples in ALE bin $k$ \tabularnewline
+$R_c$                   & cycles             & Piecewise RUL cap \tabularnewline
+$S$                     &                           & Coalition / subset of features (SHAP) \tabularnewline
+$T$                     &                           & Sliding window length \tabularnewline
+$t$                     & cycles                    & Current engine cycle \tabularnewline
+$t_{\text{EOL}}$        & cycles                    & End-of-life cycle \tabularnewline
+$v(S)$                  &                           & Value function for coalition $S$ (SHAP) \tabularnewline
+$w_j$                   &                           & Surrogate model coefficient for feature $j$ (LIME) \tabularnewline
+$w_j^{(i)}$             &                           & Surrogate coefficient for feature $j$, instance $i$ (LIME) \tabularnewline
+$y^{(i)}$               &                           & True normalised RUL for sample $i$ \tabularnewline
+$y^{\prime}$            &                           & Target output for counterfactual generation \tabularnewline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Griechische Symbole
 \tabularnewline\multicolumn{3}{@{}l}{\itshape{\greeksymbolsname}} \tabularnewline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	$\kappa$	 			&   																			& Isentropenexponent \tabularnewline
-	$\lambda$ 			& \si{\watt\per\meter\per\kelvin}  				& Wärmeleitfähigkeit \tabularnewline
-	$\epsilon$ 			& \si{\meter^2\per\second^3}							& Dissipationsrate \tabularnewline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Ähnlichkeitskennzahlen
-\tabularnewline\multicolumn{3}{@{}l}{\itshape{\simparsname}} \tabularnewline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	$\textit{Bi}$	 	&   																			& Biotzahl \tabularnewline
-	$\textit{Nu}$ 	& 									  										& Nußeltzahl \tabularnewline
-	$\textit{Pr}$ 	& 																	  		& Prandtlzahl \tabularnewline
-	$\textit{Re}$ 	& 																			  & Reynoldszahl \tabularnewline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Indizes
-\tabularnewline\multicolumn{3}{@{}l}{\itshape{\indicesname}} \tabularnewline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	r	 							&   																			& r-Koordinate \tabularnewline
-	x	 							&   																			& x-Koordinate \tabularnewline
-	y								& 										 										& y-Koordinate \tabularnewline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$\alpha$                &                           & Interpolation parameter along the IG integration path, $\alpha \in [0,1]$ \tabularnewline
+$\alpha_k$              &                           & $k$-th quadrature point along the IG integration path \tabularnewline
+$\gamma(\alpha)$        &                           & Linear interpolation path from baseline to input (IG) \tabularnewline
+$\Delta^{(i)}_{j,k}$   &                           & Local prediction difference for sample $i$ in ALE bin $k$ \tabularnewline
+$\hat{\Delta}_{j,k}$   &                           & Average local prediction difference in ALE bin $k$ \tabularnewline
+$\lambda$               &                           & Regularisation / trade-off parameter (LIME, counterfactual) \tabularnewline
+$\phi_j$                &                           & Feature attribution for feature $j$; method-specific (see SHAP, IG, FA) \tabularnewline
+$\phi_0$                &                           & Baseline prediction, $\phi_0 = \mathbb{E}[f(\mathbf{X})]$ \tabularnewline
+$\pi_x(\cdot)$          &                           & Locality kernel weighting function (LIME) \tabularnewline
+$\Omega(g)$             &                           & Complexity penalty on surrogate model (LIME) \tabularnewline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Feature Importance Scores
+\tabularnewline\multicolumn{3}{@{}l}{\itshape{Feature Importance Scores}} \tabularnewline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$\text{FI}^{\text{ICE}}_j$              &           & ICE-derived global importance for sensor $j$ \tabularnewline
+$\text{FI}^{\text{FA}}_j$               &           & Feature Ablation importance for sensor $j$ \tabularnewline
+$\text{FI}^{\text{SHAP}}_j$             &           & Mean absolute Shapley value for sensor $j$ \tabularnewline
+$\text{FI}^{\text{LIME}}_j$             &           & Mean absolute surrogate coefficient for sensor $j$ \tabularnewline
+$\text{FI}^{\text{PFI}}_j$              &           & Permutation Feature Importance for sensor $j$ \tabularnewline
+$\text{FI}^{\text{ALE}}_j$              &           & ALE range-based importance for sensor $j$ \tabularnewline
+$\text{FI}^{\text{IG}}_j$               &           & Mean absolute Integrated Gradients attribution for sensor $j$ \tabularnewline
+$\text{FI}^{\text{CF}}_j$               &           & Counterfactual-derived importance for sensor $j$ \tabularnewline
+$\text{FI}^{\text{method}}_j$           &           & Generic per-sensor importance score prior to L1 normalisation \tabularnewline
+$\text{FI}^{\text{method, L1}}_j$       &           & L1-normalised feature importance score for sensor $j$ \tabularnewline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Functions and Operators
+\tabularnewline\multicolumn{3}{@{}l}{\itshape{Functions and Operators}} \tabularnewline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$\text{ICE}_j(x^{(i)}, z)$             &           & ICE curve for feature $j$, instance $i$, at grid value $z$ \tabularnewline
+$\text{PDP}_j(z)$                       &           & Partial Dependence Plot for feature $j$ at value $z$ \tabularnewline
+$\text{ALE}_j(z)$                       &           & Accumulated Local Effects function for feature $j$ at value $z$ \tabularnewline
+$\text{RUL}_{\text{raw}}(t)$            & cycles    & Raw remaining useful life at cycle $t$ \tabularnewline
+$\text{RUL}(t)$                         & cycles    & Piecewise-capped remaining useful life at cycle $t$ \tabularnewline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Abkürzungen
 \tabularnewline\multicolumn{3}{@{}l}{\itshape{\abbrevsname}} \tabularnewline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	CFD	 						&   																			& Computational Fluid Dynamics \tabularnewline
-	FEM	 						&   																			& Finite-Elemente-Methode \tabularnewline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    ALE         &                           & Accumulated Local Effects \tabularnewline
+    C-MAPSS     &                           & Commercial Modular Aero-Propulsion System Simulation \tabularnewline
+    CBAM        &                           & Convolutional Block Attention Module \tabularnewline
+    CF          &                           & Counterfactual Explanations \tabularnewline
+    CNN         &                           & Convolutional Neural Network \tabularnewline
+    DANN        &                           & Domain-Adversarial Neural Network \tabularnewline
+    FA          &                           & Feature Ablation \tabularnewline
+    GRL         &                           & Gradient Reversal Layer \tabularnewline
+    GRU         &                           & Gated Recurrent Unit \tabularnewline
+    HPC         &                           & High-Pressure Compressor \tabularnewline
+    HPT         &                           & High-Pressure Turbine \tabularnewline
+    ICE         &                           & Individual Conditional Expectation \tabularnewline
+    IG          &                           & Integrated Gradients \tabularnewline
+    LIME        &                           & Local Interpretable Model-Agnostic Explanations \tabularnewline
+    LPC         &                           & Low-Pressure Compressor \tabularnewline
+    LPT         &                           & Low-Pressure Turbine \tabularnewline
+    LSTM        &                           & Long Short-Term Memory \tabularnewline
+    MRO         &                           & Maintenance, Repair and Overhaul \tabularnewline
+    MSE         &                           & Mean Squared Error \tabularnewline
+    PDP         &                           & Partial Dependence Plot \tabularnewline
+    PFI         &                           & Permutation Feature Importance \tabularnewline
+    PHM         &                           & Prognostics and Health Management \tabularnewline
+    RMSE        &                           & Root Mean Squared Error \tabularnewline
+    RUL         &                           & Remaining Useful Life \tabularnewline
+    SHAP        &                           & SHapley Additive exPlanations \tabularnewline
+    TCN         &                           & Temporal Convolutional Network \tabularnewline
+    XAI         &                           & eXplainable Artificial Intelligence \tabularnewline
 \end{longtable}

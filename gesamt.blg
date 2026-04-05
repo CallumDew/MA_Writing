@@ -5,45 +5,45 @@ The style file: literatur/itsBibStyle.bst
 Database file #1: literatur/bib.bib
 Warning--I didn't find a database entry for ""
 Warning--empty publisher in molnar2023
-You've used 35 entries,
+You've used 34 entries,
             2810 wiz_defined-function locations,
-            866 strings with 12474 characters,
-and the built_in function-call counts, 20819 in all, are:
-= -- 1984
-> -- 1116
+            860 strings with 12224 characters,
+and the built_in function-call counts, 20259 in all, are:
+= -- 1929
+> -- 1088
 < -- 26
-+ -- 403
-- -- 360
-* -- 2026
-:= -- 3444
-add.period$ -- 82
-call.type$ -- 35
-change.case$ -- 286
-chr.to.int$ -- 38
-cite$ -- 36
-duplicate$ -- 899
-empty$ -- 1427
-format.name$ -- 465
-if$ -- 4186
++ -- 393
+- -- 351
+* -- 1967
+:= -- 3349
+add.period$ -- 80
+call.type$ -- 34
+change.case$ -- 279
+chr.to.int$ -- 37
+cite$ -- 35
+duplicate$ -- 877
+empty$ -- 1389
+format.name$ -- 453
+if$ -- 4078
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 35
-newline$ -- 148
-num.names$ -- 140
-pop$ -- 410
+missing$ -- 34
+newline$ -- 144
+num.names$ -- 136
+pop$ -- 401
 preamble$ -- 1
-purify$ -- 260
+purify$ -- 253
 quote$ -- 0
-skip$ -- 639
+skip$ -- 625
 stack$ -- 0
-substring$ -- 1162
-swap$ -- 267
+substring$ -- 1120
+swap$ -- 262
 text.length$ -- 15
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 312
+type$ -- 303
 warning$ -- 1
-while$ -- 174
+while$ -- 169
 width$ -- 0
-write$ -- 440
+write$ -- 428
 (There were 2 warnings)

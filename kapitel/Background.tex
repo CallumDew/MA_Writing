@@ -2,187 +2,434 @@
 \cleardoublepage
 
 \chapter{Fundamentals}
-\label{Chapter:Background}
 
+This chapter introduces the eight feature importance methods used in this thesis. The methods are divided into model-agnostic approaches, which work with any model, and model-specific approaches, which require access to the model's internal computations. Practical implementation details are covered in Chapter~\ref{Chapter:Methodology}.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-This chapter covers the theoretical foundations of the feature importance methods used in this thesis, including formal definitions, mathematical formulations, and key properties of each technique. The methods are divided into model-agnostic and model-specific approaches; application-specific details are addressed in Chapter~\ref{Chapter:Methodology}.
-
+% =============================================================
 \section{Model-Agnostic Methods}
+% =============================================================
 
-Model-agnostic feature importance methods operate independently of the underlying model structure and require only the ability to query the model with input data and observe the resulting output. Let
+Model-agnostic methods treat the model as a black box. They only require the ability to feed inputs into the model and observe the resulting predictions. Let
 %
 \begin{equation}
-    f : \mathbb{R}^d \rightarrow \mathbb{R}
+    f: \mathbb{R}^d \to \mathbb{R}
+    \label{eq:model}
 \end{equation}
 %
-be a trained predictive model mapping an input vector $\mathbf{x} = (x_1, x_2, \ldots, x_d)$ to a scalar output such as a predicted RUL. This definition of $f$ and $\mathbf{x}$ is retained throughout this section. Without access to the model internals, these methods analyse how the output changes when inputs are perturbed, fixed, permuted, or replaced, yielding either global or local explanations depending on whether effects are evaluated across the full dataset or at the level of individual samples.
+be a trained model mapping an input vector $\mathbf{x} = (x_1, x_2, \ldots, x_d)$ to a scalar output such as a predicted RUL. This definition of $f$ and $\mathbf{x}$ is used throughout this section. By modifying inputs in various ways — sweeping a feature across its range, replacing it with a neutral value, shuffling it across samples — these methods measure how sensitive the model's output is to each input feature.
 
+% -------------------------------------------------------------
 \subsection{Individual Conditional Expectation}
-Individual Conditional Expectation (ICE) visualises how a model's prediction changes as a single feature varies while all other features are held fixed at their observed values \citep{goldstein_peeking_2015}. For a sample $\mathbf{x}^{(i)} = (x_1^{(i)}, \ldots, x_d^{(i)})$, where superscript $(i)$ identifies the sample and subscript $j$ the feature of interest, the ICE curve is obtained by substituting a grid of values $z$ into position $j$:
-%
-\begin{equation}
-    \mathrm{ICE}_j\!\left(\mathbf{x}^{(i)}, z\right) = f\!\left(x_1^{(i)}, \ldots, x_{j-1}^{(i)},\, z,\, x_{j+1}^{(i)}, \ldots, x_d^{(i)}\right).
-\end{equation}
-%
-Each evaluation replaces $x_j$ with $z$ while all other features remain fixed, producing a prediction curve over the range of $z$ for that instance. Averaging across all $N$ samples gives the Partial Dependence Plot (PDP),
-%
-\begin{equation}
-    \mathrm{PDP}_j(z) = \frac{1}{N} \sum_{i=1}^{N} \mathrm{ICE}_j\!\left(\mathbf{x}^{(i)}, z\right),
-\end{equation}
-%
-which describes the average marginal effect of $x_j$ across the data distribution. Where individual ICE curves diverge substantially, this signals feature interactions or non-linear effects that the PDP would obscure through averaging. In this thesis, a scalar importance score is derived from ICE by computing the mean variance of individual ICE curves across all instances,
-%
-\begin{equation}
-    \label{equation:ICE-FI}
-    \mathrm{ICE\text{-}FI}_j = \frac{1}{M} \sum_{i=1}^{M} \mathrm{Var}_z\!\left[\mathrm{ICE}_j\!\left(\mathbf{x}^{(i)}, z\right)\right],
-\end{equation}
-%
-which measures how much each instance's prediction varies as feature $j$ is swept across its range, averaged over all $M$ instances (see Chapter~\ref{Chapter:Methodology}). This captures instance-level sensitivity more robustly than the range of the PDP, since it accounts for the full spread of the curve across all grid points rather than relying on the endpoints alone.
+% -------------------------------------------------------------
 
+Individual Conditional Expectation (ICE) shows how a model's prediction changes as one feature is varied, while all other features are held fixed at their observed values \citep{goldstein_peeking_2015}. For a sample $x^{(i)}$, the ICE curve for feature $j$ is obtained by substituting a grid of values $z$ into position $j$:
+%
+\begin{equation}
+    \text{ICE}_j\!\left(x^{(i)}, z\right) = f\!\left(x^{(i)}_1, \ldots, x^{(i)}_{j-1},\, z,\, x^{(i)}_{j+1}, \ldots, x^{(i)}_d\right)
+    \label{eq:ice}
+\end{equation}
+%
+This produces one prediction curve per instance, tracing how the output responds to feature $j$ in isolation. Averaging across all $N$ samples gives the Partial Dependence Plot (PDP):
+%
+\begin{equation}
+    \text{PDP}_j(z) = \frac{1}{N} \sum_{i=1}^{N} \text{ICE}_j\!\left(x^{(i)}, z\right)
+    \label{eq:pdp}
+\end{equation}
+%
+The PDP describes the average effect of feature $j$ across the dataset. Where individual ICE curves diverge substantially from the PDP, this indicates that the feature's effect depends on the values of other features — a sign of interaction effects that averaging would obscure.
+
+A scalar importance score is derived by computing the mean variance of ICE curves across all instances:
+%
+\begin{equation}
+    \text{FI}^{\text{ICE}}_j = \frac{1}{N} \sum_{i=1}^{N} \text{Var}_z \!\left[ \text{ICE}_j\!\left(x^{(i)}, z\right) \right]
+    \label{eq:ice_fi}
+\end{equation}
+%
+This measures how much each instance's prediction varies as feature $j$ is swept across its range. A feature that consistently moves predictions will receive a high score; one the model ignores will not. The resulting score is referred to as $\text{FI}^{\text{ICE}}_j$ throughout this thesis.
+
+% -------------------------------------------------------------
 \subsection{Feature Ablation}
+% -------------------------------------------------------------
 
-Feature Ablation quantifies feature importance by measuring how much the model's prediction changes when a feature is replaced by a neutral reference value \citep{zeiler2014visualizing}. If removing a feature's information causes a large shift in the output, that feature matters.
+Feature Ablation measures importance by replacing a feature with a neutral reference value and observing how much the prediction changes \citep{zeiler2014visualizing}. The idea is simple: if removing a feature's information causes a large shift in the output, that feature matters.
 
-To evaluate feature $x_j$, a modified input $\tilde{\mathbf{x}}_j$ is constructed by replacing $x_j$ with a reference value $x_j^{\mathrm{ref}}$, such as the feature mean or zero, while all other features remain unchanged. The local attribution is
+For feature $j$, a modified input $\tilde{x}_j$ is constructed by replacing $x_j$ with a reference value $x^{\text{ref}}_j$ — typically the feature mean — while all other features remain unchanged. The local attribution is:
 %
 \begin{equation}
-    \phi_j(\mathbf{x}) = f(\mathbf{x}) - f(\tilde{\mathbf{x}}_j).
+    \phi_j(\mathbf{x}) = f(\mathbf{x}) - f(\tilde{x}_j)
+    \label{eq:fa_local}
 \end{equation}
 %
-A large absolute value of $\phi_j(\mathbf{x})$ indicates strong local influence of feature $j$. In multivariate time-series data, entire sensor channels or time windows can be ablated jointly, enabling interpretation at a higher semantic level. Aggregating over the dataset gives a global importance score:
+Averaging the absolute change across the dataset gives the global importance score:
 %
 \begin{equation}
-    \phi_j^{\mathrm{FA}} = \frac{1}{N} \sum_{i=1}^{N} \left|\phi_j\!\left(\mathbf{x}^{(i)}\right)\right|.
+    \text{FI}^{\text{FA}}_j = \frac{1}{N} \sum_{i=1}^{N} \left| \phi_j\!\left(x^{(i)}\right) \right|
+    \label{eq:fa_global}
 \end{equation}
 %
-Attributions depend strongly on the choice of $x_j^{\mathrm{ref}}$, and replacing features independently can generate inputs that lie far outside the training distribution when features are statistically dependent \citep{molnar2023}.
+In multivariate time-series data, entire sensor channels can be ablated jointly rather than individual time steps, which is the approach taken in this thesis. One limitation is that results depend on the choice of reference value, and replacing features independently can produce input combinations that are unlikely under the true data distribution when features are correlated \citep{molnar2023}. This global score is referred to as $\text{FI}^{\text{FA}}_j$ throughout this thesis.
 
+% -------------------------------------------------------------
 \subsection{Shapley Additive Explanations}
+% -------------------------------------------------------------
 
-SHAP (SHapley Additive exPlanations) attributes a model prediction to its input features using cooperative game theory \citep{lundberg2017unified, shapley1953}. Each feature is treated as a player, and its attribution is its average marginal contribution to the prediction across all possible feature subsets.
+SHAP (SHapley Additive exPlanations) attributes a prediction to its input features using ideas from cooperative game theory \citep{lundberg2017unified, Shapley1953}. Each feature is treated as a player in a game, and its attribution is its average contribution to the prediction across all possible subsets of features.
 
-A value function $v(S) \in \mathbb{R}$, defined for each subset $S \subseteq F = \{1, \ldots, d\}$, quantifies the model output when only the features in $S$ are active, with absent features replaced by a reference value or marginalised out. The Shapley value for feature $j$ is
+A value function $v(S)$ quantifies the model output when only the features in subset $S \subseteq F = \{1, \ldots, d\}$ are active, with absent features replaced by a reference value. The Shapley value for feature $j$ is:
 %
 \begin{equation}
-    \phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|!\,(d - |S| - 1)!}{d!} \left(v(S \cup \{j\}) - v(S)\right),
+    \phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|!\,(d - |S| - 1)!}{d!} \left(v(S \cup \{j\}) - v(S)\right)
+    \label{eq:shapley}
 \end{equation}
 %
-where the factorial weight averages the marginal contribution $v(S \cup \{j\}) - v(S)$ over all coalition sizes and orderings \citep{shapley1953}. The attributions form an additive decomposition of the prediction:
+The factorial weight averages the marginal contribution $v(S \cup \{j\}) - v(S)$ over all possible coalition sizes and orderings \citep{Shapley1953}. The attributions form an additive decomposition of the prediction:
 %
 \begin{equation}
-    f(\mathbf{x}) = \phi_0 + \sum_{j=1}^{d} \phi_j,
+    f(\mathbf{x}) = \phi_0 + \sum_{j=1}^{d} \phi_j
+    \label{eq:shap_decomp}
 \end{equation}
 %
-where $\phi_0 = \mathbb{E}[f(X)]$ is a baseline value under a background distribution \citep{lundberg2017unified}. Four axioms uniquely characterise the Shapley values: \textit{efficiency} ensures attributions sum to the explained quantity; \textit{symmetry} gives equal attribution to features contributing identically to all coalitions; the \textit{dummy property} assigns zero to features that never change the value function; and \textit{linearity} ensures attributions combine linearly for linear combinations of models.
+where $\phi_0 = \mathbb{E}[f(\mathbf{X})]$ is the expected model output under a background distribution \citep{lundberg2017unified}. Four axioms uniquely characterise Shapley values: efficiency (attributions sum to the explained quantity), symmetry (identical contributors receive equal attribution), the dummy property (non-contributing features receive zero), and linearity (attributions combine linearly for linear combinations of models).
 
-Two common formulations of $v(S)$ exist. Setting $v(S) = \mathbb{E}[f(X) \mid X_S = x_S]$ respects feature dependencies but requires estimating high-dimensional conditional distributions. Setting $v(S) = \mathbb{E}[f(\mathbf{x}_S, X_{\bar{S}})]$ draws absent features from a background distribution independently, which is computationally simpler but may evaluate the model at unlikely input combinations. Both formulations can yield different attributions when features are correlated \citep{aas_explaining_2021}. Exact computation requires evaluating all $2^d$ coalitions, which quickly becomes intractable; in practice, Shapley values are approximated via sampling-based estimation \citep{strumbelj_explaining_2014} or weighted regression \citep{lundberg2017unified}, at the cost of some variance in the estimates.
+Exact computation requires evaluating all $2^d$ possible coalitions, which becomes expensive for large $d$. In practice, Shapley values are approximated via sampling or weighted regression \citep{lundberg2017unified, strumbelj_explaining_2014}. When features are correlated, the choice of how to handle absent features affects the resulting attributions \citep{aas_explaining_2021}. For the purposes of cross-method comparison, the global feature importance score is defined as the mean absolute Shapley value across all instances, $\text{FI}^{\text{SHAP}}_j = \frac{1}{N}\sum_{i=1}^{N}|\phi_j(x^{(i)})|$.
 
+% -------------------------------------------------------------
 \subsection{Local Interpretable Model-Agnostic Explanations}
+% -------------------------------------------------------------
 
-LIME (Local Interpretable Model-Agnostic Explanations) explains an individual prediction by fitting a simple interpretable surrogate to the original model in the neighbourhood of a specific input instance \citep{ribeiro2016modelagnosticinterpretabilitymachinelearning}. Even globally complex models often behave approximately linearly in a small enough region, which is the premise LIME exploits.
+LIME explains an individual prediction by fitting a simple linear model to approximate the original model in the neighbourhood of a specific input \citep{ribeiro2016modelagnosticinterpretabilitymachinelearning}. Even a complex model often behaves approximately linearly in a small enough region, and LIME exploits this.
 
-Given an instance $\mathbf{x} \in \mathbb{R}^d$, LIME samples perturbed inputs $\{\mathbf{z}_k\}_{k=1}^K$ near $\mathbf{x}$ and evaluates each to obtain $f(\mathbf{z}_k)$. A locality kernel $\pi_{\mathbf{x}}(\mathbf{z}_k)$ down-weights samples distant from $\mathbf{x}$, focusing the surrogate on the immediate neighbourhood of the instance. A sparse linear model $g$ is then fitted by solving
+Given an instance $\mathbf{x}$, LIME draws perturbed inputs $\{z_k\}_{k=1}^{K}$ near $\mathbf{x}$ and evaluates each with the model. A locality kernel $\pi_x(z_k)$ down-weights samples that are far from $\mathbf{x}$. A sparse linear model $g$ is then fitted by solving:
 %
 \begin{equation}
-    \underset{g \in \mathcal{G}}{\arg\min}\; \mathcal{L}(f, g, \pi_{\mathbf{x}}) + \Omega(g),
+    \underset{g \in \mathcal{G}}{\arg\min} \; \mathcal{L}(f, g, \pi_x) + \Omega(g)
+    \label{eq:lime_opt}
 \end{equation}
 %
-where $\mathcal{L}$ measures how closely $g$ approximates $f$ under the locality weighting and $\Omega(g)$ penalises complexity \citep{ribeiro2016modelagnosticinterpretabilitymachinelearning}. For a linear surrogate,
+where $\mathcal{L}$ measures how closely $g$ approximates $f$ under the locality weighting and $\Omega(g)$ penalises complexity \citep{ribeiro2016modelagnosticinterpretabilitymachinelearning}. For a linear surrogate:
 %
 \begin{equation}
-    g(\mathbf{z}) = w_0 + \sum_{j=1}^{d} w_j z_j,
+    g(z) = w_0 + \sum_{j=1}^{d} w_j z_j
+    \label{eq:lime_surrogate}
 \end{equation}
 %
-the fitted coefficients $w_j$ are the local feature importance scores, directly indicating each feature's contribution at $\mathbf{x}$. Explanations can vary across runs due to the stochastic nature of the perturbation sampling.
+the fitted coefficients $w_j$ are the local feature importance scores. Because LIME draws perturbed samples stochastically, explanations can vary slightly across runs. For the purposes of cross-method comparison, the global feature importance score is defined as the mean absolute surrogate coefficient across all instances, $\text{FI}^{\text{LIME}}_j = \frac{1}{N}\sum_{i=1}^{N}|w_j^{(i)}|$.
 
+% -------------------------------------------------------------
 \subsection{Counterfactual Explanations}
+% -------------------------------------------------------------
 
-Counterfactual explanations take a different perspective from attribution-based methods: instead of scoring each feature, they ask what the smallest change to the input would be to shift the model's prediction to a desired target. Features that must change most are considered the most influential \citep{wachter2018counterfactualexplanationsopeningblack}.
+Counterfactual explanations take a different perspective from the attribution-based methods above. Rather than scoring features by their contribution to the current prediction, they ask: what is the smallest change to the input that would shift the model's prediction to a desired target? Features that need to change most are considered the most influential \citep{wachter2018counterfactualexplanationsopeningblack}.
 
-For an instance $\mathbf{x} \in \mathbb{R}^d$ and a target $y'$, a counterfactual $\mathbf{x}^{\mathrm{cf}}$ is sought satisfying $f(\mathbf{x}^{\mathrm{cf}}) = y'$ while minimising the distance $D(\mathbf{x}, \mathbf{x}^{\mathrm{cf}})$. In practice this constrained problem is relaxed to
+For an instance $\mathbf{x}$ and a target output $y'$, a counterfactual $x^{\text{cf}}$ is found by solving:
 %
 \begin{equation}
-    \mathbf{x}^{\mathrm{cf}} = \underset{\mathbf{z}}{\arg\min}\; \lambda \cdot \mathcal{L}(f(\mathbf{z}), y') + D(\mathbf{z}, \mathbf{x}),
+    x^{\text{cf}} = \underset{z}{\arg\min} \; \lambda \cdot \mathcal{L}(f(z),\, y') + D(z, \mathbf{x})
+    \label{eq:cf_opt}
 \end{equation}
 %
-where $\mathcal{L}$ penalises deviation from $y'$ and $\lambda > 0$ controls the trade-off between prediction fidelity and closeness to the original input \citep{wachter2018counterfactualexplanationsopeningblack}. $D$ is typically an $L_1$ or $L_2$ norm. Additional constraints can be imposed to ensure plausibility, sparsity, or feasibility \citep{karimi2020modelagnosticcounterfactualexplanationsconsequential, verma2022counterfactualexplanationsalgorithmicrecourses}, and causal structure can be incorporated to respect feature dependencies \citep{kusner2018counterfactual}. The optimisation is generally non-convex, and multiple valid counterfactuals may exist for any given instance.
+where $\mathcal{L}$ penalises deviation from the target, $D$ is a distance measure (typically L1 or L2) that penalises large changes to the input, and $\lambda > 0$ controls the trade-off between the two \citep{wachter2018counterfactualexplanationsopeningblack}. Additional constraints can be added to ensure that the counterfactual remains plausible \citep{verma2022counterfactualexplanationsalgorithmicrecourses} or respects causal structure \citep{kusner2018counterfactual}. The optimisation is generally non-convex and multiple valid solutions may exist. The resulting per-sensor magnitude of change, aggregated across instances, is referred to as $\text{FI}^{\text{CF}}_j$ throughout this thesis.
 
+% -------------------------------------------------------------
 \subsection{Permutation Feature Importance}
+% -------------------------------------------------------------
 
-Permutation Feature Importance (PFI) quantifies each feature's contribution by measuring the drop in predictive performance when the statistical link between that feature and the target is broken \citep{BreimanRandomForest,fisher2019modelswrongusefullearning}. Shuffling a feature's values across samples removes any information it carries about the target while leaving its marginal distribution unchanged, any resulting performance loss is then attributable to the loss of that feature's signal.
+Permutation Feature Importance (PFI) measures how much predictive performance drops when the link between a feature and the target is broken by randomly shuffling that feature's values across samples \citep{BreimanRandomForest, fisher2019modelswrongusefullearning}. Shuffling destroys any information the feature carries about the target while leaving its marginal distribution unchanged — so any resulting drop in performance can be attributed to the loss of that feature's signal.
 
-Let $\{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^N$ be the evaluation dataset and $\mathcal{L}(f)$ a performance metric such as mean squared error. For feature $j$, a permuted dataset $\tilde{\mathbf{x}}^{(j)}$ is constructed by randomly shuffling $x_j$ across all samples while leaving all other features unchanged. The permutation importance is
+For feature $j$, a permuted dataset $\tilde{x}^{(j)}$ is constructed by randomly shuffling $x_j$ across all samples while all other features remain unchanged. The importance is:
 %
 \begin{equation}
-    \mathrm{PFI}_j = \mathcal{L}\!\left(f(\tilde{\mathbf{x}}^{(j)})\right) - \mathcal{L}(f(\mathbf{x})),
+    \text{FI}^{\text{PFI}}_j = \mathcal{L}\!\left(f\!\left(\tilde{x}^{(j)}\right)\right) - \mathcal{L}(f(\mathbf{x}))
+    \label{eq:pfi}
 \end{equation}
 %
-where a larger value indicates greater model reliance on feature $j$ for error-based metrics. PFI measures predictive dependence, not causal effect. When features are correlated, permuting one independently of the others creates combinations unlikely to appear in training, which can inflate or distort the estimates \citep{fisher2019modelswrongusefullearning}.
+where $\mathcal{L}$ is a performance metric such as mean squared error. A larger value means the model relied more heavily on feature $j$. One known limitation is that when features are correlated, permuting one independently of the others can generate unrealistic input combinations, which may inflate or distort the resulting estimates \citep{fisher2019modelswrongusefullearning}. This score is referred to as $\text{FI}^{\text{PFI}}_j$ throughout this thesis.
 
+% -------------------------------------------------------------
 \subsection{Accumulated Local Effects}
+% -------------------------------------------------------------
 
-Accumulated Local Effects (ALE) estimates the average influence of a feature on model predictions in a way that accounts for feature correlations \citep{apley2020ale}. The standard alternative, PDP, averages predictions over the marginal distribution of all other features, which can produce evaluations at unrealistic input combinations when features are dependent. ALE addresses this by computing prediction differences within narrow local intervals, conditioning only on samples that actually fall in that region.
+Accumulated Local Effects (ALE) estimates the average effect of a feature on model predictions in a way that accounts for correlations between features \citep{apley2020ale}. The standard alternative, PDP, averages predictions over the marginal distribution of all features, which can produce evaluations at input combinations that are unrealistic when features are dependent. ALE avoids this by computing prediction differences within narrow local intervals, using only samples that actually fall in that region.
 
-The domain of feature $x_j$ is partitioned into $K$ disjoint intervals at grid points $z_0 < z_1 < \cdots < z_K$, chosen as empirical quantiles to ensure sufficient data in each bin. For each sample $\mathbf{x}^{(i)}$ in interval $[z_{k-1}, z_k]$, the local prediction difference is
+The domain of feature $x_j$ is divided into $K$ intervals at quantile-based grid points $z_0 < z_1 < \cdots < z_K$. For each sample $x^{(i)}$ falling in interval $[z_{k-1}, z_k]$, the local prediction difference is:
 %
 \begin{equation}
-    \Delta_{j,k}^{(i)} = f\!\left(x_1^{(i)}, \ldots, z_k, \ldots, x_d^{(i)}\right) - f\!\left(x_1^{(i)}, \ldots, z_{k-1}, \ldots, x_d^{(i)}\right),
+    \Delta^{(i)}_{j,k} = f\!\left(x^{(i)}_1, \ldots, z_k, \ldots, x^{(i)}_d\right) - f\!\left(x^{(i)}_1, \ldots, z_{k-1}, \ldots, x^{(i)}_d\right)
+    \label{eq:ale_diff}
 \end{equation}
 %
-with all other features held at their observed values. The average within interval $k$,
+The average within bin $k$ is:
 %
 \begin{equation}
-    \hat{\Delta}_{j,k} = \frac{1}{N_k} \sum_{i:\, x_j^{(i)} \in [z_{k-1}, z_k]} \Delta_{j,k}^{(i)},
+    \hat{\Delta}_{j,k} = \frac{1}{N_k} \sum_{i:\, x^{(i)}_j \in [z_{k-1},\, z_k]} \Delta^{(i)}_{j,k}
+    \label{eq:ale_bin_avg}
 \end{equation}
 %
-is then accumulated to give the ALE function at point $z$:
+and these local averages are accumulated to give the ALE function at point $z$:
 %
 \begin{equation}
-    \mathrm{ALE}_j(z) = \sum_{k:\, z_k \leq z} \hat{\Delta}_{j,k}.
+    \text{ALE}_j(z) = \sum_{k:\, z_k \leq z} \hat{\Delta}_{j,k}
+    \label{eq:ale_func}
 \end{equation}
 %
-The function is centred so that 
+The function is centred so that:
 %
 \begin{equation}
-    \label{equation:ALE_center}
-    \int \mathrm{ALE}_j(z)\, dP_{X_j}(z) = 0
+    \int \text{ALE}_j(z) \, \mathrm{d}P_{X_j}(z) = 0
+    \label{eq:ale_centre}
 \end{equation}
 %
-meaning it reflects deviations from the average prediction rather than absolute values. Unlike ICE, which traces the full prediction curve per instance, ALE describes the average local rate of change across bins, a global perspective. The PDP formulation $\mathbb{E}[f(x_j, X_{\setminus j})]$, where $X_{\setminus j}$ denotes all features except $j$, averages over the marginal distribution, which can place the model in regions of the input space that are practically unreachable; ALE is specifically designed to avoid this. Instability in sparse regions of the feature space remains a limitation.
+meaning it reflects deviations from the average prediction rather than absolute values. A scalar importance score is derived as the range of the centred ALE curve,
+%
+\begin{equation}
+    \text{FI}^{\text{ALE}}_j = \max_z \,\text{ALE}_j(z) - \min_z \,\text{ALE}_j(z)
+    \label{eq:ale_fi}
+\end{equation}
+%
+reflecting the total span of predicted RUL variation attributable to that feature. Instability in sparsely populated regions of the feature space remains a limitation.
 
+% =============================================================
 \section{Model-Specific Methods}
+% =============================================================
 
-Model-specific feature importance methods make use of quantities internal to the model, gradients, activations, or parameter values and are therefore tied to a particular model class. Unlike model-agnostic methods, which work purely from input-output pairs, they require access to the model internals, restricting their applicability to differentiable architectures such as neural networks. Within that scope, they tend to be more computationally efficient and come with stronger theoretical guarantees.
+Model-specific methods use quantities internal to the model — gradients, activations, or weights — and are therefore tied to a particular model class. They require access to the model's internals, which restricts their use to differentiable architectures such as neural networks. Within that scope, they are generally more computationally efficient than model-agnostic methods.
 
+% -------------------------------------------------------------
 \subsection{Integrated Gradients}
+% -------------------------------------------------------------
 
-Integrated Gradients (IG) is a gradient-based attribution method for differentiable models \citep{sundararajan2017axiomaticattributiondeepnetworks}. Plain gradient saliency evaluates only the local gradient at the input, which can be uninformative when the model saturates. IG instead accumulates gradients along a straight-line path from a reference baseline to the instance being explained, building a more complete account of each feature's contribution.
+Integrated Gradients (IG) is a gradient-based attribution method for differentiable models \citep{sundararajan2017axiomaticattributiondeepnetworks}. A straightforward approach would be to evaluate the gradient at the input and use it as an importance score. The problem is that gradients only reflect local behaviour and can be uninformative when the model's output saturates. IG addresses this by accumulating gradients along a straight-line path from a reference baseline to the input being explained, building a more complete picture of each feature's contribution.
 
-Let $\mathbf{x} \in \mathbb{R}^d$ be the input and $\mathbf{x}' \in \mathbb{R}^d$ a baseline representing an uninformative reference state, for example, an all-zeros vector. The path between them is the vector-valued interpolation
+Let $\mathbf{x}$ be the input and $x'$ a baseline representing an uninformative reference state, for example an all-zeros vector. The path between them is:
 %
 \begin{equation}
-    \boldsymbol{\gamma}(\alpha) = \mathbf{x}' + \alpha(\mathbf{x} - \mathbf{x}') \in \mathbb{R}^d, \quad \alpha \in [0, 1],
+    \gamma(\alpha) = x' + \alpha(\mathbf{x} - x'), \quad \alpha \in [0, 1]
+    \label{eq:ig_path}
 \end{equation}
 %
-where $\alpha$ is a scalar interpolation parameter and $\boldsymbol{\gamma}(\alpha)$ the corresponding input vector. The attribution for feature $j$ is the path integral of the partial derivative of $f$ with respect to $x_j$, scaled by the displacement of that feature between baseline and input:
+The attribution for feature $j$ is the path integral of the partial derivative of $f$ with respect to $x_j$, scaled by the displacement between baseline and input:
 %
 \begin{equation}
-    \phi_j(\mathbf{x}) = (x_j - x_j') \int_0^1 \frac{\partial f(\boldsymbol{\gamma}(\alpha))}{\partial x_j}\, d\alpha.
+    \phi_j(\mathbf{x}) = (x_j - x'_j) \int_0^1 \frac{\partial f(\gamma(\alpha))}{\partial x_j} \, \mathrm{d}\alpha
+    \label{eq:ig_attr}
 \end{equation}
 %
-In practice the integral is approximated by a Riemann sum with $m$ steps:
+In practice, the integral is approximated using a Riemann sum with $m$ steps:
 %
 \begin{equation}
-    \phi_j(\mathbf{x}) \approx (x_j - x_j')\, \frac{1}{m} \sum_{k=1}^{m} \frac{\partial f(\boldsymbol{\gamma}(\alpha_k))}{\partial x_j}, \quad \alpha_k = \frac{k}{m}.
+    \phi_j(\mathbf{x}) \approx (x_j - x'_j)\, \frac{1}{m} \sum_{k=1}^{m} \frac{\partial f(\gamma(\alpha_k))}{\partial x_j}, \qquad \alpha_k = \frac{k}{m}
+    \label{eq:ig_riemann}
 \end{equation}
 %
-IG satisfies the \textit{completeness} property: attributions sum exactly to the difference in model output between input and baseline,
+IG satisfies the completeness property — attributions sum exactly to the difference in model output between input and baseline:
 %
 \begin{equation}
-    \sum_{j=1}^{d} \phi_j(\mathbf{x}) = f(\mathbf{x}) - f(\mathbf{x}'),
+    \sum_{j=1}^{d} \phi_j(\mathbf{x}) = f(\mathbf{x}) - f(x')
+    \label{eq:ig_completeness}
 \end{equation}
 %
-giving a fully additive decomposition of the prediction difference. Two further axioms are satisfied: \textit{sensitivity}, a feature responsible for a prediction difference always receives non-zero attribution, and \textit{implementation invariance}, functionally equivalent models produce identical attributions \citep{sundararajan2017axiomaticattributiondeepnetworks}. Attributions can differ substantially with different baseline choices, and no universally appropriate baseline exists. Global feature importance is obtained by aggregating local attributions across samples.
+Two further properties hold: sensitivity (a feature responsible for a prediction difference always receives non-zero attribution) and implementation invariance (functionally equivalent models produce identical attributions) \citep{sundararajan2017axiomaticattributiondeepnetworks}. The choice of baseline affects the resulting attributions and no universally correct choice exists. The global feature importance score is defined as the mean absolute attribution across all instances, $\text{FI}^{\text{IG}}_j = \frac{1}{N}\sum_{i=1}^{N}|\phi_j(x^{(i)})|$, and is referred to as $\text{FI}^{\text{IG}}_j$ throughout this thesis.
+
+
+
+% \chapter{Fundamentals}
+% \label{Chapter:Background}
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% This chapter covers the theoretical foundations of the feature importance methods used in this thesis, including formal definitions, mathematical formulations, and key properties of each technique. The methods are divided into model-agnostic and model-specific approaches; application-specific details are addressed in Chapter~\ref{Chapter:Methodology}.
+
+% \section{Model-Agnostic Methods}
+
+% Model-agnostic feature importance methods operate independently of the underlying model structure and require only the ability to query the model with input data and observe the resulting output. Let
+% %
+% \begin{equation}
+%     f : \mathbb{R}^d \rightarrow \mathbb{R}
+% \end{equation}
+% %
+% be a trained predictive model mapping an input vector $\mathbf{x} = (x_1, x_2, \ldots, x_d)$ to a scalar output such as a predicted RUL. This definition of $f$ and $\mathbf{x}$ is retained throughout this section. Without access to the model internals, these methods analyse how the output changes when inputs are perturbed, fixed, permuted, or replaced, yielding either global or local explanations depending on whether effects are evaluated across the full dataset or at the level of individual samples.
+
+% \subsection{Individual Conditional Expectation}
+% Individual Conditional Expectation (ICE) visualises how a model's prediction changes as a single feature varies while all other features are held fixed at their observed values \citep{goldstein_peeking_2015}. For a sample $\mathbf{x}^{(i)} = (x_1^{(i)}, \ldots, x_d^{(i)})$, where superscript $(i)$ identifies the sample and subscript $j$ the feature of interest, the ICE curve is obtained by substituting a grid of values $z$ into position $j$:
+% %
+% \begin{equation}
+%     \mathrm{ICE}_j\!\left(\mathbf{x}^{(i)}, z\right) = f\!\left(x_1^{(i)}, \ldots, x_{j-1}^{(i)},\, z,\, x_{j+1}^{(i)}, \ldots, x_d^{(i)}\right).
+% \end{equation}
+% %
+% Each evaluation replaces $x_j$ with $z$ while all other features remain fixed, producing a prediction curve over the range of $z$ for that instance. Averaging across all $N$ samples gives the Partial Dependence Plot (PDP),
+% %
+% \begin{equation}
+%     \mathrm{PDP}_j(z) = \frac{1}{N} \sum_{i=1}^{N} \mathrm{ICE}_j\!\left(\mathbf{x}^{(i)}, z\right),
+% \end{equation}
+% %
+% which describes the average marginal effect of $x_j$ across the data distribution. Where individual ICE curves diverge substantially, this signals feature interactions or non-linear effects that the PDP would obscure through averaging. In this thesis, a scalar importance score is derived from ICE by computing the mean variance of individual ICE curves across all instances,
+% %
+% \begin{equation}
+%     \label{equation:ICE-FI}
+%     \mathrm{ICE\text{-}FI}_j = \frac{1}{N} \sum_{i=1}^{N} \mathrm{Var}_z\!\left[\mathrm{ICE}_j\!\left(\mathbf{x}^{(i)}, z\right)\right],
+% \end{equation}
+% %
+% which measures how much each instance's prediction varies as feature $j$ is swept across its range, averaged over all $N$ instances (see Chapter~\ref{Chapter:Methodology}). This captures instance-level sensitivity more robustly than the range of the PDP, since it accounts for the full spread of the curve across all grid points rather than relying on the endpoints alone.
+
+% The resulting score is referred to as $\text{FI}^{\text{ICE}}_j$ throughout this thesis.
+
+% \subsection{Feature Ablation}
+
+% Feature Ablation quantifies feature importance by measuring how much the model's prediction changes when a feature is replaced by a neutral reference value \citep{zeiler2014visualizing}. If removing a feature's information causes a large shift in the output, that feature matters.
+
+% To evaluate feature $x_j$, a modified input $\tilde{\mathbf{x}}_j$ is constructed by replacing $x_j$ with a reference value $x_j^{\mathrm{ref}}$, such as the feature mean or zero, while all other features remain unchanged. The local attribution is
+% %
+% \begin{equation}
+%     \phi_j(\mathbf{x}) = f(\mathbf{x}) - f(\tilde{\mathbf{x}}_j).
+% \end{equation}
+% %
+% A large absolute value of $\phi_j(\mathbf{x})$ indicates strong local influence of feature $j$. In multivariate time-series data, entire sensor channels or time windows can be ablated jointly, enabling interpretation at a higher semantic level. Aggregating over the dataset gives a global importance score:
+% %
+% \begin{equation}
+%     \phi_j^{\mathrm{FA}} = \frac{1}{N} \sum_{i=1}^{N} \left|\phi_j\!\left(\mathbf{x}^{(i)}\right)\right|.
+% \end{equation}
+% %
+% Attributions depend strongly on the choice of $x_j^{\mathrm{ref}}$, and replacing features independently can generate inputs that lie far outside the training distribution when features are statistically dependent \citep{molnar2023}.
+
+% This global score is referred to as $\text{FI}^{\text{FA}}_j$ throughout this thesis.
+
+% \subsection{Shapley Additive Explanations}
+
+% SHAP (SHapley Additive exPlanations) attributes a model prediction to its input features using cooperative game theory \citep{lundberg2017unified, shapley1953}. Each feature is treated as a player, and its attribution is its average marginal contribution to the prediction across all possible feature subsets.
+
+% A value function $v(S) \in \mathbb{R}$, defined for each subset $S \subseteq F = \{1, \ldots, d\}$, quantifies the model output when only the features in $S$ are active, with absent features replaced by a reference value or marginalised out. The Shapley value for feature $j$ is
+% %
+% \begin{equation}
+%     \phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|!\,(d - |S| - 1)!}{d!} \left(v(S \cup \{j\}) - v(S)\right),
+% \end{equation}
+% %
+% where the factorial weight averages the marginal contribution $v(S \cup \{j\}) - v(S)$ over all coalition sizes and orderings \citep{shapley1953}. The attributions form an additive decomposition of the prediction:
+% %
+% \begin{equation}
+%     f(\mathbf{x}) = \phi_0 + \sum_{j=1}^{d} \phi_j,
+% \end{equation}
+% %
+% where $\phi_0 = \mathbb{E}[f(X)]$ is a baseline value under a background distribution \citep{lundberg2017unified}. Four axioms uniquely characterise the Shapley values: \textit{efficiency} ensures attributions sum to the explained quantity; \textit{symmetry} gives equal attribution to features contributing identically to all coalitions; the \textit{dummy property} assigns zero to features that never change the value function; and \textit{linearity} ensures attributions combine linearly for linear combinations of models.
+
+% Two common formulations of $v(S)$ exist. Setting $v(S) = \mathbb{E}[f(X) \mid X_S = x_S]$ respects feature dependencies but requires estimating high-dimensional conditional distributions. Setting $v(S) = \mathbb{E}[f(\mathbf{x}_S, X_{\bar{S}})]$ draws absent features from a background distribution independently, which is computationally simpler but may evaluate the model at unlikely input combinations. Both formulations can yield different attributions when features are correlated \citep{aas_explaining_2021}. Exact computation requires evaluating all $2^d$ coalitions, which quickly becomes intractable; in practice, Shapley values are approximated via sampling-based estimation \citep{strumbelj_explaining_2014} or weighted regression \citep{lundberg2017unified}, at the cost of some variance in the estimates.
+
+% For the purposes of cross-method comparison, the global feature importance score is defined as the mean absolute Shapley value across all instances, $\text{FI}^{\text{SHAP}}_j = \frac{1}{N}\sum_{i=1}^{N}|\phi_j(x^{(i)})|$.
+
+% \subsection{Local Interpretable Model-Agnostic Explanations}
+
+% LIME (Local Interpretable Model-Agnostic Explanations) explains an individual prediction by fitting a simple interpretable surrogate to the original model in the neighbourhood of a specific input instance \citep{ribeiro2016modelagnosticinterpretabilitymachinelearning}. Even globally complex models often behave approximately linearly in a small enough region, which is the premise LIME exploits.
+
+% Given an instance $\mathbf{x} \in \mathbb{R}^d$, LIME samples perturbed inputs $\{\mathbf{z}_k\}_{k=1}^K$ near $\mathbf{x}$ and evaluates each to obtain $f(\mathbf{z}_k)$. A locality kernel $\pi_{\mathbf{x}}(\mathbf{z}_k)$ down-weights samples distant from $\mathbf{x}$, focusing the surrogate on the immediate neighbourhood of the instance. A sparse linear model $g$ is then fitted by solving
+% %
+% \begin{equation}
+%     \underset{g \in \mathcal{G}}{\arg\min}\; \mathcal{L}(f, g, \pi_{\mathbf{x}}) + \Omega(g),
+% \end{equation}
+% %
+% where $\mathcal{L}$ measures how closely $g$ approximates $f$ under the locality weighting and $\Omega(g)$ penalises complexity \citep{ribeiro2016modelagnosticinterpretabilitymachinelearning}. For a linear surrogate,
+% %
+% \begin{equation}
+%     g(\mathbf{z}) = w_0 + \sum_{j=1}^{d} w_j z_j,
+% \end{equation}
+% %
+% the fitted coefficients $w_j$ are the local feature importance scores, directly indicating each feature's contribution at $\mathbf{x}$. Explanations can vary across runs due to the stochastic nature of the perturbation sampling.
+
+% For the purposes of cross-method comparison, the global feature importance score is defined as the mean absolute surrogate coefficient across all instances, $\text{FI}^{\text{LIME}}_j = \frac{1}{N}\sum_{i=1}^{N}|w_j^{(i)}|$.
+
+% \subsection{Counterfactual Explanations}
+
+% Counterfactual explanations take a different perspective from attribution-based methods: instead of scoring each feature, they ask what the smallest change to the input would be to shift the model's prediction to a desired target. Features that must change most are considered the most influential \citep{wachter2018counterfactualexplanationsopeningblack}.
+
+% For an instance $\mathbf{x} \in \mathbb{R}^d$ and a target $y'$, a counterfactual $\mathbf{x}^{\mathrm{cf}}$ is sought satisfying $f(\mathbf{x}^{\mathrm{cf}}) = y'$ while minimising the distance $D(\mathbf{x}, \mathbf{x}^{\mathrm{cf}})$. In practice this constrained problem is relaxed to
+% %
+% \begin{equation}
+%     \mathbf{x}^{\mathrm{cf}} = \underset{\mathbf{z}}{\arg\min}\; \lambda \cdot \mathcal{L}(f(\mathbf{z}), y') + D(\mathbf{z}, \mathbf{x}),
+% \end{equation}
+% %
+% where $\mathcal{L}$ penalises deviation from $y'$ and $\lambda > 0$ controls the trade-off between prediction fidelity and closeness to the original input \citep{wachter2018counterfactualexplanationsopeningblack}. $D$ is typically an $L_1$ or $L_2$ norm. Additional constraints can be imposed to ensure plausibility, sparsity, or feasibility \citep{karimi2020modelagnosticcounterfactualexplanationsconsequential, verma2022counterfactualexplanationsalgorithmicrecourses}, and causal structure can be incorporated to respect feature dependencies \citep{kusner2018counterfactual}. The optimisation is generally non-convex, and multiple valid counterfactuals may exist for any given instance.
+
+% The resulting per-sensor magnitude of change, aggregated across instances, is referred to as $\text{FI}^{\text{CF}}_j$ throughout this thesis.
+
+% \subsection{Permutation Feature Importance}
+
+% Permutation Feature Importance (PFI) quantifies each feature's contribution by measuring the drop in predictive performance when the statistical link between that feature and the target is broken \citep{BreimanRandomForest,fisher2019modelswrongusefullearning}. Shuffling a feature's values across samples removes any information it carries about the target while leaving its marginal distribution unchanged, any resulting performance loss is then attributable to the loss of that feature's signal.
+
+% Let $\{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^N$ be the evaluation dataset and $\mathcal{L}(f)$ a performance metric such as mean squared error. For feature $j$, a permuted dataset $\tilde{\mathbf{x}}^{(j)}$ is constructed by randomly shuffling $x_j$ across all samples while leaving all other features unchanged. The permutation importance is
+% %
+% \begin{equation}
+%     \mathrm{PFI}_j = \mathcal{L}\!\left(f(\tilde{\mathbf{x}}^{(j)})\right) - \mathcal{L}(f(\mathbf{x})),
+% \end{equation}
+% %
+% where a larger value indicates greater model reliance on feature $j$ for error-based metrics. PFI measures predictive dependence, not causal effect. When features are correlated, permuting one independently of the others creates combinations unlikely to appear in training, which can inflate or distort the estimates \citep{fisher2019modelswrongusefullearning}.
+
+% This score is referred to as $\text{FI}^{\text{PFI}}_j$ throughout this thesis.
+
+% \subsection{Accumulated Local Effects}
+
+% Accumulated Local Effects (ALE) estimates the average influence of a feature on model predictions in a way that accounts for feature correlations \citep{apley2020ale}. The standard alternative, PDP, averages predictions over the marginal distribution of all other features, which can produce evaluations at unrealistic input combinations when features are dependent. ALE addresses this by computing prediction differences within narrow local intervals, conditioning only on samples that actually fall in that region.
+
+% The domain of feature $x_j$ is partitioned into $K$ disjoint intervals at grid points $z_0 < z_1 < \cdots < z_K$, chosen as empirical quantiles to ensure sufficient data in each bin. For each sample $\mathbf{x}^{(i)}$ in interval $[z_{k-1}, z_k]$, the local prediction difference is
+% %
+% \begin{equation}
+%     \Delta_{j,k}^{(i)} = f\!\left(x_1^{(i)}, \ldots, z_k, \ldots, x_d^{(i)}\right) - f\!\left(x_1^{(i)}, \ldots, z_{k-1}, \ldots, x_d^{(i)}\right),
+% \end{equation}
+% %
+% with all other features held at their observed values. The average within interval $k$,
+% %
+% \begin{equation}
+%     \hat{\Delta}_{j,k} = \frac{1}{N_k} \sum_{i:\, x_j^{(i)} \in [z_{k-1}, z_k]} \Delta_{j,k}^{(i)},
+% \end{equation}
+% %
+% is then accumulated to give the ALE function at point $z$:
+% %
+% \begin{equation}
+%     \mathrm{ALE}_j(z) = \sum_{k:\, z_k \leq z} \hat{\Delta}_{j,k}.
+% \end{equation}
+% %
+% The function is centred so that 
+% %
+% \begin{equation}
+%     \label{equation:ALE_center}
+%     \int \mathrm{ALE}_j(z)\, dP_{X_j}(z) = 0
+% \end{equation}
+% %
+% meaning it reflects deviations from the average prediction rather than absolute values. Unlike ICE, which traces the full prediction curve per instance, ALE describes the average local rate of change across bins, a global perspective. The PDP formulation $\mathbb{E}[f(x_j, X_{\setminus j})]$, where $X_{\setminus j}$ denotes all features except $j$, averages over the marginal distribution, which can place the model in regions of the input space that are practically unreachable; ALE is specifically designed to avoid this. Instability in sparse regions of the feature space remains a limitation.
+
+% A scalar importance score is derived as the range of the centred ALE curve, $\text{FI}^{\text{ALE}}_j = \max_z \text{ALE}_j(z) - \min_z \text{ALE}_j(z)$, and is referred to as $\text{FI}^{\text{ALE}}_j$ throughout this thesis.
+
+% \section{Model-Specific Methods}
+
+% Model-specific feature importance methods make use of quantities internal to the model, gradients, activations, or parameter values and are therefore tied to a particular model class. Unlike model-agnostic methods, which work purely from input-output pairs, they require access to the model internals, restricting their applicability to differentiable architectures such as neural networks. Within that scope, they tend to be more computationally efficient and come with stronger theoretical guarantees.
+
+% \subsection{Integrated Gradients}
+
+% Integrated Gradients (IG) is a gradient-based attribution method for differentiable models \citep{sundararajan2017axiomaticattributiondeepnetworks}. Plain gradient saliency evaluates only the local gradient at the input, which can be uninformative when the model saturates. IG instead accumulates gradients along a straight-line path from a reference baseline to the instance being explained, building a more complete account of each feature's contribution.
+
+% Let $\mathbf{x} \in \mathbb{R}^d$ be the input and $\mathbf{x}' \in \mathbb{R}^d$ a baseline representing an uninformative reference state, for example, an all-zeros vector. The path between them is the vector-valued interpolation
+% %
+% \begin{equation}
+%     \boldsymbol{\gamma}(\alpha) = \mathbf{x}' + \alpha(\mathbf{x} - \mathbf{x}') \in \mathbb{R}^d, \quad \alpha \in [0, 1],
+% \end{equation}
+% %
+% where $\alpha$ is a scalar interpolation parameter and $\boldsymbol{\gamma}(\alpha)$ the corresponding input vector. The attribution for feature $j$ is the path integral of the partial derivative of $f$ with respect to $x_j$, scaled by the displacement of that feature between baseline and input:
+% %
+% \begin{equation}
+%     \phi_j(\mathbf{x}) = (x_j - x_j') \int_0^1 \frac{\partial f(\boldsymbol{\gamma}(\alpha))}{\partial x_j}\, d\alpha.
+% \end{equation}
+% %
+% In practice the integral is approximated by a Riemann sum with $m$ steps:
+% %
+% \begin{equation}
+%     \phi_j(\mathbf{x}) \approx (x_j - x_j')\, \frac{1}{m} \sum_{k=1}^{m} \frac{\partial f(\boldsymbol{\gamma}(\alpha_k))}{\partial x_j}, \quad \alpha_k = \frac{k}{m}.
+% \end{equation}
+% %
+% IG satisfies the \textit{completeness} property: attributions sum exactly to the difference in model output between input and baseline,
+% %
+% \begin{equation}
+%     \sum_{j=1}^{d} \phi_j(\mathbf{x}) = f(\mathbf{x}) - f(\mathbf{x}'),
+% \end{equation}
+% %
+% giving a fully additive decomposition of the prediction difference. Two further axioms are satisfied: \textit{sensitivity}, a feature responsible for a prediction difference always receives non-zero attribution, and \textit{implementation invariance}, functionally equivalent models produce identical attributions \citep{sundararajan2017axiomaticattributiondeepnetworks}. Attributions can differ substantially with different baseline choices, and no universally appropriate baseline exists. Global feature importance is obtained by aggregating local attributions across samples.
+
+% Specifically, $\text{FI}^{\text{IG}}_j = \frac{1}{N}\sum_{i=1}^{N}|\phi_j(x^{(i)})|$, and this score is referred to as $\text{FI}^{\text{IG}}_j$ throughout this thesis.

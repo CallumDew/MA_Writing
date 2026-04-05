@@ -1,4 +1,4 @@
-\begin{thebibliography}{35}
+\begin{thebibliography}{34}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Aas et~al.(2021)Aas, Jullum and Løland}]{aas_explaining_2021}
@@ -55,10 +55,6 @@ Hong, Chang~Woo, Lee, Changmin, Lee, Kwangsuk, Ko, Min-Seung, Kim, Dae~Eun and H
 Jardine, Andrew K.~S., Lin, Daming and Banjevic, Dragan (2006): {\em A review on machinery diagnostics and prognostics implementing condition-based maintenance\/}.
 \newblock Mechanical Systems and Signal Processing, Bd.~20, S.~1483--1510.
 
-\bibitem[{Kakarimi et~al.(2020)Kakarimi, Schulte and Zilles}]{karimi2020modelagnosticcounterfactualexplanationsconsequential}
-Kakarimi, Zahra, Schulte, Oliver and Zilles, Sandra (2020): {\em Model-Agnostic Counterfactual Explanations for Consequential Decisions\/}.
-\newblock Proceedings of the AAAI Conference on Artificial Intelligence, Bd.~34, S.~8952--8959.
-
 \bibitem[{Kusner et~al.(2018)Kusner, Loftus, Russell and Silva}]{kusner2018counterfactual}
 Kusner, Matt~J., Loftus, Joshua~R., Russell, Chris and Silva, Ricardo (2018): {\em Counterfactual Fairness\/}.
 \newblock In: {\em Advances in Neural Information Processing Systems 31 (NeurIPS 2018)\/}, S. 4066--4076.
@@ -104,7 +100,7 @@ Saxena, Abhinav, Goebel, Kai, Simon, Don and Eklund, Neil (2008): {\em Damage Pr
 Serradilla, Oscar, Zugasti, Ekhi, Cernuda, Cristobal, Aranburu, Aitor, de~Okariz, Jaime~Ramirez and Zurutuza, Urko (2020): {\em Interpreting Remaining Useful Life Estimations Combining Explainable Artificial Intelligence and Domain Knowledge in Industrial Machinery\/}.
 \newblock In: {\em 2020 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE)\/}, S. 1--8. IEEE.
 
-\bibitem[{Shapley(1953)}]{shapley1953}
+\bibitem[{Shapley(1953)}]{Shapley1953}
 Shapley, Lloyd~S. (1953): {\em Stochastic Games\/}.
 \newblock Proceedings of the National Academy of Sciences, Bd.~39, S.~1095--1100.
 

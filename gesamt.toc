@@ -2,8 +2,8 @@
 \babel@toc {english}{}\relax 
 \babel@toc {english}{}\relax 
 \contentsline {chapter}{List of Symbols}{iii}{dummy.1}%
-\contentsline {chapter}{List of Figures}{iv}{dummy.2}%
-\contentsline {chapter}{List of Tables}{vi}{dummy.3}%
+\contentsline {chapter}{List of Figures}{vi}{dummy.2}%
+\contentsline {chapter}{List of Tables}{viii}{dummy.3}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {chapter}{\numberline {2}Related Work}{3}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Data-Driven Remaining Useful Life Prediction}{3}{section.2.1}%
